@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "lib": ["dom", "esnext"],
+    "module": "commonjs",
+    "noEmit": true,
+    "strict": true,
+    "target": "esnext"
+  },
+  "include": ["./src/**/*"]
+}
