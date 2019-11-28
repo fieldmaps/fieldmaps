@@ -20,7 +20,6 @@ module.exports = {
         },
       },
     },
-    'gatsby-plugin-react-helmet',
     {
       resolve: 'gatsby-source-filesystem',
       options: {
@@ -28,11 +27,6 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
-    'gatsby-transformer-sharp',
-    'gatsby-plugin-sharp',
-    'gatsby-plugin-typescript',
-    'gatsby-plugin-sass',
-    'gatsby-plugin-netlify',
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
@@ -45,6 +39,11 @@ module.exports = {
         icon: 'src/images/icon.svg',
       },
     },
-    'gatsby-plugin-offline',
+    'gatsby-transformer-sharp',
+    'gatsby-plugin-react-helmet',
+    'gatsby-plugin-sharp',
+    'gatsby-plugin-typescript',
+    'gatsby-plugin-sass',
+    'gatsby-plugin-netlify',
   ],
 };
