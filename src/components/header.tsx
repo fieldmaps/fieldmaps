@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'gatsby';
 
 import logo from '../images/icon.svg';
@@ -8,12 +8,17 @@ interface State {
 }
 
 const onClick = (state: State, setState: Function) =>
-  setState({ menuOpen: !state.menuOpen });
+  setState(state => ({ ...state, menuOpen: !state.menuOpen }));
+
+const componentDidMount = setState => {
+  const { pathname } = window.location;
+  setState(state => ({ ...state, pathname }));
+};
 
 const PageHeader = () => {
-  const [state, setState] = useState({ menuOpen: false });
+  const [state, setState] = useState({ menuOpen: false, pathname: '' });
   const isActive = state.menuOpen ? ' is-active' : '';
-  const { pathname } = window.location;
+  useEffect(() => componentDidMount(setState), []);
   return (
     <nav className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
@@ -35,7 +40,7 @@ const PageHeader = () => {
         <div className="navbar-start">
           <Link
             className={`navbar-item is-tab${
-              pathname === '/' ? ' is-active' : ''
+              state.pathname === '/' ? ' is-active' : ''
             }`}
             to="/"
             aria-label="Home page"
@@ -44,7 +49,7 @@ const PageHeader = () => {
           </Link>
           <Link
             className={`navbar-item is-tab${
-              pathname === '/data' ? ' is-active' : ''
+              state.pathname === '/data' ? ' is-active' : ''
             }`}
             to="/data"
             aria-label="Data"
@@ -53,7 +58,7 @@ const PageHeader = () => {
           </Link>
           <Link
             className={`navbar-item is-tab${
-              pathname === '/maps' ? ' is-active' : ''
+              state.pathname === '/maps' ? ' is-active' : ''
             }`}
             to="/maps"
             aria-label="Maps"
