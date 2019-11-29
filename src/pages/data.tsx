@@ -1,101 +1,111 @@
 import React from 'react';
+import { Link } from 'gatsby';
 
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 
-const countries = [
-  ['Afghanistan', 'afg'],
-  ['Burundi', 'bdi'],
-  ['Burkina Faso', 'bfa'],
-  ['Central African Republic', 'caf'],
-  ["Côte d'Ivoire", 'civ'],
-  ['Cameroon', 'cmr'],
-  ['Democratic Republic of the Congo', 'cod'],
-  ['Columbia', 'col'],
-  ['Eritrea', 'eri'],
-  ['Ethiopia', 'eth'],
-  ['Haiti', 'hti'],
-  ['Irap', 'irq'],
-  ['Lebanon', 'lbn'],
-  ['Lybia', 'lby'],
-  ['Mali', 'mli'],
-  ['Mozambique', 'moz'],
-  ['Niger', 'ner'],
-  ['Nigeris', 'nga'],
-  ['Pakistan', 'pak'],
-  ['State of Palestine', 'pse'],
-  ['Sudan', 'sdn'],
-  ['Somolia', 'som'],
-  ['South Sudan', 'ssd'],
-  ['Chad', 'tcd'],
-  ['Tuekey', 'tur'],
-  ['Yemen', 'yem'],
+import cods from '../images/cods.svg';
+import settlements from '../images/settlements.png';
+import roads from '../images/roads.jpg';
+import lakes from '../images/lakes.png';
+import rivers from '../images/rivers.jpg';
+import parks from '../images/parks.jpg';
+import wash from '../images/wash.png';
+import hospital from '../images/hospital.png';
+import school from '../images/school.jpg';
+
+const sources = [
+  {
+    img: cods,
+    link: '/data/cods',
+    title: 'Administrative Boundaries',
+    subtitle: '',
+    description:
+      "Common Operational Datasets (CODs) are authoritative reference datasets needed to support operations and decision-making for all actors in a humanitarian response. CODs are 'best available' datasets that ensure consistency and simplify the discovery and exchange of key data. Core CODs are required in all disaster-prone countries as a preparedness measure",
+  },
+  {
+    img: settlements,
+    link: '/data',
+    title: 'Settlements',
+    subtitle: '(coming soon)',
+    description: 'Description',
+  },
+  {
+    img: roads,
+    link: '/data',
+    title: 'Roads',
+    subtitle: '(coming soon)',
+    description: 'Description',
+  },
+  {
+    img: rivers,
+    link: '/data',
+    title: 'Rivers',
+    subtitle: '(coming soon)',
+    description: 'Description',
+  },
+  {
+    img: lakes,
+    link: '/data',
+    title: 'Lakes, Marshes, Wetlands',
+    subtitle: '(coming soon)',
+    description: 'Description',
+  },
+  {
+    img: parks,
+    link: '/data',
+    title: 'Parks and Protected Areas',
+    subtitle: '(coming soon)',
+    description: 'Description',
+  },
+  {
+    img: wash,
+    link: '/data',
+    title: 'Water Sanitation & Hygiene Infrastructure',
+    subtitle: '(coming soon)',
+    description: 'Description',
+  },
+  {
+    img: hospital,
+    link: '/data',
+    title: 'Health Facilities',
+    subtitle: '(coming soon)',
+    description: 'Description',
+  },
+  {
+    img: school,
+    link: '/data',
+    title: 'Education Facilities',
+    subtitle: '(coming soon)',
+    description: 'Description',
+  },
 ];
 
 const SecondPage = () => (
   <Layout>
     <SEO title="Data" />
-    <nav className="level">
-      <div className="level-item">
-        <a href="https://data.fieldmaps.io/hdx-cods/planet.gpkg">
-          Download all data as GeoPackage
-        </a>
+    {sources.map(({ img, link, title, subtitle, description }, index) => (
+      <div className="box" key={index}>
+        <article className="media">
+          <Link to={link}>
+            <figure className="media-left">
+              <p className="image is-128x128">
+                <img src={img} alt="" />
+              </p>
+            </figure>
+          </Link>
+          <div className="media-content">
+            <div className="content">
+              <p>
+                <strong>{title}</strong> <small>{subtitle}</small>
+                <br />
+                {description}
+              </p>
+            </div>
+          </div>
+        </article>
       </div>
-    </nav>
-    <nav className="level">
-      <div className="level-item">
-        <div className="table-container">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Country</th>
-                <th>Code</th>
-                <th>GeoPackage</th>
-                <th>ESRI Shapefile</th>
-                <th>Google Earth</th>
-                <th>GeoJSON</th>
-              </tr>
-            </thead>
-            <tbody>
-              {countries.map(([name, code]) => (
-                <tr key={code}>
-                  <td>{name}</td>
-                  <td>{code.toUpperCase()}</td>
-                  <td>
-                    <a
-                      href={`https://data.fieldmaps.io/hdx-cods/gpkg/${code}.gpkg`}
-                    >
-                      [.gpkg]
-                    </a>
-                  </td>
-                  <td>
-                    <a
-                      href={`https://data.fieldmaps.io/hdx-cods/shp/${code}_shp.zip`}
-                    >
-                      [.shp.zip]
-                    </a>
-                  </td>
-                  <td>
-                    <a
-                      href={`https://data.fieldmaps.io/hdx-cods/kmz/${code}_kmz.zip`}
-                    >
-                      [.kmz.zip]
-                    </a>
-                  </td>
-                  <td>
-                    <a
-                      href={`https://data.fieldmaps.io/hdx-cods/geojson/${code}_geojson.zip`}
-                    >
-                      [.geojson.zip]
-                    </a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </nav>
+    ))}
   </Layout>
 );
 

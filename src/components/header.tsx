@@ -49,7 +49,7 @@ const PageHeader = () => {
           </Link>
           <Link
             className={`navbar-item is-tab${
-              state.pathname === '/data' ? ' is-active' : ''
+              state.pathname.startsWith('/data') ? ' is-active' : ''
             }`}
             to="/data"
             aria-label="Data"
@@ -58,7 +58,7 @@ const PageHeader = () => {
           </Link>
           <Link
             className={`navbar-item is-tab${
-              state.pathname === '/maps' ? ' is-active' : ''
+              state.pathname.startsWith('/maps') ? ' is-active' : ''
             }`}
             to="/maps"
             aria-label="Maps"
