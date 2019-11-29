@@ -97,7 +97,10 @@ const SecondPage = () => (
           <div className="media-content">
             <div className="content">
               <p>
-                <strong>{title}</strong> <small>{subtitle}</small>
+                <strong>
+                  <Link to={link}>{title}</Link>
+                </strong>{' '}
+                <small>{subtitle}</small>
                 <br />
                 {description}
               </p>

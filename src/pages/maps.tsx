@@ -59,7 +59,9 @@ const MapsPage = ({ data: { allImageSharp } }: Props) => (
             <div className="card-content">
               <div className="media">
                 <div className="media-content">
-                  <p className="title is-4">{name}</p>
+                  <p className="title is-4">
+                    <a href={`https://${code}-atlas.fieldmaps.io`}>{name}</a>
+                  </p>
                 </div>
               </div>
               <div className="content">
