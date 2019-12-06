@@ -42,13 +42,6 @@ const SecondPage = () => (
     <SEO title="Data" />
     <nav className="level">
       <div className="level-item">
-        <a href="https://data.fieldmaps.io/hdx-cods/planet.gpkg">
-          Download all data as GeoPackage
-        </a>
-      </div>
-    </nav>
-    <nav className="level">
-      <div className="level-item">
         <div className="table-container">
           <table className="table">
             <thead>
