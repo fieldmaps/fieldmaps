@@ -20,15 +20,20 @@ const countries = [
   ['Lybia', 'lby'],
   ['Mali', 'mli'],
   ['Mozambique', 'moz'],
+  ['Myanmar', 'mmr'],
   ['Niger', 'ner'],
-  ['Nigeris', 'nga'],
+  ['Nigeria', 'nga'],
   ['Pakistan', 'pak'],
+  ['Philippines', 'phl'],
   ['State of Palestine', 'pse'],
   ['Sudan', 'sdn'],
   ['Somolia', 'som'],
   ['South Sudan', 'ssd'],
+  ['Syria', 'syr'],
   ['Chad', 'tcd'],
-  ['Tuekey', 'tur'],
+  ['Turkey', 'tur'],
+  ['Ukraine', 'ukr'],
+  ['Venezuela', 'ven'],
   ['Yemen', 'yem'],
 ];
 
@@ -54,6 +59,8 @@ const SecondPage = () => (
                 <th>ESRI Shapefile</th>
                 <th>Google Earth</th>
                 <th>GeoJSON</th>
+                <th>Excel</th>
+                <th>CSV</th>
               </tr>
             </thead>
             <tbody>
@@ -63,9 +70,9 @@ const SecondPage = () => (
                   <td>{code.toUpperCase()}</td>
                   <td>
                     <a
-                      href={`https://data.fieldmaps.io/hdx-cods/gpkg/${code}.gpkg`}
+                      href={`https://data.fieldmaps.io/hdx-cods/gpkg/${code}_gpkg.zip`}
                     >
-                      [.gpkg]
+                      [.gpkg.zip]
                     </a>
                   </td>
                   <td>
@@ -87,6 +94,20 @@ const SecondPage = () => (
                       href={`https://data.fieldmaps.io/hdx-cods/geojson/${code}_geojson.zip`}
                     >
                       [.geojson.zip]
+                    </a>
+                  </td>
+                  <td>
+                    <a
+                      href={`https://data.fieldmaps.io/hdx-cods/xlsx/${code}_xlsx.zip`}
+                    >
+                      [.xlsx.zip]
+                    </a>
+                  </td>
+                  <td>
+                    <a
+                      href={`https://data.fieldmaps.io/hdx-cods/csv/${code}_csv.zip`}
+                    >
+                      [.csv.zip]
                     </a>
                   </td>
                 </tr>
