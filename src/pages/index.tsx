@@ -7,102 +7,120 @@ const IndexPage = () => (
   <Layout>
     <SEO title="Home" />
     <div className="content">
-      <h1 className="has-text-centered">Fieldmaps.io</h1>
+      <h1 className="has-text-centered">Common Operational Maps</h1>
       <p>
-        Welcome to Fieldmaps, a free service designed around making humanitarian
-        data sources more accessible to end users. This project was started from
-        experience in humanitarian field settings, where it can often be
-        difficult to locate and utilize high quality data, especially with
-        limited bandwidth or time. This project intends to actively curate
-        sources and present them in a structured format so these decisions do
-        not have to be made each time a new map is started, but rather offer a
-        good baseline for others to start from.
+        Fieldmaps is a service built to address the needs of humanitarian field
+        workers operating in environments where data quality is variable,
+        connectivity is sporadic, or where the context changes frequently. This
+        platform was originally conceived in South Sudan, where existing mapping
+        services provided very little information about place names, including
+        OpenStreetMap. When reading about locations in reports, it was often
+        difficult to places these settlements on a map for additional context.
+        Conversely, it was also hard to give an unambiguous reference to a place
+        that could be communicated to a colleague. In South Sudan, there is a
+        Mayom in almost every country, how do you specify which Mayom with
+        absolute certainty? OCHA P-Codes have attempted to mitigate this problem
+        by assigning unique identifiers to each area and settlement, but without
+        advanced GIS knowledge, it was difficult to effectively utilize this in
+        practice.
       </p>
       <p>
-        What this project is not trying to become is another repository for
-        users to upload their data to, as there are already many of these across
-        the internet. Aside from{' '}
-        <a href="https://data.humdata.org">Humanitarian Data Exchange (HDX)</a>,
-        the main repository of humanitarian data, there are much smaller
-        thematic repositories scattered across the internet. Some of these focus
-        around core cluster themes, such as{' '}
-        <a href="https://www.waterpointdata.org/">
-          Water Point Data Exchange (WPDx)
+        A practical solution to this problem would need to fulfill two criteria.
+        First, it would have to be easy enough so that any non-technical user
+        could pick up the tool and begin using it with no prior training,
+        precluding the use of anything involving Shapefiles or Geodatabases.
+        Second, it would need to function completely offline and receive updates
+        in low bandwidth environments, making options such as ArcGIS online and
+        other internet heavy applications a poor fit. Given these constraints,
+        the best fit was a Mapbox-GL map with all layers saved as files on the
+        user's device, with individual files updating automatically when
+        available online. With this approach working well in one country, this
+        platform is now testing whether it possible to scale this solution
+        globally for all countries.
+      </p>
+      <h2 className="has-text-centered">Phase 1</h2>
+      <p>
+        The first stage of this project is to engage with primary data producers
+        in curating a repository of high quality geographic information for a
+        baseline visualization. At the moment, the largest such initiative of
+        this sort is the{' '}
+        <a href="https://centre.humdata.org/introducing-the-hdx-data-grid-a-way-to-find-and-fill-data-gaps">
+          HDX Data Grid
         </a>
-        , global platform for sharing water point data encouraged by UNICEF, and{' '}
-        <a href="https://healthsites.io/">Healhsites.io</a>, an interface for
-        healthcare workers to improve and standardize metadata around
-        OpenStreetMap. There are also many smaller repositories specific to
-        organizations, and this project will look at regularly pulling from all
-        these and determing the best way to combine them together.
-      </p>
-      <h2>Data</h2>
-      <p>
-        Currently displayed here are OCHA common operational datasets (CODs),
-        administrative boundaries that has been downloaded from HDX and
-        processed into multiple export formats. At the moment, this data is just
-        used for testing purposes, with some known geometry and attribute errors
-        that require minor corrections. This should not be used in place of
-        official downloads from HDX right now.
+        . Fieldmaps has been actively coordinating with HDX to incorporate their
+        grid and provide feedback on the usefulness of their sources, as well as
+        to improve quality through data cleaning. Other curated humanitarian
+        data sources include <a href="https://healthsites.io/">Healhsites.io</a>
+        , a platform for healthcare workers to standardize and improve data
+        around OpenStreetMap and trusted partner sources.
       </p>
       <p>
-        The intention behind this page is to simplify access to commonly used
-        GIS data. The current layout is inspired by{' '}
-        <a href="https://download.geofabrik.de">download.geofabrik.de</a>, a
-        free service that simplifies access to OpenStreetMap data. At the
-        moment, only a partial OCHA COD list has been curated and linked,
-        however additional data sources are planned to be added in the future.
-        These additional sources include:
+        To remain relevant in fast moving contexts, maps that utilize these
+        sources need to be able to pull in updates on a daily basis if required.
+        This necessitates an automated data pipeline that still retains enough
+        flexibility to deal with irregularly formatted updates. The first draft
+        of this pipeline has been completed, available{' '}
+        <a href="https://github.com/fieldmaps/data">here</a>. By using Geopandas
+        and QGIS batch configurations, most transformations can be performed in
+        just a few clicks. Further work on this will improve the efficiency of
+        spatial operations and move to a fully web-based service so a desktop
+        computer is not required.
+      </p>
+      <h2 className="has-text-centered">Phase 2</h2>
+      <p>
+        Fieldmaps is currently in the stage of expanding the current series of
+        reference templates to include all countries listed as operational in
+        OCHA's <a href="https://tabsoft.co/2Q2mIGf">Tableau Dashboard</a>.
+        Existing countries are also being updated to take advantage of
+        additional data sources that have been recently curated. To deal with
+        the increased density of data, maps will be updated with separate
+        thematic layers, so each layer provides a clear high-level overview
+        without other sources cluttering the map with an overload of
+        information. The initial map series will pull in data from a relatively
+        small number of sources. These include:
       </p>
       <ul>
-        <li>Settlements</li>
-        <li>Roads</li>
-        <li>Rivers</li>
-        <li>Lakes</li>
-        <li>Parks</li>
+        <li>
+          <a href="https://data.humdata.org/search?ext_cod=1">
+            OCHA COD administrative boundaries
+          </a>
+          ,
+        </li>
+        <li>
+          <a href="https://healthsites.io">Healthsites.io</a> facility
+          locations,
+        </li>
+        <li>
+          <a href="https://www.protectedplanet.net">
+            World Database on Protected Areas
+          </a>
+          , and
+        </li>
+        <li>
+          <a href="https://data.humdata.org/organization/hot">
+            Humanitarian OpenStreetMap Team (HOT)
+          </a>{' '}
+          filling in the rest of the layers.
+        </li>
       </ul>
       <p>
-        By listing this data in pre-processed formats, it should make it easier
-        to recreate designs such as those listed on the maps page, so anyone can
-        use this as a starting point for their own work. While some sources are
-        officially endorsed, such as COD boundaries, other data that is required
-        for basic reference maps can be more difficult hard to find in good
-        quality or extract in a useful format.
+        In the process of visualizing this data, gaps in geographic coverage
+        should become more apparent. By coordinating with field workers
+        in-country, these base sources can be improved over time by
+        incorporating local sources endorsed by regional information management
+        working groups. Two particular data sources that have been highlighted
+        for additional local contributions are settlement and water sanitation
+        &amp; hygiene infrastructure.
       </p>
+      <h2 className="has-text-centered">Phase 3</h2>
       <p>
-        From experience, some data sources provide good global coverage, and it
-        is planned for them to be bulk extracted and processed to individual
-        country levels at regular intervals. These sources include{' '}
-        <a href="https://openstreetmap.org">OpenStreetMap</a> for roads,{' '}
-        <a href="https://www.hydrosheds.org/page/hydrorivers">HydroRIVERS</a>{' '}
-        for rivers,{' '}
-        <a href="https://www.hydrosheds.org/page/hydrolakes">HydroLAKES</a> for
-        water bodies, and{' '}
-        <a href="https://www.protectedplanet.net">
-          World Database for Protected Areas
-        </a>{' '}
-        for parks. The value added services this project intends to provide is
-        simple clipping, attribute joining, and other small but helpful quality
-        of life improvements that allow users to get started using these sources
-        as quickly as possible.
-      </p>
-      <h2>Maps</h2>
-      <p>
-        Although technical users may prefer having access to source data so they
-        can customize outputs for their needs, non-technical users mostly prefer
-        a ready to use app that can be used immidiately without any
-        configuration. The maps currently listed here were created from the
-        experience of field workers asking for an easy way to search for
-        settlements without having to load a shapefile into QGIS. These
-        applications are also completely self contained, and can be used offline
-        or when internet is poor.
-      </p>
-      <p>
-        Although the map list currently shows only settlements, other data
-        sources are frequently requested in a similar format, such as water
-        points, health clinics, and schools. These types of maps are being
-        considered for the future to make more types of datasets easily
-        accessible for reference and decision making.
+        Building a baseline of maps with commonly used sources is just one type
+        of information product this site aims to provide. The final phase of
+        Fieldmaps is to take the infrastructure developed for reference atlases,
+        and open it up for all users to be able to create their own maps with
+        similar functionality. While services like Google My Maps already exist
+        for this purpose, it doesn't work offline, and it's not tightly
+        integrated with other commonly used humanitarian data sources.
       </p>
     </div>
   </Layout>
