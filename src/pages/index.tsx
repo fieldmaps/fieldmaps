@@ -116,11 +116,9 @@ const IndexPage = () => (
       <p>
         Building a baseline of maps with commonly used sources is just one type
         of information product this site aims to provide. The final phase of
-        Fieldmaps is to take the infrastructure developed for reference atlases,
-        and open it up for all users to be able to create their own maps with
-        similar functionality. While services like Google My Maps already exist
-        for this purpose, it doesn't work offline, and it's not tightly
-        integrated with other commonly used humanitarian data sources.
+        Fieldmaps is to continue working with the humanitarian community in
+        identifying data repositories with complex visualization needs, and help
+        build curated data exploration tools tailored for decision makers.
       </p>
     </div>
   </Layout>
