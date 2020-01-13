@@ -15,7 +15,7 @@ const countries = [
   ['Eritrea', 'eri'],
   ['Ethiopia', 'eth'],
   ['Haiti', 'hti'],
-  ['Irap', 'irq'],
+  ['Iraq', 'irq'],
   ['Lebanon', 'lbn'],
   ['Lybia', 'lby'],
   ['Mali', 'mli'],
