@@ -37,7 +37,7 @@ const countries = [
 
 const SecondPage = () => (
   <Layout>
-    <SEO title="Data" />
+    <SEO title="Maps" />
     <nav className="level">
       <div className="level-item">
         <div className="table-container">
