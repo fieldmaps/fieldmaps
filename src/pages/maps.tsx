@@ -19,10 +19,12 @@ const countries = [
   ['Lebanon', 'lbn'],
   ['Lybia', 'lby'],
   ['Mali', 'mli'],
+  ['Myanmar', 'mmr'],
   ['Mozambique', 'moz'],
   ['Niger', 'ner'],
   ['Nigeria', 'nga'],
   ['Pakistan', 'pak'],
+  ['Philippines', 'phl'],
   ['State of Palestine', 'pse'],
   ['Sudan', 'sdn'],
   ['Somolia', 'som'],
@@ -46,7 +48,8 @@ const SecondPage = () => (
               <tr>
                 <th>Country</th>
                 <th>Code</th>
-                <th>Atlas</th>
+                <th>Offline-Enabled Map</th>
+                <th>Tile Layer Style</th>
               </tr>
             </thead>
             <tbody>
@@ -56,10 +59,18 @@ const SecondPage = () => (
                   <td>{code.toUpperCase()}</td>
                   <td>
                     <a
-                      href={`https://${code}-atlas.fieldmaps.io`}
+                      href={`https://atlas.fieldmaps.io/maps/${code}/`}
                       target="_blank"
                     >
-                      {`${code}-atlas.fieldmaps.io`}
+                      {`atlas.fieldmaps.io/maps/${code}/`}
+                    </a>
+                  </td>
+                  <td>
+                    <a
+                      href={`https://atlas.fieldmaps.io/styles/${code}/default.json`}
+                      target="_blank"
+                    >
+                      {`[Mapbox GL Style]`}
                     </a>
                   </td>
                 </tr>
