@@ -59,10 +59,10 @@ const SecondPage = () => (
                   <td>{code.toUpperCase()}</td>
                   <td>
                     <a
-                      href={`https://atlas.fieldmaps.io/maps/${code}/`}
+                      href={`https://atlas.fieldmaps.io/${code}/`}
                       target="_blank"
                     >
-                      {`atlas.fieldmaps.io/maps/${code}/`}
+                      {`atlas.fieldmaps.io/${code}`}
                     </a>
                   </td>
                   <td>
