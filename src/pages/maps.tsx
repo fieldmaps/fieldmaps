@@ -67,7 +67,7 @@ const SecondPage = () => (
                   </td>
                   <td>
                     <a
-                      href={`https://atlas.fieldmaps.io/styles/${code}/default.json`}
+                      href={`https://atlas.fieldmaps.io/styles/v1/${code}/default.json`}
                       target="_blank"
                     >
                       {`[Mapbox GL Style]`}
