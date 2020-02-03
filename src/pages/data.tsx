@@ -84,6 +84,14 @@ const sources = [
 const SecondPage = () => (
   <Layout>
     <SEO title="Data" />
+    <nav className="level">
+      <div className="level-item">
+        <p>
+          Data links are currently under active development and subject to
+          change until further notice.
+        </p>
+      </div>
+    </nav>
     {sources.map(({ img, link, title, subtitle, description }, index) => (
       <div className="box" key={index}>
         <article className="media">

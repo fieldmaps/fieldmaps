@@ -42,6 +42,14 @@ const SecondPage = () => (
     <SEO title="Data" />
     <nav className="level">
       <div className="level-item">
+        <p>
+          Download links are designed for testing possible delivery layouts.
+          Data should not be used for operational purposes until further notice.
+        </p>
+      </div>
+    </nav>
+    <nav className="level">
+      <div className="level-item">
         <div className="table-container">
           <table className="table">
             <thead>

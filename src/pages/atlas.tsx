@@ -39,7 +39,15 @@ const countries = [
 
 const SecondPage = () => (
   <Layout>
-    <SEO title="Maps" />
+    <SEO title="Atlas" />
+    <nav className="level">
+      <div className="level-item">
+        <p>
+          All maps and services are currently under active development and
+          subject to change until further notice.
+        </p>
+      </div>
+    </nav>
     <nav className="level">
       <div className="level-item">
         <div className="table-container">
@@ -49,7 +57,8 @@ const SecondPage = () => (
                 <th>Country</th>
                 <th>Code</th>
                 <th>Offline-Enabled Map</th>
-                <th>Tile Layer Style</th>
+                <th>Base Map</th>
+                <th>Vector Tiles</th>
               </tr>
             </thead>
             <tbody>
@@ -70,7 +79,15 @@ const SecondPage = () => (
                       href={`https://atlas.fieldmaps.io/styles/v1/${code}/default.json`}
                       target="_blank"
                     >
-                      {`[Mapbox GL Style]`}
+                      {`[Style URL]`}
+                    </a>
+                  </td>
+                  <td>
+                    <a
+                      href={`https://atlas.fieldmaps.io/v4/${code}.json`}
+                      target="_blank"
+                    >
+                      {`[TileJSON]`}
                     </a>
                   </td>
                 </tr>
