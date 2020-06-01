@@ -5,18 +5,17 @@
 <div class="content">
   <h2>About me</h2>
   <p>
-    I've been fascinated with putting maps on the internet since going to McGill
-    University, where I learned you could do this as a job. This led me to some
-    wonderfully remote corners of the world. Starting in Northern British
-    Columbia, Sparkgeo Consulting took me in to innovative amongst giants in
-    Silicon Valley. In 2016, I decided to leave the private sector to gain
-    humanitarian field experience with REACH Initiative, taking me on missions
-    in Jordan, South Sudan, and Nigeria. There I started getting involved with
-    information management working groups, and the experience of creating
-    reference datasets for responses in those countries is what lead to starting
-    this site. Currently working with the World Food Programme, I'm keeping this
-    project active as a way to continue collaboration with the organizations
-    I've been in touch with in the past.
+    I've been fascinated with putting maps on the internet since first doing
+    this at McGill University, which has led me to some wonderful and remote
+    corners of the world. In the private sector, working with SparkGeo
+    Consulting in Northern British Columbia on web app development and
+    geospatial analytics. In the humanitarian sector, with REACH Initiative on
+    missions in Jordan, South Sudan, and Nigeria. In these field missions, I
+    started getting involved with information management in multiple clusters
+    and working groups. In particular, creating common operational datasets with
+    OCHA is what got me to start this site. Currently with the World Food
+    Programme, I'm keeping this project active as a way to continue
+    collaboration with all the people I've been in touch with in the past.
   </p>
   <h2>Acknowledgements</h2>
   <p>
