@@ -23,5 +23,10 @@ export default ({ page }) => (
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={img} />
+    <script
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "4c2d512f347d47b5bf303b367560bcfd"}'
+    />
   </Helmet>
 );
