@@ -2,7 +2,7 @@ import React from 'react';
 import Helmet from 'react-helmet';
 
 const url = 'https://fieldmaps.io/';
-const img = 'https://fieldmaps.io/img/atlas-ssd.png';
+const img = 'https://fieldmaps.io/img/atlas-ssd-preview.png';
 const title = 'Fieldmaps.io — Humanitarian Maps & Data';
 const description =
   'Mobile, offline, interactive reference maps & globally aggregated datasets for humanitarian use.';
@@ -18,10 +18,10 @@ export default ({ page }) => (
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={img} />
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={url} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={img} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={url} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={img} />
   </Helmet>
 );
