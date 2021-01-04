@@ -10,6 +10,7 @@ const description =
 export default ({ page }) => (
   <Helmet>
     <title>{page} | Fieldmaps.io</title>
+    <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" type="image/png" href="img/logo-192.png" />
     <meta name="title" content={title} />
     <meta name="description" content={description} />
@@ -25,7 +26,7 @@ export default ({ page }) => (
     <meta name="twitter:image" content={img} />
     <script
       defer
-      src="/cf.js"
+      src="https://static.cloudflareinsights.com/beacon.min.js"
       data-cf-beacon='{"token": "4c2d512f347d47b5bf303b367560bcfd"}'
     />
   </Helmet>
