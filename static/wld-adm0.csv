@@ -1,0 +1,250 @@
+﻿adm0_id,adm0_ocha,adm0_name1,adm0_name2,adm0_name3,adm0_namea,lang_name1,lang_name2,lang_name3,src_name,src_url,src_date,src_valid,adm_max
+ABW,AW,Aruba,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+AFG,AF,Afghanistan,افغانستان,,,en,da,,OCHA,,2017-08-23,2018-05-22,2
+AGO,AO,Angola,,,,en,,,OCHA,https://data.humdata.org/dataset/angola-administrative-levels-0-3,2018-08-30,2018-09-04,3
+AIA,AI,Anguilla,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+ALA,AX,Åland,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+ALB,AL,Albania,,,,en,,,GADM,https://gadm.org,,2018-05-06,3
+AND,AD,Andorra,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+ARE,AE,United Arab Emirates,,,,en,,,GADM,https://gadm.org,,2018-05-06,3
+ARG,AR,Argentina,,,,es,,,OCHA,https://data.humdata.org/dataset/argentina-administrative-level-0-boundaries,2017-10-12,2020-04-04,2
+ARM,AM,Republic of Armenia,Հայաստանի Հանրապետություն,Республика Армения,,en,hy,ru,OCHA,https://data.humdata.org/dataset/armenia-administrative-boundaries,2014-10-01,2019-09-13,1
+ASM,AS,American Samoa,,,,en,,,GOVT,https://catalog.data.gov/dataset/usgs-national-boundary-dataset-nbd-downloadable-data-collectionbc141,2018-03-15,2018-10-18,3
+ATA,AQ,Antarctica,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+ATF,TF,French Southern Territories,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+ATG,AG,Antigua and Barbuda,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+AUS,AU,Australia,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+AUT,AT,Austria,,,,en,,,GADM,https://gadm.org,,2018-05-06,3
+AZE,AZ,Azerbaijan,Azərbaycan,,,en,az,,OCHA,https://data.humdata.org/dataset/azerbaijan-administrative-boundaries-taxonomy,2020-11-24,2020-11-24,1
+BDI,BI,Burundi,,,,fr,,,OCHA,https://data.humdata.org/dataset/burundi-administrative-level-0-1-and-2-administrative-boundaries,2017-11-02,2017-11-03,2
+BEL,BE,Belgium,,,,en,,,GADM,https://gadm.org,,2018-05-06,4
+BEN,BJ,Benin,Bénin (le),,,en,fr,,OCHA,https://data.humdata.org/dataset/benin-administrative-boundaries,2015-08-07,2019-08-16,2
+BES,BQ,"Bonaire, Sint Eustatius and Saba",,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+BFA,BF,Burkina Faso,,,,fr,,,OCHA,https://data.humdata.org/dataset/burkina-faso-administrative-boundaries,2020-03-18,2020-03-23,3
+BGD,BD,Bangladesh,,,,en,,,OCHA,https://data.humdata.org/dataset/administrative-boundaries-of-bangladesh-as-of-2015,2015-01-01,2020-11-13,4
+BGR,BG,Bulgaria,България,,,en,bg,,OCHA,https://data.humdata.org/dataset/bulgaria-administrative-level-0-2-boundaries,2019-09-16,2019-09-16,2
+BHR,BH,Bahrain,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+BHS,BS,Bahamas,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+BIH,BA,Bosnia and Herzegovina,,,,en,,,GADM,https://gadm.org,,2018-05-06,3
+BLM,BL,Saint-Barthélemy,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+BLR,BY,Belarus,,,,en,,,OCHA,https://data.humdata.org/dataset/belarus-administrative-level-0-2-boundaries,2015-01-01,2017-07-07,2
+BLZ,BZ,Belize,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+BMU,BM,Bermuda,,,,en,,,OCHA,https://data.humdata.org/dataset/bermuda-administrative-level-0-country-and-level-1-parish-or-municipality-boundaries,2017-09-21,2019-05-22,2
+BOL,BO,Bolivia (Estado Plurinacional de),,,,es,,,OCHA,https://data.humdata.org/dataset/bolivia-administrative-level-0-3-boundary-polygons,2018-04-17,2020-05-14,3
+BRA,BR,Brasil,,,,pt,,,OCHA,https://data.humdata.org/dataset/brazil-administrative-level-0-boundaries,2020-09-30,2020-09-30,2
+BRB,BB,Barbados,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+BRN,BN,Brunei,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+BTN,BT,Bhutan,,,,en,,,OCHA,https://data.humdata.org/dataset/bhutan-administrative-boundaries-levels-0-2,2019-02-01,2020-10-26,2
+BVT,BV,Bouvet Island,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+BWA,BW,Botswana,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+CAF,CF,République centrafricaine,,,,fr,,,OCHA,https://data.humdata.org/dataset/central-african-republic-administrative-boundaries,2014-08-02,2015-06-15,3
+CAN,CA,Canada,Canada,,,en,fr,,GOVT,https://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-eng.cfm,2019-10-28,2019-11-13,3
+CCK,CC,Cocos Islands,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+CHE,CH,Switzerland,,,,en,,,GADM,https://gadm.org,,2018-05-06,3
+CHL,CL,Chile,,,,es,,,OCHA,https://data.humdata.org/dataset/chile-administrative-level-0-country-1-region-region,2020-05-18,2020-05-26,3
+CHN,CN,China,中国,,,en,zh,,OCHA,https://data.humdata.org/dataset/china-administrative-boundaries,2020-09-10,2020-09-10,2
+CIV,CI,Côte d'Ivoire,,,,fr,,,OCHA,https://data.humdata.org/dataset/cote-d-ivoire-administrative-level-0-3-boundaries-and-points,2011-12-24,2018-07-06,3
+CMR,CM,Cameroon,Cameroun (le),,,en,fr,,OCHA,https://data.humdata.org/dataset/cameroon-administrative-boundaries,2018-12-17,2019-01-04,3
+COD,CD,République démocratique du Congo (la),,,,fr,,,OCHA,https://data.humdata.org/dataset/drc-administrative-boundaries-levels-0-2,2019-09-09,2019-09-11,2
+COG,CG,Congo (le),,,,fr,,,OCHA,https://data.humdata.org/dataset/congo-administrative-boundaries,2017-07-06,2019-06-17,2
+COK,CK,Cook Islands,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+COL,CO,Colombia,,,,es,,,OCHA,https://data.humdata.org/dataset/colombia-administrative-boundaries-levels-0-3,2018-01-01,2020-04-16,2
+COM,KM,Comoros (the),,,,en,,,OCHA,https://data.humdata.org/dataset/comoros-administrative-level-0-3-boundaries,2018-12-28,2019-12-05,3
+CPV,CV,Cabo Verde,,,,pt,,,OCHA,https://data.humdata.org/dataset/cape-verde-administrative-boundaries,2017-12-27,2018-05-14,2
+CRI,CR,Costa Rica,,,,es,,,OCHA,https://data.humdata.org/dataset/costa-rica-subnational-administrative-boundaries,2020-08-05,2020-08-06,2
+CUB,CU,Cuba,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+CUW,CW,Curaçao,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+CXR,CX,Christmas Island,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+CYM,KY,Cayman Islands,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+CYP,CY,Cyprus,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+CZE,CZ,Czech Republic,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+DEU,DE,Germany,,,,en,,,GADM,https://gadm.org,,2018-05-06,4
+DJI,DJ,Djibouti,,,,en,,,OCHA,https://data.humdata.org/dataset/djibouti-administrative-levels-0-2-boundaries,2018-10-26,2020-02-20,2
+DMA,DM,Dominica,,,,en,,,OCHA,https://data.humdata.org/dataset/dominica-administrative-level-0-national-and-level-1-boundaries-form-gadm,2017-09-07,2019-11-10,1
+DNK,DK,Denmark,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+DOM,DO,República Dominicana,Dominican Republic,,,es,en,,OCHA,https://data.humdata.org/dataset/dominican-republic-administrative-boundaries-levels-0-6,2017-09-06,2020-01-21,4
+DZA,DZ,Algeria,الجزا,,,en,ar,,OCHA,https://data.humdata.org/dataset/algeria-administrative-boundaries-levels-1-2-populated-places,2014-12-19,2020-04-28,2
+ECU,EC,Ecuador (el),,,,es,,,OCHA,https://data.humdata.org/dataset/ecuador-admin-level-2-boundaries,2018-12-17,2019-07-24,3
+EGY,EG,Egypt,مِصر,,,en,ar,,OCHA,https://data.humdata.org/dataset/egypt-administrative-boundaries-levels-0-3,2006-01-01,2017-04-21,2
+ERI,ER,Eritrea,,,,en,,,OCHA,https://data.humdata.org/dataset/eritrea-admin-level-1-boundaries,2017-08-18,2020-04-27,2
+ESH,EH,Western Sahara,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+ESP,ES,Spain,,,,en,,,GADM,https://gadm.org,,2018-05-06,4
+EST,EE,Estonia,,,,en,,,GADM,https://gadm.org,,2018-05-06,3
+ETH,ET,Ethiopia,,,,en,,,OCHA,https://data.humdata.org/dataset/ethiopia-cod-ab,2019-08-19,2020-10-08,3
+FIN,FI,Finland,,,,en,,,GADM,https://gadm.org,,2018-05-06,4
+FJI,FJ,Fiji Islands,,,,en,,,OCHA,https://data.humdata.org/dataset/fiji-administrative-boundaries,2018-01-15,2019-12-30,3
+FLK,FK,Falkland Islands,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+FRA,FR,France,,,,en,,,GADM,https://gadm.org,,2018-05-06,4
+FRO,FO,Faroe Islands,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+FSM,FM,Federated States of Micronesia,,,,en,,,OCHA,https://data.humdata.org/dataset/fsm-2010-administrative-level-0-2-boundaries,2019-06-17,2019-06-17,2
+GAB,GA,Gabon,,,,fr,,,OCHA,https://data.humdata.org/dataset/gabon-administrative-boundaries,2015-02-17,2018-08-15,2
+GBR,GB,United Kingdom,,,,en,,,GADM,https://gadm.org,,2018-05-06,3
+GEO,GE,Georgia,საქართველო,,,en,ka,,OCHA,https://data.humdata.org/dataset/georgia-administrative-level-0-2-boundaries,2019-08-28,2019-10-18,1
+GGY,GG,Guernsey,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+GHA,GH,Ghana,,,,en,,,OCHA,https://data.humdata.org/dataset/ghana-administrative-boundaries,2005-04-11,2018-08-15,2
+GIB,GI,Gibraltar,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+GIN,GN,Guinea,,,,fr,,,OCHA,https://data.humdata.org/dataset/guinea-geodatabase,2016-01-14,2016-03-04,3
+GLP,GP,Guadeloupe,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+GMB,GM,Gambia,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+GNB,GW,Guinea-Bissau,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+GNQ,GQ,Equatorial Guinea,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+GRC,GR,Greece,,,,en,,,GADM,https://gadm.org,,2018-05-06,3
+GRD,GD,Grenada,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+GRL,GL,Greenland,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+GTM,GT,Guatemala,,,,es,,,OCHA,https://data.humdata.org/dataset/guatemala-administrative-level-0-national-1-departments-and-2-municipalities,2018-09-25,2019-02-07,2
+GUF,GF,Guyane,,,,fr,,,OCHA,https://data.humdata.org/dataset/french-guiana-administrative-level-0-1-and-2-boundaries,2020-02-12,2020-02-12,2
+GUM,GU,Guam,,,,en,,,GOVT,https://catalog.data.gov/dataset/usgs-national-boundary-dataset-nbd-downloadable-data-collectionbc141,2018-03-15,2018-10-18,2
+GUY,GY,Guyana,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+HKG,HK,Hong Kong,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+HMD,HM,Heard Island and McDonald Islands,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+HND,HN,Honduras,,,,es,,,OCHA,https://data.humdata.org/dataset/honduras-admin-level-1-boundaries,2015-06-25,2016-10-05,2
+HRV,HR,Croatia,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+HTI,HT,Haiti,Haïti,Ayiti,,en,fr,ht,OCHA,https://data.humdata.org/dataset/hti-polbndl-adm1-cnigs-zip,2017-09-06,2018-11-29,3
+HUN,HU,Hungary,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+IDN,ID,Indonesia,,,,en,,,OCHA,https://data.humdata.org/dataset/indonesia-administrative-boundary-polygons-lines-and-places-levels-0-4b,2019-12-20,2020-04-01,4
+IMN,IM,Isle of Man,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+IND,IN,India,,,,en,,,GADM,https://gadm.org,,2018-05-06,3
+IOT,IO,British Indian Ocean Territory,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+IRL,IE,Ireland,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+IRN,IR,Iran (Islamic Republic of),ایران (جمهوری اسلامی),,,en,fa,,OCHA,https://data.humdata.org/dataset/administrative-boundaries-1-2,2019-04-09,2019-05-14,2
+IRQ,IQ,Iraq,العراق,,,en,ar,,OCHA,https://data.humdata.org/dataset/iraq-admin-level-1-boundaries,2019-05-30,2019-06-03,3
+ISL,IS,Iceland,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+ISR,IL,Israel,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+ITA,IT,Italy,,,,en,,,GADM,https://gadm.org,,2018-05-06,3
+JAM,JM,Jamaica,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+JEY,JE,Jersey,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+JOR,JO,Jordan,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+JPN,JP,Japan,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+KAZ,KZ,Republic of Kazakhstan,Қазақстан Республикасы,Республика Казахстан,,en,kk,ru,OCHA,https://data.humdata.org/dataset/kazakhstan-administrative-boundaries-taxonomy,2019-09-10,2019-09-10,2
+KEN,KE,Kenya,,,,en,,,OCHA,https://data.humdata.org/dataset/ken-administrative-boundaries,2017-11-03,2019-10-31,2
+KGZ,KG,Kyrgyzstan,Кыргызская Республика,Кыргыз Республикасы,,en,ru,ky,OCHA,https://data.humdata.org/dataset/kyrgyzstan-administrative-boundaries,2018-08-28,2018-11-19,1
+KHM,KH,Cambodia,,,,en,,,OCHA,https://data.humdata.org/dataset/cambodia-admin-level-0-international-boundaries,2014-10-14,2018-10-04,3
+KIR,KI,Kiribati,,,,en,,,OCHA,https://data.humdata.org/dataset/kiribati-administrative-level-0-2-boundaries,2020-01-13,2020-01-13,2
+KNA,KN,Saint Kitts and Nevis,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+KOR,KR,South Korea,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+KWT,KW,Kuwait,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+LAO,LA,Lao People's Democratic Republic (the),ສາທາລະນະລັດ ປະຊາທ,,,en,lo,,OCHA,https://data.humdata.org/dataset/lao-admin-boundaries,2016-03-26,2019-11-12,2
+LBN,LB,Lebanon,لبنان,,,en,ar,,OCHA,https://data.humdata.org/dataset/lebanon-administrative-boundaries-levels-0-3,2015-11-06,2016-08-22,3
+LBR,LR,Liberia,,,,en,,,OCHA,https://data.humdata.org/dataset/liberia-admin-level-2-boundaries,2017-12-27,2019-11-04,2
+LBY,LY,Libya,ليبيا,,,en,ar,,OCHA,https://data.humdata.org/dataset/admin-boundaries-villages-libya-cods,2016-11-30,2018-05-07,2
+LCA,LC,Saint Lucia,,,,en,,,OCHA,https://data.humdata.org/dataset/saint-lucia-administrative-level-0-nation-and-1-quarter-boundaries,2019-05-01,2019-05-08,2
+LIE,LI,Liechtenstein,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+LKA,LK,Sri Lanka,ශ්‍රී ලංකා,இலங்கை,,en,si,ta,OCHA,https://data.humdata.org/dataset/sri-lanka-administrative-levels-0-4-boundaries,2019-03-04,2020-03-05,4
+LSO,LS,Lesotho,,,,en,,,OCHA,https://data.humdata.org/dataset/lesotho-administrative-level-0-2-boundaries,2019-01-08,2020-02-20,2
+LTU,LT,Lithuania,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+LUX,LU,Luxembourg,,,,en,,,GADM,https://gadm.org,,2018-05-06,4
+LVA,LV,Latvia,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+MAC,MO,Macao,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+MAF,MF,Saint-Martin,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+MAR,MA,Morocco,المغرب,,,en,ar,,OCHA,https://data.humdata.org/dataset/morocco-administrative-boundaries-populated-places,2020-04-30,2020-12-03,2
+MCO,MC,Monaco,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+MDA,MD,Moldova,,,,en,,,OCHA,https://data.humdata.org/dataset/moldova-administrative-level-0-1-boundaries,2016-10-10,2017-07-13,1
+MDG,MG,Madagascar,,,,en,,,OCHA,https://data.humdata.org/dataset/madagascar-administrative-level-0-4-boundaries,2010-12-31,2020-02-20,4
+MDV,MV,Maldives,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+MEX,MX,México,,,,es,,,OCHA,https://data.humdata.org/dataset/mexican-administrative-level-0-country-1-estado-and-2-municipio-boundary-polygons,2018-02-02,2020-06-18,2
+MHL,MH,Marshall Islands,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+MKD,MK,North Macedonia,Република Северна Македонија,,,en,mk,,OCHA,https://data.humdata.org/dataset/fyrom-administrative-levels-1-4-from-eurogeographics-and-ntes,2016-05-12,2016-07-08,4
+MLI,ML,Mali (le),,,,fr,,,OCHA,https://data.humdata.org/dataset/administrative-boundaries-cod-mli,2013-05-31,2019-08-02,3
+MLT,MT,Malta,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+MMR,MM,Myanmar,,,,en,,,GADM,https://gadm.org,,2018-05-06,3
+MNE,ME,Montenegro,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+MNG,MN,Mongolia,монгол,,,en,mn,,OCHA,https://data.humdata.org/dataset/mongolia-administrative-boundaries-polygon-polyline,2016-12-01,2020-10-19,2
+MNP,MP,Northern Mariana Islands,,,,en,,,GOVT,https://catalog.data.gov/dataset/usgs-national-boundary-dataset-nbd-downloadable-data-collectionbc141,2018-03-15,2018-10-18,2
+MOZ,MZ,Moçambique,Mozambique,,,pt,en,,OCHA,https://data.humdata.org/dataset/mozambique-administrative-levels-0-3,2019-04-02,2019-06-07,3
+MRT,MR,Mauritania,,,,en,,,OCHA,https://data.humdata.org/dataset/mauritania-administrative-boundaries,2020-06-12,2020-07-31,2
+MSR,MS,Montserrat,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+MTQ,MQ,Martinique,,,,fr,,,OCHA,https://data.humdata.org/dataset/martinique-administrative-level-0-nation-level-1-arrondissement-and-level-2-commune-boundaries,2017-09-09,2020-02-17,2
+MUS,MU,Mauritius,,,,en,,,OCHA,https://data.humdata.org/dataset/mauritius-administrative-level-0-1-boundaries,2020-08-09,2020-08-09,1
+MWI,MW,Malawi,,,,en,,,OCHA,https://data.humdata.org/dataset/malawi-administrative-level-0-3-boundaries,2018-09-03,2018-10-16,3
+MYS,MY,Malaysia,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+MYT,YT,Mayotte,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+NAM,NA,Namibia,,,,en,,,OCHA,,2011-01-01,2020-01-09,2
+NCL,NC,New Caledonia,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+NER,NE,Niger,,,,fr,,,OCHA,https://data.humdata.org/dataset/niger-administrative-boundaries,2006-01-01,2019-09-12,3
+NFK,NF,Norfolk Island,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+NGA,NG,Nigeria,,,,en,,,OCHA,https://data.humdata.org/dataset/nga-administrative-boundaries,2016-11-29,2019-04-17,3
+NIC,NI,Nicaragua,,,,es,,,OCHA,https://data.humdata.org/dataset/nicaragua-administrative-level-0,2017-10-11,2020-08-13,2
+NIU,NU,Niue,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+NLD,NL,Netherlands,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+NOR,NO,Norway,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+NPL,NP,Nepal,,,,en,,,OCHA,https://data.humdata.org/dataset/administrative-bounadries-of-nepal,2020-11-11,2020-11-11,2
+NRU,NR,Nauru,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+NZL,NZ,New Zealand,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+OMN,OM,Oman,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+PAK,PK,Pakistan,,,,en,,,OCHA,https://data.humdata.org/dataset/pakistan-administrative-level-0-1-2-and-3-boundary-polygons-lines-and-central-places,2018-11-30,2018-12-18,3
+PAN,PA,Panamá,,,,es,,,OCHA,https://data.humdata.org/dataset/panama-administrative-level-0-1-2-and-3-boundaries,2020-06-15,2020-07-21,3
+PCN,PN,Pitcairn Islands,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+PER,PE,Perú (el),,,,es,,,OCHA,https://data.humdata.org/dataset/limites-de-peru,2015-07-24,2020-07-14,3
+PHL,PH,Philippines (the),,,,en,,,OCHA,https://data.humdata.org/dataset/philippines-administrative-levels-0-to-3,2018-01-26,2020-05-29,3
+PLW,PW,Palau,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+PNG,PG,Papua New Guinea,,,,en,,,OCHA,https://data.humdata.org/dataset/papua-new-guinea-admin-level-0-international-boundaries,2015-02-24,2019-05-08,3
+POL,PL,Poland,,,,en,,,GADM,https://gadm.org,,2018-05-06,3
+PRI,PR,Puerto Rico,,,,en,,,GOVT,https://catalog.data.gov/dataset/usgs-national-boundary-dataset-nbd-downloadable-data-collectionbc141,2018-03-15,2018-10-18,2
+PRK,KP,North Korea,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+PRT,PT,Portugal,,,,en,,,GADM,https://gadm.org,,2018-05-06,3
+PRY,PY,Paraguay,,,,es,,,OCHA,https://data.humdata.org/dataset/paraguay-administrative-level-0-boundaries,2017-10-11,2020-09-16,2
+PSE,PS,State of Palestine,,,,en,,,OCHA,https://data.humdata.org/dataset/state-of-palestine-administrative-boundaries,2020-11-09,2020-11-09,2
+PYF,PF,French Polynesia,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+QAT,QA,Qatar,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+REU,RE,Reunion,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+ROU,RO,Romania,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+RUS,RU,Russia,,,,en,,,GADM,https://gadm.org,,2018-05-06,3
+RWA,RW,Rwanda,Rwanda (le),U Rwanda,,en,fr,rw,OCHA,https://data.humdata.org/dataset/rwanda-administrative-boundaries-level-1-4,2018-09-27,2020-02-20,3
+SAU,SA,Saudi Arabia,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+SDN,SD,Sudan (the),السودان‎,,,en,ar,,OCHA,https://data.humdata.org/dataset/sudan-administrative-boundaries-levels-0-2,2020-03-11,2020-03-17,2
+SEN,SN,Senegal,,,,fr,,,OCHA,https://data.humdata.org/dataset/senegal-administrative-boundaries,2017-08-04,2019-04-26,3
+SGP,SG,Singapore,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+SGS,GS,South Georgia and the South Sandwich Islands,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+SHN,SH,Saint Helena,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+SJM,SJ,Svalbard and Jan Mayen,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+SLB,SB,Solomon Islands,,,,en,,,OCHA,https://data.humdata.org/dataset/solomon-islands-administrative-level-0-1-2-and-3-boundary-polygons,2018-01-12,2018-11-01,3
+SLE,SL,Sierra Leone,,,,en,,,OCHA,https://data.humdata.org/dataset/sierra-leone-all-ad-min-level-boundaries,2016-08-01,2017-08-16,4
+SLV,SV,El Salvador,,,,es,,,OCHA,https://data.humdata.org/dataset/el-salvador-administrative-level-0-1-and-2-boundaries,2020-05-29,2020-05-29,2
+SMR,SM,San Marino,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+SOM,SO,Somalia,,,,en,,,OCHA,https://data.humdata.org/dataset/somalia-administrative-boundaries,2014-06-06,2017-04-05,2
+SPM,PM,Saint Pierre and Miquelon,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+SRB,RS,Serbia,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+SSD,SS,South Sudan,,,,en,,,OCHA,https://data.humdata.org/dataset/south-sudan-administrative-boundaries,2018-08-15,2018-08-17,2
+STP,ST,São Tomé e Príncipe,,,,pt,,,OCHA,https://data.humdata.org/dataset/sao-tome-and-principe-administrative-boundaries,2020-08-17,2020-08-17,2
+SUR,SR,Suriname,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+SVK,SK,Slovakia,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+SVN,SI,Slovenia,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+SWE,SE,Sweden,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+SWZ,SZ,Kingdom of Eswatini,,,,en,,,OCHA,https://data.humdata.org/dataset/kingdom-of-eswatini-subnational-administrative-boundaries,2007-01-01,2020-05-13,2
+SXM,SX,Sint Maarten,,,,en,,,OCHA,https://data.humdata.org/dataset/sint-maarten-administrative-level-0-1-boundaries,2018-09-14,2019-11-10,1
+SYC,SC,Seychelles,,,,en,,,OCHA,https://data.humdata.org/dataset/seychelles-subnational-administrative-boundaries,2020-05-28,2020-05-28,3
+SYR,SY,Syrian Arab Republic,الجمهورية العربية السورية,,,en,ar,,OCHA,https://data.humdata.org/dataset/syrian-arab-republic-administrative-boundaries-populated-places,2016-09-05,2016-09-05,3
+TCA,TC,Turks and Caicos Islands,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+TCD,TD,Tchad,,,,fr,,,OCHA,https://data.humdata.org/dataset/chad-admin-boundaries-admin-1-and-admin-2,2016-03-15,2016-05-09,3
+TGO,TG,Togo,,,,fr,,,OCHA,https://data.humdata.org/dataset/togo-cod-ab,2016-01-01,2019-10-03,2
+THA,TH,Thailand,ประเทศไทย,,,en,th,,OCHA,https://data.humdata.org/dataset/thailand-administrative-boundaries,2019-02-18,2019-02-21,3
+TJK,TJ,Tajikistan,,,,en,,,GADM,https://gadm.org,,2018-05-06,3
+TKL,TK,Tokelau,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+TKM,TM,Turkmenistan,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+TLS,TL,Timor-Leste,,,,en,,,OCHA,https://data.humdata.org/dataset/timor-leste-administrative-boundaries-levels-0-3,2006-12-10,2020-09-11,3
+TON,TO,Kingdom of Tonga,,,,en,,,OCHA,https://data.humdata.org/dataset/tonga-administrative-level-0-1-2-3-boundary-polygons,2018-02-05,2018-02-12,3
+TTO,TT,Trinidad and Tobago,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+TUN,TN,Tunisia,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+TUR,TR,Turkey,Türkiye,,,en,tr,,OCHA,https://data.humdata.org/dataset/turkey-administrative-boundaries-levels-0-1-2,2020-01-01,2020-03-26,2
+TUV,TV,Tuvalu,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+TWN,TW,Taiwan,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+TZA,TZ,United Republic of Tanzania,Jamhuri ya Muungano wa Tanzania,,,en,sw,,OCHA,https://data.humdata.org/dataset/tanzania-administrative-boundaries-level-1-to-3-regions-districts-and-wards-with-2012-population,2018-10-19,2018-10-22,3
+UGA,UG,Uganda,,,,en,,,OCHA,https://data.humdata.org/dataset/uganda-administrative-boundaries-admin-1-admin-3,2020-06-11,2020-08-24,4
+UKR,UA,Ukraine,Україна,Украина,,en,ua,ru,OCHA,https://data.humdata.org/dataset/ukraine-administrative-boundaries-as-of-q2-2017,2017-10-02,2017-12-21,2
+UMI,UM,United States Minor Outlying Islands,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+URY,UY,Uraguay,,,,es,,,OCHA,https://data.humdata.org/dataset/uruguay-administrative-level-0-boundaries,2017-10-11,2020-07-27,2
+USA,US,Unites States of America,,,,en,,,GOVT,https://catalog.data.gov/dataset/usgs-national-boundary-dataset-nbd-downloadable-data-collectionbc141,2018-03-15,2018-10-18,3
+UZB,UZ,Uzbekistan,Республика Узбекистан,O'zbekiston Respublikasi,,en,ru,uz,OCHA,https://data.humdata.org/dataset/ubbekistan-update,2018-07-12,2020-05-27,2
+VAT,VA,Vatican City,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
+VCT,VC,Saint Vincent and the Grenadines,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+VEN,VE,Venezuela (República Bolivariana de),Venezuela (Bolivarian Republic of),,,es,en,,OCHA,https://data.humdata.org/dataset/venezuela-administrative-level-0-1-and-2-boundaries,2018-05-02,2019-11-10,3
+VGB,VG,British Virgin Islands,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
+VIR,VI,Virgin Islands of the United States,,,,en,,,GOVT,https://catalog.data.gov/dataset/usgs-national-boundary-dataset-nbd-downloadable-data-collectionbc141,2018-03-15,2018-10-18,2
+VNM,VN,Viet Nam,Việt Nam,,,en,vi,,OCHA,https://data.humdata.org/dataset/viet-nam-administrative-boundaries-polygon-polyline,2019-10-01,2020-01-03,2
+VUT,VU,Vanuatu,,,,en,,,OCHA,https://data.humdata.org/dataset/vanuatu-administrative-level-0-1-and-2-boundaries,2017-10-31,2018-08-24,2
+WLF,WF,Wallis and Futuna,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+WSM,WS,Samoa,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
+YEM,YE,Yemen,اليمن,,,en,ar,,OCHA,https://data.humdata.org/dataset/yemen-admin-boundaries,2019-02-01,2019-10-02,3
+ZAF,ZA,South Africa,,,,en,,,OCHA,https://data.humdata.org/dataset/south-africa-admin-level-1-boundaries,2018-12-27,2020-11-09,4
+ZMB,ZM,Zambia,,,,en,,,OCHA,https://data.humdata.org/dataset/zambia-administrative-boundaries-level-1-provinces-and-level-2-districts-with-census-2010-population,2020-01-03,2020-11-24,2
+ZWE,ZW,Zimbabwe,,,,en,,,OCHA,https://data.humdata.org/dataset/zimbabwe-administrative-levels-0-3-boundaries,2018-08-31,2018-09-11,3
