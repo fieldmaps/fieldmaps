@@ -3,9 +3,9 @@ import Helmet from 'react-helmet';
 
 const url = 'https://fieldmaps.io/';
 const img = 'https://fieldmaps.io/img/atlas-ssd.png';
-const title = 'Fieldmaps.io — Humanitarian Reference Maps and Data';
+const title = 'Fieldmaps.io — Humanitarian Maps & Data';
 const description =
-  'Mobile, offline, interactive reference maps for humanitarian use and globally aggregated data catalogues.';
+  'Mobile, offline, interactive reference maps & globally aggregated datasets for humanitarian use.';
 
 export default ({ page }) => (
   <Helmet>
