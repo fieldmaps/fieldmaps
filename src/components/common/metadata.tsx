@@ -25,7 +25,7 @@ export default ({ page }) => (
     <meta name="twitter:image" content={img} />
     <script
       defer
-      src="/beacon.min.js"
+      src="/cf.js"
       data-cf-beacon='{"token": "4c2d512f347d47b5bf303b367560bcfd"}'
     />
   </Helmet>
