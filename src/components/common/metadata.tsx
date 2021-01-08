@@ -1,5 +1,5 @@
 import React from 'react';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 
 const url = 'https://fieldmaps.io/';
 const img = 'https://fieldmaps.io/img/atlas-ssd-preview.png';
