@@ -21,7 +21,8 @@ export default () => (
         </li>
         <li>
           <b>ISO-2</b>: Alternative code, commonly used by OCHA for creating
-          their place codes (P-Codes).
+          their place codes (P-Codes). Clicking on the link downloads a
+          Shapefile (SHP).
         </li>
         <li>
           <b>Name</b>: Admin 0 name as defined by the source. For OCHA sources,
@@ -74,7 +75,13 @@ export default () => (
                   {row.adm0_id}
                 </a>
               </td>
-              <td>{row.adm0_ocha}</td>
+              <td>
+                <a
+                  href={`https://data.fieldmaps.io/global-admin/boundless/${row.adm0_id.toLowerCase()}.shp.zip`}
+                >
+                  {row.adm0_ocha}
+                </a>
+              </td>
               <td>{row.adm0_name1}</td>
               <td>{row.adm_max}</td>
               <td>{row.src_name === 'GADM' ? '—' : row.src_date}</td>

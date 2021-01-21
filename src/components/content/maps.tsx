@@ -71,7 +71,9 @@ export default () => (
       this new version will be for searching names, discovering new locations,
       and providing tools to share precise location references between remote
       teams, sensitive to low-bandwidth conditions. This page will be updated
-      when the new Global Atlas map is available, planned for early 2021.
+      when the new Global Atlas map is available, planned for early 2021, with a
+      development preview available here:{' '}
+      <a href="https://atlas.fieldmaps.io/">atlas.fieldmaps.io</a>
     </p>
     <h2 className="has-text-centered">Sources</h2>
     <div className="table-container">

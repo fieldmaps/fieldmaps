@@ -2,8 +2,8 @@ import React from 'react';
 
 const data = [
   ['Boundary Polygons', '2.45 GB', 'polygons'],
-  ['Cartographic Lines', '869 MB', 'lines'],
-  ['Label Points', '19.9 MB', 'points'],
+  ['Cartographic Lines', '1.51 GB', 'lines'],
+  ['Label Points', '19.7 MB', 'points'],
 ];
 
 const sources = [
@@ -43,7 +43,8 @@ export default () => (
           <tr>
             <th>Layer (ADM 0-4)</th>
             <th>Size</th>
-            <th>URL</th>
+            <th>GeoPackage</th>
+            <th>Shapefile</th>
           </tr>
         </thead>
         <tbody>
@@ -55,7 +56,14 @@ export default () => (
                 <a
                   href={`https://data.fieldmaps.io/global-admin/wld_${layer}.gpkg.zip`}
                 >
-                  {`data.fieldmaps.io/global-admin/wld_${layer}.gpkg.zip`}
+                  {`wld_${layer}.gpkg.zip`}
+                </a>
+              </td>
+              <td>
+                <a
+                  href={`https://data.fieldmaps.io/global-admin/wld_${layer}.shp.zip`}
+                >
+                  {`wld_${layer}.shp.zip`}
                 </a>
               </td>
             </tr>

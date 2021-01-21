@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import '../../styles/main.sass';
 
 const url = 'https://fieldmaps.io/';
 const img = 'https://fieldmaps.io/img/atlas-ssd-preview.png';
