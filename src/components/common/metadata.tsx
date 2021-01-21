@@ -12,7 +12,7 @@ export default ({ page }) => (
   <Helmet>
     <title>{page} | Fieldmaps.io</title>
     <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="icon" type="image/png" href="img/logo-192.png" />
+    <link rel="icon" type="image/png" href="/img/logo-192.png" />
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta property="og:type" content="website" />
