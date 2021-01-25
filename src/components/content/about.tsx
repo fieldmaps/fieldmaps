@@ -17,7 +17,7 @@ export default () => (
       project in my personal time as a way to continue collaboration with all
       the people I've been in touch with in the past. If you want to talk about
       any of the content on here, you can reach me at:
-      fieldmaps@maxmalynowsky.com
+      fieldmaps(at)maxmalynowsky.com
     </p>
     <h2 className="has-text-centered">Acknowledgements</h2>
     <p>
