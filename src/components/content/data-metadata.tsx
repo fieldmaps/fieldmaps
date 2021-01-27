@@ -21,8 +21,8 @@ export default () => (
         </li>
         <li>
           <b>ISO-2</b>: Alternative code, commonly used by OCHA for creating
-          their place codes (P-Codes). Clicking on the link downloads a
-          Shapefile (SHP).
+          their place codes (P-Codes). Clicking on the link downloads an ESRI
+          File Geodatabase (GDB).
         </li>
         <li>
           <b>Name</b>: Admin 0 name as defined by the source. For OCHA sources,
@@ -70,14 +70,14 @@ export default () => (
             <tr key={row.adm0_id}>
               <td>
                 <a
-                  href={`https://data.fieldmaps.io/global-admin/boundless/${row.adm0_id.toLowerCase()}.gpkg.zip`}
+                  href={`https://data.fieldmaps.io/global-admin/voronoi/${row.adm0_id.toLowerCase()}.gpkg.zip`}
                 >
                   {row.adm0_id}
                 </a>
               </td>
               <td>
                 <a
-                  href={`https://data.fieldmaps.io/global-admin/boundless/${row.adm0_id.toLowerCase()}.shp.zip`}
+                  href={`https://data.fieldmaps.io/global-admin/voronoi/${row.adm0_id.toLowerCase()}.gdb.zip`}
                 >
                   {row.adm0_ocha}
                 </a>
