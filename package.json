@@ -12,7 +12,7 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
-    "bulma": "^0.9.1",
+    "bulma": "^0.9.2",
     "gatsby": "^2.31.1",
     "gatsby-plugin-react-helmet": "^3.9.0",
     "gatsby-plugin-sass": "^3.1.0",
