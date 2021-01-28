@@ -1,9 +1,9 @@
 import React from 'react';
 
 const data = [
-  ['Boundary Polygons', '2.45 GB', 'polygons'],
-  ['Cartographic Lines', '1.51 GB', 'lines'],
-  ['Label Points', '19.7 MB', 'points'],
+  ['Boundary Polygons', 'polygons', '2.45 GB', '1.18 GB'],
+  ['Cartographic Lines', 'lines', '1.51 GB', '614 MB'],
+  ['Label Points', 'points', '19.9 MB', '11.8 MB'],
 ];
 
 const sources = [
@@ -35,35 +35,34 @@ export default () => (
       have subdivisions available: 114 sourced from OCHA, 106 from GADM, and 7
       from public government data repositories. All these sources are matched to
       an admin 0 dataset produced by WFP for the public domain. Data can be
-      downloaded from the following links:
+      downloaded from the following links, last updated Thursday, 28 January,
+      2021:
     </p>
     <div className="table-container">
       <table className="table">
         <thead>
           <tr>
             <th>Layer (ADM 0-4)</th>
-            <th>Size</th>
-            <th>GeoPackage</th>
-            <th>Shapefile</th>
+            <th>GeoPackage (GPKG)</th>
+            <th>File Geodatabase (GDB)</th>
           </tr>
         </thead>
         <tbody>
-          {data.map(([name, size, layer]) => (
+          {data.map(([name, layer, size1, size2]) => (
             <tr key={layer}>
               <td>{name}</td>
-              <td>{size}</td>
               <td>
                 <a
                   href={`https://data.fieldmaps.io/global-admin/wld_${layer}.gpkg.zip`}
                 >
-                  {`wld_${layer}.gpkg.zip`}
+                  {`wld_${layer}.gpkg.zip (${size1})`}
                 </a>
               </td>
               <td>
                 <a
-                  href={`https://data.fieldmaps.io/global-admin/wld_${layer}.shp.zip`}
+                  href={`https://data.fieldmaps.io/global-admin/wld_${layer}.gdb.zip`}
                 >
-                  {`wld_${layer}.shp.zip`}
+                  {`wld_${layer}.gdb.zip (${size2})`}
                 </a>
               </td>
             </tr>

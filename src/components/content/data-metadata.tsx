@@ -21,8 +21,8 @@ export default () => (
         </li>
         <li>
           <b>ISO-2</b>: Alternative code, commonly used by OCHA for creating
-          their place codes (P-Codes). Clicking on the link downloads an ESRI
-          File Geodatabase (GDB).
+          their place codes (P-Codes). Clicking on the link downloads a File
+          Geodatabase (GDB).
         </li>
         <li>
           <b>Name</b>: Admin 0 name as defined by the source. For OCHA sources,
