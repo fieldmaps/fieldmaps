@@ -1,20 +1,20 @@
 import React from 'react';
 
 const data = [
-  ['Boundary Polygons', 'polygons', '2.45 GB', '1.18 GB'],
-  ['Cartographic Lines', 'lines', '1.51 GB', '614 MB'],
+  ['Boundary Polygons', 'polygons', '4.60 GB', '1.18 GB'],
+  ['Cartographic Lines', 'lines', '752 MB', '614 MB'],
   ['Label Points', 'points', '19.9 MB', '11.8 MB'],
 ];
 
 const sources = [
   [
-    'Admin 0 Edge-Matching',
-    'WFP',
-    'https://geonode.wfp.org/layers/geonode%3Awld_bnd_adm0',
-    'https://geonode.wfp.org/geoserver/wfs?format_options=charset%3AUTF-8&typename=geonode%3Awld_bnd_adm0&outputFormat=SHAPE-ZIP&version=1.0.0&service=WFS&request=GetFeature',
+    'Coastlines',
+    'OSM',
+    'https://osmdata.openstreetmap.de/data/land-polygons.html',
   ],
-  ['Admin 1-4 Primary', 'OCHA', 'https://cod.unocha.org', null],
-  ['Admin 1-4 Secondary', 'GADM', 'https://gadm.org/data.html', null],
+  ['Admin 0', 'UN GIS', 'https://data.humdata.org/dataset/united-nations-map'],
+  ['Admin 1-4 Primary', 'OCHA', 'https://cod.unocha.org'],
+  ['Admin 1-4 Secondary', 'GADM', 'https://gadm.org/data.html'],
 ];
 
 export default () => (
@@ -23,20 +23,20 @@ export default () => (
     <p>
       The Global Admin project is a data processing pipeline designed to take
       the best available administration boundary information from multiple
-      sources (OCHA, WFP, government, and others), aggregating them into a
-      single edge-matched dataset with a common schema using an automated
-      methodology. The most detailed admin level available is used, ranging from
-      0-4 depending on the source. This dataset uses ISO-3 codes as the primary
-      unit of edge-matching, with{' '}
+      sources (OCHA, government, OSM, GADM, etc), aggregating them into a single
+      edge-matched dataset with a common schema using an automated methodology.
+      The most detailed admin level available is used, ranging from 0-4
+      depending on the source. This dataset uses ISO-3 codes as the primary unit
+      of edge-matching, with{' '}
       <a href="https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes/blob/master/all/all.csv">
         249
       </a>{' '}
       currently used (not including disputed areas). Of these, 227 ISO-3 codes
       have subdivisions available: 114 sourced from OCHA, 106 from GADM, and 7
       from public government data repositories. All these sources are matched to
-      an admin 0 dataset produced by WFP for the public domain. Data can be
-      downloaded from the following links, last updated Thursday, 28 January,
-      2021:
+      an admin 0 dataset produced by the UN Geospatial Information Section, and
+      coastlines produced by OpenStreetMap. Data can be downloaded from the
+      following links (updated weekly), last updated Tuesday, 02 February, 2021:
     </p>
     <div className="table-container">
       <table className="table">
@@ -96,19 +96,6 @@ export default () => (
           regions with no names in this dataset, and are therefore removed
           before performing edge-matching.
         </li>
-        <li>
-          <b>WFP</b>: Only minor changes are made to the boundary itself, such
-          as clipping out the Caspian Sea, as is commonly done in other global
-          reference maps. Attribute modifications are minor as well, removing{' '}
-          <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3#Deleted_codes">
-            deleted
-          </a>{' '}
-          (WAK → UMI) and{' '}
-          <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3#Transitional_reservations">
-            transitional reservation
-          </a>{' '}
-          (ANT → BES) ISO-3 codes.
-        </li>
       </ul>
     </p>
     <div className="table-container">
@@ -120,16 +107,11 @@ export default () => (
           </tr>
         </thead>
         <tbody>
-          {sources.map(([layer, source, url, alt]) => (
+          {sources.map(([layer, source, url]) => (
             <tr>
               <td>{layer}</td>
               <td>
-                <a href={url}>{source}</a>{' '}
-                {alt ? (
-                  <>
-                    (<a href={alt}>Download</a>)
-                  </>
-                ) : null}
+                <a href={url}>{source}</a>
               </td>
             </tr>
           ))}
@@ -286,60 +268,46 @@ export default () => (
         </thead>
         <tbody>
           <tr>
-            <td>wfp_id</td>
+            <td>adm0_fid</td>
             <td>
-              ID code used by WFP. There may be multiple ID's per ISO-3 to
-              differentiate islands and other distinct features.
+              Feature ID code used to differentiate states and self-governing
+              territories sharing the same ISO-3 code.
             </td>
           </tr>
           <tr>
-            <td>wfp_name</td>
+            <td>adm0_name</td>
             <td>
-              Preferred name associated to the region defined by a WFP ID.
+              Romanized name associated to the region defined by adm0_fid.
             </td>
           </tr>
           <tr>
-            <td>wfp_namea</td>
-            <td>Alternative name for a region defined by a WFP ID.</td>
+            <td>adm0_label</td>
+            <td>Map label to be used for a region defined by adm0_fid.</td>
           </tr>
           <tr>
-            <td>wfp_disput</td>
+            <td>adm0_cont</td>
+            <td>Code of the continent a given ISO-3 belongs to.</td>
+          </tr>
+          <tr>
+            <td>adm0_color</td>
             <td>
-              One of: YES or NO. Indicates whether the area is a disputed
-              region.
+              When creating thematic maps, features sharing the same value for
+              this column should be coloured together.
             </td>
           </tr>
           <tr>
-            <td>wfp_source</td>
+            <td>adm0_stsc</td>
             <td>
-              Source used for creating the admin 0 boundary, usually listed as{' '}
-              <a href="https://www.unsalb.org/">SALB</a>.
+              Indicates the sovereignty status code of the region given as an
+              integer.
             </td>
           </tr>
           <tr>
-            <td>wfp_status</td>
+            <td>adm0_stsn</td>
             <td>
               Indicates the sovereignty status of the region (State, Territory,
               Special Region, etc).
             </td>
-          </tr>
-          <tr>
-            <td>wfp_label</td>
-            <td>
-              Label used for creating cartographic maps, indicating
-              non-self-governing territory, etc.
-            </td>
-          </tr>
-          <tr>
-            <td>wfp_mapclr</td>
-            <td>
-              Used for data management to indicate the ISO-3 source of
-              non-self-governing territory, etc.
-            </td>
-          </tr>
-          <tr>
-            <td>wfp_update</td>
-            <td>Last date boundary data for a region was modified.</td>
           </tr>
         </tbody>
       </table>
