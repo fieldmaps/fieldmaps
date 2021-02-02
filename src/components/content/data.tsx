@@ -1,9 +1,9 @@
 import React from 'react';
 
 const data = [
-  ['Boundary Polygons', 'polygons', '4.60 GB', '1.18 GB'],
-  ['Cartographic Lines', 'lines', '752 MB', '614 MB'],
-  ['Label Points', 'points', '19.9 MB', '11.8 MB'],
+  ['Boundary Polygons', 'polygons', '4.60 GB', '2.02 GB'],
+  ['Cartographic Lines', 'lines', '752 MB', '344 MB'],
+  ['Label Points', 'points', '19.9 MB', '11.5 MB'],
 ];
 
 const sources = [
