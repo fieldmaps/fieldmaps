@@ -81,7 +81,7 @@ GAB,GA,Gabon,,,,fr,,,OCHA,https://data.humdata.org/dataset/gabon-administrative-
 GBR,GB,United Kingdom,,,,en,,,GADM,https://gadm.org,,2018-05-06,3
 GEO,GE,Georgia,საქართველო,,,en,ka,,OCHA,https://data.humdata.org/dataset/georgia-administrative-level-0-2-boundaries,2019-08-28,2019-10-18,1
 GGY,GG,Guernsey,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
-GHA,GH,Ghana,,,,en,,,OCHA,https://data.humdata.org/dataset/ghana-administrative-boundaries,2005-04-11,2018-08-15,2
+GHA,GH,Ghana,,,,en,,,OCHA,https://data.humdata.org/dataset/ghana-administrative-boundaries,2018-10-26,2021-02-10,2
 GIB,GI,Gibraltar,,,,en,,,GADM,https://gadm.org,,2018-05-06,0
 GIN,GN,Guinea,,,,fr,,,OCHA,https://data.humdata.org/dataset/guinea-geodatabase,2016-01-14,2016-03-04,3
 GLP,GP,Guadeloupe,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
@@ -199,7 +199,7 @@ SHN,SH,Saint Helena,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
 SJM,SJ,Svalbard and Jan Mayen,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
 SLB,SB,Solomon Islands,,,,en,,,OCHA,https://data.humdata.org/dataset/solomon-islands-administrative-level-0-1-2-and-3-boundary-polygons,2018-01-12,2018-11-01,3
 SLE,SL,Sierra Leone,,,,en,,,OCHA,https://data.humdata.org/dataset/sierra-leone-all-ad-min-level-boundaries,2016-08-01,2017-08-16,4
-SLV,SV,El Salvador,,,,es,,,OCHA,https://data.humdata.org/dataset/el-salvador-administrative-level-0-1-and-2-boundaries,2020-05-29,2020-05-29,2
+SLV,SV,El Salvador,,,,es,,,OCHA,https://data.humdata.org/dataset/el-salvador-administrative-level-0-1-and-2-boundaries,2020-05-29,2021-02-04,2
 SMR,SM,San Marino,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
 SOM,SO,Somalia,,,,en,,,OCHA,https://data.humdata.org/dataset/somalia-administrative-boundaries,2014-06-06,2017-04-05,2
 SPM,PM,Saint Pierre and Miquelon,,,,en,,,GADM,https://gadm.org,,2018-05-06,1
@@ -210,7 +210,7 @@ SUR,SR,Suriname,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
 SVK,SK,Slovakia,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
 SVN,SI,Slovenia,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
 SWE,SE,Sweden,,,,en,,,GADM,https://gadm.org,,2018-05-06,2
-SWZ,SZ,Kingdom of Eswatini,,,,en,,,OCHA,https://data.humdata.org/dataset/kingdom-of-eswatini-subnational-administrative-boundaries,2007-01-01,2020-05-13,2
+SWZ,SZ,Eswatini,,,,en,,,OCHA,https://data.humdata.org/dataset/kingdom-of-eswatini-subnational-administrative-boundaries,2007-01-01,2021-01-27,2
 SXM,SX,Sint Maarten,,,,en,,,OCHA,https://data.humdata.org/dataset/sint-maarten-administrative-level-0-1-boundaries,2018-09-14,2019-11-10,1
 SYC,SC,Seychelles,,,,en,,,OCHA,https://data.humdata.org/dataset/seychelles-subnational-administrative-boundaries,2020-05-28,2020-05-28,3
 SYR,SY,Syrian Arab Republic,الجمهورية العربية السورية,,,en,ar,,OCHA,https://data.humdata.org/dataset/syrian-arab-republic-administrative-boundaries-populated-places,2017-06-01,2020-12-17,3

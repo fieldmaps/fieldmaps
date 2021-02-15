@@ -1323,8 +1323,8 @@
     "lang_name3": "",
     "src_name": "OCHA",
     "src_url": "https://data.humdata.org/dataset/ghana-administrative-boundaries",
-    "src_date": "2005-04-11",
-    "src_valid": "2018-08-15",
+    "src_date": "2018-10-26",
+    "src_valid": "2021-02-10",
     "adm_max": 2
   },
   {
@@ -3212,7 +3212,7 @@
     "src_name": "OCHA",
     "src_url": "https://data.humdata.org/dataset/el-salvador-administrative-level-0-1-and-2-boundaries",
     "src_date": "2020-05-29",
-    "src_valid": "2020-05-29",
+    "src_valid": "2021-02-04",
     "adm_max": 2
   },
   {
@@ -3378,7 +3378,7 @@
   {
     "adm0_id": "SWZ",
     "adm0_ocha": "SZ",
-    "adm0_name1": "Kingdom of Eswatini",
+    "adm0_name1": "Eswatini",
     "adm0_name2": "",
     "adm0_name3": "",
     "adm0_namea": "",
@@ -3388,7 +3388,7 @@
     "src_name": "OCHA",
     "src_url": "https://data.humdata.org/dataset/kingdom-of-eswatini-subnational-administrative-boundaries",
     "src_date": "2007-01-01",
-    "src_valid": "2020-05-13",
+    "src_valid": "2021-01-27",
     "adm_max": 2
   },
   {

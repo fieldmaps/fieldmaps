@@ -2,7 +2,7 @@ import React from 'react';
 
 const data = [
   ['Boundary Polygons', 'polygons', '4.60 GB', '2.02 GB'],
-  ['Cartographic Lines', 'lines', '752 MB', '344 MB'],
+  ['Cartographic Lines', 'lines', '751 MB', '343 MB'],
   ['Label Points', 'points', '19.9 MB', '11.5 MB'],
 ];
 
@@ -36,7 +36,7 @@ export default () => (
       from public government data repositories. All these sources are matched to
       an admin 0 dataset produced by the UN Geospatial Information Section, and
       coastlines produced by OpenStreetMap. Data can be downloaded from the
-      following links (updated weekly), last updated Tuesday, 02 February, 2021:
+      following links (updated weekly), last updated Monday, 15 February, 2021:
     </p>
     <div className="table-container">
       <table className="table">
