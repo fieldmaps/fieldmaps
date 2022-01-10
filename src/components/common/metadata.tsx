@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import '../../styles/main.sass';
 
 const url = 'https://fieldmaps.io/';
-const img = 'https://fieldmaps.io/img/edge-matched.png';
+const img = 'https://fieldmaps.io/img/edge-matched-preview.png';
 const title = 'Fieldmaps.io — Humanitarian Maps & Data';
 const description =
   'Mobile, offline, interactive reference maps & globally aggregated datasets for humanitarian use.';
