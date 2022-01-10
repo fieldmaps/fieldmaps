@@ -56,6 +56,9 @@ const sources = [
 export default () => (
   <>
     <h1 className="has-text-centered">Atlas Maps</h1>
+    <p className="has-text-centered">
+      <img src="/img/atlas.png" alt="atlas" />
+    </p>
     <p>
       These series of atlas reference maps have evolved organically overtime,
       starting with the South Sudan version, growing to include neighbouring
@@ -71,7 +74,7 @@ export default () => (
       this new version will be for searching names, discovering new locations,
       and providing tools to share precise location references between remote
       teams, sensitive to low-bandwidth conditions. This page will be updated
-      when the new Global Atlas map is available, planned for early 2021, with a
+      when the new Global Atlas map is available, planned for early 2022, with a
       development preview available here:{' '}
       <a href="https://atlas.fieldmaps.io/">atlas.fieldmaps.io</a>
     </p>
@@ -86,7 +89,7 @@ export default () => (
         </thead>
         <tbody>
           {sources.map(([layer, source, url]) => (
-            <tr>
+            <tr key={layer}>
               <td>{layer}</td>
               <td>
                 <a href={url}>{source}</a>
@@ -110,7 +113,7 @@ export default () => (
         </thead>
         <tbody>
           {countries.map(([name, code]) => (
-            <tr>
+            <tr key={code}>
               <td>{code.toUpperCase()}</td>
               <td>{name}</td>
               <td>

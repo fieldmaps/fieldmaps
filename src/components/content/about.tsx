@@ -13,11 +13,10 @@ export default () => (
       with information management in multiple clusters and working groups. In
       particular, creating common operational datasets with OCHA had me realize
       how valuable this kind of core infrastructure is by the people who rely on
-      them. Currently with the World Food Programme, I'm contributing to this
-      project in my personal time as a way to continue collaboration with all
-      the people I've been in touch with in the past. If you want to talk about
-      any of the content on here, you can reach me at:
-      fieldmaps(at)maxmalynowsky.com
+      them. I'm contributing to this project in my personal time as a way to
+      continue collaboration with all the people I've been in touch with in the
+      past. If you want to talk about any of the content on here, you can reach
+      me at: fieldmaps(at)maxmalynowsky.com
     </p>
     <h2 className="has-text-centered">Acknowledgements</h2>
     <p>
@@ -26,6 +25,11 @@ export default () => (
       data and giving countless hours of help online:
     </p>
     <ul>
+      <li>William & Mary Geospatial Evaluation and Observation Lab</li>
+      <li>
+        Columbia University Center for International Earth Science Information
+        Network (CIESIN)
+      </li>
       <li>UN Office for the Coordination of Humanitarian Affairs (OCHA)</li>
       <li>UN World Food Programme (WFP)</li>
       <li>The Centre for Humanitarian Data</li>

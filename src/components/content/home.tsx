@@ -33,10 +33,8 @@ export default () => (
       undergone validation by UN OCHA for use as a common operational dataset
       (COD). These datasets have been reviewed for quality and consistency at
       the national level, so they are well aligned to fit into a global model
-      with minimal transformations. For countries not covered, GADM is used as a
-      gap-filler until more authoritative sources are available. UN SALB is
-      another project with very well aligned goals that can become a future
-      source.
+      with minimal transformations. For countries not covered, geoBoundaries is
+      used as a gap-filler until more authoritative sources are available.
     </p>
     <h2 className="has-text-centered">Maps</h2>
     <p className="has-text-centered">
