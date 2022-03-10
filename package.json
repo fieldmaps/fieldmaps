@@ -13,15 +13,15 @@
   },
   "dependencies": {
     "bulma": "^0.9.3",
-    "gatsby": "^4.7.1",
-    "gatsby-plugin-react-helmet": "^5.7.0",
-    "gatsby-plugin-sass": "^5.7.0",
+    "gatsby": "^4.9.3",
+    "gatsby-plugin-react-helmet": "^5.9.0",
+    "gatsby-plugin-sass": "^5.9.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0"
   },
   "devDependencies": {
     "prettier": "^2.5.1",
-    "sass": "^1.49.7"
+    "sass": "^1.49.9"
   }
 }
