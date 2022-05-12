@@ -69,17 +69,6 @@ export default () => {
           in the original Large Scale International Boundaries (LSIB) layer.
         </li>
         <li>
-          <b>China</b>: World view incorperating Hong Kong, Macau, Taiwan, and
-          disputed areas in the Himalayas and South China Sea as part of China.
-          Regions such as Western Sahara and Kosovo are represented based on
-          Chinese recognition.
-        </li>
-        <li>
-          <b>India</b>: World view incorperating Jammu & Kashmir and disputed
-          areas in the Himalayas as part of India. Regions such as Western
-          Sahara and Kosovo are represented based on Indian recognition.
-        </li>
-        <li>
           <b>Land</b>: Only shorline data, recommended for using with point and
           line layers above for cartographic applications.
         </li>
