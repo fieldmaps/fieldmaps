@@ -33,7 +33,7 @@ export default () => {
         </a>{' '}
         for international boundaries, and{' '}
         <a href="https://unstats.un.org/unsd/methodology/m49/overview/">
-          United Nations Department of Statistics M49
+          United Nations Statistics Division M49
         </a>{' '}
         for attributes. See{' '}
         <a href="https://github.com/fieldmaps/adm0-generator">GitHub</a> for
