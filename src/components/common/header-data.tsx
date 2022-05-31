@@ -10,6 +10,9 @@ export default ({ active }) => (
       <li className={active === 'adm0' ? 'is-active' : ''}>
         <Link to="/data/adm0">adm0</Link>
       </li>
+      <li className={active === 'population' ? 'is-active' : ''}>
+        <Link to="/data/population">population</Link>
+      </li>
       <li className={active === 'cod' ? 'is-active' : ''}>
         <Link to="/data/cod">cod</Link>
       </li>

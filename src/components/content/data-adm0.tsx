@@ -23,7 +23,7 @@ export default () => {
       </p>
       <h2>Detailed</h2>
       <p>
-        Very high resolution boundaries Using{' '}
+        Very high resolution boundaries using{' '}
         <a href="https://osmdata.openstreetmap.de/data/land-polygons.html">
           OpenStreetMap
         </a>{' '}
