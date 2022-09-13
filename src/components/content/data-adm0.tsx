@@ -104,7 +104,9 @@ export default () => {
       <h2>U.S. Geological Survey (Public Domain)</h2>
       <p>
         Specialty version, uses sources where intellectual property and related
-        rights in the data are absent.
+        rights in the data are absent. Use of Natural Earth is limited to
+        Antartica and Caspian Sea only, as these areas aren't covered by USGS
+        coastline data.
       </p>
       <p>
         <b>Coastline data</b>:{' '}
