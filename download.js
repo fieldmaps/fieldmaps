@@ -1,5 +1,5 @@
-const fs = require('fs');
-const https = require('https');
+import { existsSync, mkdirSync, createWriteStream } from 'fs';
+import { get } from 'https';
 
 const urls = [
   'https://data.fieldmaps.io/edge-matched.json',
@@ -7,13 +7,13 @@ const urls = [
   'https://data.fieldmaps.io/cod.json',
   'https://data.fieldmaps.io/geoboundaries.json',
 ];
-const data = `${__dirname}/data`;
-if (!fs.existsSync(data)) fs.mkdirSync(data);
+const data = 'src/data';
+if (!existsSync(data)) mkdirSync(data);
 
 for (const url of urls) {
-  https.get(url, res => {
+  get(url, (res) => {
     const path = `${data}/${url.substring(26)}`;
-    const file = fs.createWriteStream(path);
+    const file = createWriteStream(path);
     res.pipe(file);
     file.on('finish', () => file.close());
   });
