@@ -39,7 +39,7 @@
             <td>{x.adm === 0 ? wlds[x.wld] : 'ADM 0-' + x.adm}</td>
             <td>
               <a href={x.a_gpkg}>gpkg</a> |
-              {#if x.a_shp}<a href={x.a_shp}>shp</a> |{/if}
+              <a href={x.a_shp}>shp</a> |
               <a href={x.a_xlsx}>xlsx</a>
             </td>
             <td>
