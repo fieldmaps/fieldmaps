@@ -47,7 +47,7 @@
   </p>
   <p>
     <b>Conditions</b>: Derived work must include attributions, be offered under
-    a similar license, and keep open access to the data
+    the same license, and keep open access to the data
   </p>
   <h2>Open</h2>
   <p>
