@@ -75,20 +75,18 @@
   </ul>
   <h2>OpenStreetMap (ODbL)</h2>
   <p>
-    Default version, preferred for making web maps as it aligns with other
-    OpenStreetMap derived basemaps and data.
-  </p>
-  <TableDest adm0 data={data.filter((x) => x.grp === 'osm')} />
-  <p>
-    <b>Coastline data</b>:
-    <a href="https://osmdata.openstreetmap.de/data/land-polygons.html">
-      Land polygons
+    Default version, uses <a
+      href="https://osmdata.openstreetmap.de/data/land-polygons.html"
+    >
+      OpenStreetMap
     </a>
     (<a
       href="https://osmdata.openstreetmap.de/download/land-polygons-complete-4326.zip"
       >download</a
-    >)
+    >) for coastlines so that it aligns with web maps using OSM for basemaps or
+    other data.
   </p>
+  <TableDest adm0 data={data.filter((x) => x.grp === 'osm')} />
   <p>
     <b>Attribution</b>: FieldMaps, U.S. Department of State, OpenStreetMap
   </p>
@@ -105,18 +103,16 @@
   </p>
   <h2>U.S. Geological Survey (Public Domain)</h2>
   <p>
-    Specialty version, uses sources where intellectual property and related
-    rights in the data are absent.
-  </p>
-  <TableDest adm0 data={data.filter((x) => x.grp === 'usgs')} />
-  <p>
-    <b>Coastline data</b>:
-    <a href="https://rmgsc.cr.usgs.gov/gie/">Global Islands Database</a>
+    Specialty version, uses <a href="https://rmgsc.cr.usgs.gov/gie/"
+      >U.S. Geological Survey</a
+    >
     (<a
       href="https://rmgsc.cr.usgs.gov/outgoing/ecosystems/Global/USGSEsriWCMC_GlobalIslands_v3.mpk"
       >download</a
-    >)
+    >) for coastlines so that intellectual property and related rights in this
+    dataset are absent.
   </p>
+  <TableDest adm0 data={data.filter((x) => x.grp === 'usgs')} />
   <p>
     <b>Attribution</b>: FieldMaps, U.S. Department of State, U.S. Geological
     Survey
