@@ -19,7 +19,7 @@
 <Header active="data" />
 <HeaderData active="adm0" />
 <Body>
-  <h1 class="has-text-centered">International Boundaries</h1>
+  <h1 class="has-text-centered">Global International Boundaries</h1>
   <p class="has-text-centered">
     <img src="/img/adm0.png" alt="adm0" />
   </p>
@@ -78,6 +78,7 @@
     Default version, preferred for making web maps as it aligns with other
     OpenStreetMap derived basemaps and data.
   </p>
+  <TableDest adm0 data={data.filter((x) => x.grp === 'osm')} />
   <p>
     <b>Coastline data</b>:
     <a href="https://osmdata.openstreetmap.de/data/land-polygons.html">
@@ -100,15 +101,14 @@
   </p>
   <p>
     <b>Conditions</b>: Derived work must include attributions, be offered under
-    the same license, and keep open access to the data
+    a similar license, and keep open access to the data
   </p>
-  <TableDest adm0 data={data.filter((x) => x.grp === 'osm')} />
   <h2>U.S. Geological Survey (Public Domain)</h2>
   <p>
     Specialty version, uses sources where intellectual property and related
-    rights in the data are absent. Use of Natural Earth is limited to Antartica
-    and Caspian Sea only, as these areas aren't covered by USGS coastline data.
+    rights in the data are absent.
   </p>
+  <TableDest adm0 data={data.filter((x) => x.grp === 'usgs')} />
   <p>
     <b>Coastline data</b>:
     <a href="https://rmgsc.cr.usgs.gov/gie/">Global Islands Database</a>
@@ -119,7 +119,7 @@
   </p>
   <p>
     <b>Attribution</b>: FieldMaps, U.S. Department of State, U.S. Geological
-    Survey, Natural Earth
+    Survey
   </p>
   <p>
     <b>License</b>: Public Domain
@@ -127,7 +127,7 @@
   <p>
     <b>Conditions</b>: None
   </p>
-  <TableDest adm0 data={data.filter((x) => x.grp === 'usgs')} />
+  <br /><br /><br />
   <p>
     Download metadata tables as: <a href={dataUrl + '.json'}>json</a> |
     <a href={dataUrl + '.csv'}>csv</a> |

@@ -17,7 +17,7 @@
 <Header active="data" />
 <HeaderData active="population" />
 <Body>
-  <h1 class="has-text-centered">Population Statistics</h1>
+  <h1 class="has-text-centered">Global Subnational Population</h1>
   <p class="has-text-centered">
     <img src="/img/population.png" alt="population" />
   </p>
