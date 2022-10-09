@@ -28,7 +28,8 @@
           <tr>
             <td>{x.adm === 0 ? wlds[x.wld] : 'ADM 0-' + x.adm}</td>
             <td>
-              <a href={x.a_gpkg}>gpkg</a> | <a href={x.a_shp}>shp</a>
+              <a href={x.a_gpkg}>gpkg</a> |
+              <a href={x.a_shp}>shp</a>
             </td>
             <td />
             <td />
@@ -37,15 +38,18 @@
           <tr>
             <td>{x.adm === 0 ? wlds[x.wld] : 'ADM 0-' + x.adm}</td>
             <td>
-              <a href={x.a_gpkg}>gpkg</a> | <a href={x.a_shp}>shp</a> |
+              <a href={x.a_gpkg}>gpkg</a> |
+              {#if x.a_shp}<a href={x.a_shp}>shp</a> |{/if}
               <a href={x.a_xlsx}>xlsx</a>
             </td>
             <td>
-              <a href={x.l_gpkg}>gpkg</a> | <a href={x.l_shp}>shp</a> |
+              <a href={x.l_gpkg}>gpkg</a> |
+              <a href={x.l_shp}>shp</a> |
               <a href={x.l_xlsx}>xlsx</a>
             </td>
             <td>
-              <a href={x.p_gpkg}>gpkg</a> | <a href={x.p_shp}>shp</a> |
+              <a href={x.p_gpkg}>gpkg</a> |
+              <a href={x.p_shp}>shp</a> |
               <a href={x.p_xlsx}>xlsx</a>
             </td>
           </tr>
