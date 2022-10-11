@@ -2,9 +2,11 @@
   import Header from '$lib/Header.svelte';
   import HeaderData from '$lib/HeaderData.svelte';
   import Body from '$lib/Body.svelte';
+  import TablePop from '$lib/TablePop.svelte';
   import Footer from '$lib/Footer.svelte';
-  import data from '../../../data/adm0.json';
+  import data from '../../../data/population.json';
 
+  const dataUrl = 'https://data.fieldmaps.io/population';
   const options = {
     weekday: 'long',
     year: 'numeric',
@@ -22,12 +24,6 @@
     <img src="/img/population.png" alt="population" />
   </p>
   <p>Updated: {new Date(data[0]?.date).toLocaleDateString('en-GB', options)}</p>
-  <h2>UN World Population Prospects, {new Date().getFullYear()} Projection</h2>
-  <p>
-    <a href="https://data.fieldmaps.io/population/un_wpp.xlsx">
-      <b>Download data (xlsx)</b>
-    </a>
-  </p>
   <p>
     Population statistics using <a
       href="https://dataforgood.facebook.com/dfg/tools/high-resolution-population-density-maps"
@@ -46,15 +42,37 @@
     >, adjusted so that ADM0 totals match those of the 2022 projections in the
     <a href="https://population.un.org/wpp/Download/Standard/CSV/"
       >United Nations World Population Prospects</a
-    >. See
-    <a href="https://github.com/fieldmaps/population-statistics">GitHub</a> for technical
-    information on how this layer is made.
+    >. The following population datasets are available for download:
+  </p>
+  <ul>
+    <li>
+      <b>UN WPP</b>: Mixed source data including Meta / Facebook where
+      available, falling back to WorldPop. Default version recommended for use.
+    </li>
+    <li>
+      <b>Meta / Facebook</b>: Contains data only from Meta / Facebook with
+      partial global coverage.
+    </li>
+    <li>
+      <b>WorldPop</b>: Contains data only from WorldPop with full global
+      coverage.
+    </li>
+  </ul>
+  <TablePop {data} />
+  <p>
+    <b>Attribution</b>: FieldMaps, United Nations, Meta / Facebook, WorldPop
   </p>
   <p>
-    This population dataset is intended to be joined with edge-matched
-    boundaries created on the same date, joining by admin ID. The following
-    population attributes are present:
+    <b>License</b>:
+    <a href="https://creativecommons.org/licenses/by/4.0/">
+      Creative Commons Attribution 4.0 International
+    </a>
+    (CC BY 4.0)
   </p>
+  <p>
+    <b>Conditions</b>: Derived work must include attributions
+  </p>
+  <p>The following population attributes are present in the data:</p>
   <div class="table-container">
     <table class="table">
       <thead><tr><th>Attribute</th><th>Description</th> </tr> </thead>
@@ -69,64 +87,11 @@
       </tbody>
     </table>
   </div>
+  <br /><br /><br />
   <p>
-    Separate population datasets containing only a single source are also
-    available for download. Conversion factors are also available, used for
-    adjusting source totals to match UN World Population Prospects, {new Date().getFullYear()}
-    Projection.
+    Download metadata tables as: <a href={dataUrl + '.json'}>json</a> |
+    <a href={dataUrl + '.csv'}>csv</a> |
+    <a href={dataUrl + '.xlsx'}>xlsx</a>
   </p>
-  <div class="table-container">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Source</th> <th>Population Data</th> <th>Conversion Factors</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Meta/Facebook</td>
-          <td>
-            <a href="https://data.fieldmaps.io/population/meta_fb.xlsx">
-              xlsx
-            </a>
-          </td>
-          <td>
-            <a href="https://data.fieldmaps.io/population/meta_fb_factor.json">
-              json
-            </a>
-            |
-            <a href="https://data.fieldmaps.io/population/meta_fb_factor.csv">
-              csv
-            </a>
-            |
-            <a href="https://data.fieldmaps.io/population/meta_fb_factor.xlsx">
-              xlsx
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>WorldPop</td>
-          <td>
-            <a href="https://data.fieldmaps.io/population/worldpop.xlsx">
-              xlsx
-            </a>
-          </td>
-          <td>
-            <a href="https://data.fieldmaps.io/population/worldpop_factor.json">
-              json
-            </a>
-            |
-            <a href="https://data.fieldmaps.io/population/worldpop_factor.csv">
-              csv
-            </a>
-            |
-            <a href="https://data.fieldmaps.io/population/worldpop_factor.xlsx">
-              xlsx
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 </Body>
 <Footer />

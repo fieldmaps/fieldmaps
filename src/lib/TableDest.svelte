@@ -3,8 +3,6 @@
     intl: 'International',
     all: 'All',
     usa: 'USA',
-    chn: 'China',
-    ind: 'India',
     land: 'Land',
   };
 

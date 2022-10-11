@@ -6,6 +6,7 @@ const urls = [
   'https://data.fieldmaps.io/adm0.json',
   'https://data.fieldmaps.io/cod.json',
   'https://data.fieldmaps.io/geoboundaries.json',
+  'https://data.fieldmaps.io/population.json',
 ];
 const data = 'src/data';
 if (!existsSync(data)) mkdirSync(data);
