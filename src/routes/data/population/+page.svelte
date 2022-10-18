@@ -25,12 +25,14 @@
   </p>
   <p>Updated: {new Date(data[0]?.date).toLocaleDateString('en-GB', options)}</p>
   <p>
-    Population statistics using <a
+    Population statistics using data from <a href="https://cod.unocha.org/"
+      >OCHA / UNFPA Common Operational Datasets</a
+    >,
+    <a
       href="https://dataforgood.facebook.com/dfg/tools/high-resolution-population-density-maps"
     >
       Meta/Facebook High Resolution Population Density Maps
-    </a>
-    where available, filling in gaps with
+    </a>, and
     <a href="https://www.worldpop.org/geodata/listing?id=29">
       WorldPop Unconstrained Individual Countries
     </a>
@@ -46,21 +48,23 @@
   </p>
   <ul>
     <li>
-      <b>UN WPP</b>: Mixed source data including Meta / Facebook where
-      available, falling back to WorldPop. Default version recommended for use.
+      <b>Common Operational Datasets</b>: Default version recommended for use.
+      Mixed source data including OCHA / UNFPA sex and age disaggregated data
+      (SADD), filling gaps with Meta / Facebook and WorldPop.
     </li>
     <li>
-      <b>Meta / Facebook</b>: Contains data only from Meta / Facebook with
-      partial global coverage.
+      <b>Meta / Facebook</b>: Data from Meta / Facebook, filling gaps with
+      WorldPop. Contains limited sex and age groups.
     </li>
     <li>
-      <b>WorldPop</b>: Contains data only from WorldPop with full global
-      coverage.
+      <b>WorldPop</b>: Data only from WorldPop. Contains no sex or age groups,
+      only totals.
     </li>
   </ul>
   <TablePop {data} />
   <p>
-    <b>Attribution</b>: FieldMaps, United Nations, Meta / Facebook, WorldPop
+    <b>Attribution</b>: FieldMaps, United Nations, OCHA, UNFPA, Meta / Facebook,
+    WorldPop
   </p>
   <p>
     <b>License</b>:
@@ -72,21 +76,6 @@
   <p>
     <b>Conditions</b>: Derived work must include attributions
   </p>
-  <p>The following population attributes are present in the data:</p>
-  <div class="table-container">
-    <table class="table">
-      <thead><tr><th>Attribute</th><th>Description</th> </tr> </thead>
-      <tbody>
-        <tr><td>t</td><td>general population</td></tr>
-        <tr><td>f</td> <td>women</td></tr>
-        <tr><td>m</td><td>men</td></tr>
-        <tr><td>t_00_04</td><td>children under five</td></tr>
-        <tr><td>t_15_24</td><td>youth (15-24)</td></tr>
-        <tr><td>t_60_plus</td><td>elderly (60+)</td></tr>
-        <tr><td>f_15_49</td><td>women of reproductive age (15-49)</td></tr>
-      </tbody>
-    </table>
-  </div>
   <br /><br /><br />
   <p>
     Download metadata tables as: <a href={dataUrl + '.json'}>json</a> |
