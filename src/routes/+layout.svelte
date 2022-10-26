@@ -4,8 +4,6 @@
   const title = 'FieldMaps — Humanitarian Maps & Data';
   const description =
     'Mobile, offline, interactive reference maps & globally aggregated datasets for humanitarian use.';
-
-  export const prerender = true;
 </script>
 
 <svelte:head>
