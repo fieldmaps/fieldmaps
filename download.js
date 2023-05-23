@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, createWriteStream } from 'fs';
+import { createWriteStream, existsSync, mkdirSync } from 'fs';
 import { get } from 'https';
 
 const urls = [
