@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Header from '$lib/Header.svelte';
-  import HeaderData from '$lib/HeaderData.svelte';
   import Body from '$lib/Body.svelte';
   import Footer from '$lib/Footer.svelte';
+  import Header from '$lib/Header.svelte';
+  import HeaderData from '$lib/HeaderData.svelte';
   import TableDest from '$lib/TableDest.svelte';
   import data from '../../data/edge-matched.json';
 
@@ -28,15 +28,13 @@
   </p>
   <h2>Humanitarian</h2>
   <p>
-    Uses OCHA Common Operational Datasets (COD) when available, falling back to
-    geoBoundaries for regions without coverage. Represents the latest available
-    data for humanitarian operational use. Uses the OpenStreetMap International
-    ADM0 worldview for edge-matching.
+    Uses OCHA Common Operational Datasets (COD) when available, falling back to geoBoundaries for
+    regions without coverage. Represents the latest available data for humanitarian operational use.
+    Uses the OpenStreetMap International ADM0 worldview for edge-matching.
   </p>
   <TableDest data={data.filter((x) => x.grp === 'humanitarian')} />
   <p>
-    <b>Attribution</b>: FieldMaps, OCHA, geoBoundaries, U.S. Department of
-    State, OpenStreetMap
+    <b>Attribution</b>: FieldMaps, OCHA, geoBoundaries, U.S. Department of State, OpenStreetMap
   </p>
   <p>
     <b>License</b>:
@@ -46,19 +44,18 @@
     (ODbL)
   </p>
   <p>
-    <b>Conditions</b>: Derived work must include attributions, be offered under
-    the same license, and keep open access to the data
+    <b>Conditions</b>: Derived work must include attributions, be offered under the same license,
+    and keep open access to the data
   </p>
   <h2>Open</h2>
   <p>
-    Uses geoBoundaries exclusively to ensure all data comes from sources with
-    clearly defined licenses. Suitable for academic or commercial use. Uses the
-    U.S. Geological Survey International ADM0 worldview for edge-matching.
+    Uses geoBoundaries exclusively to ensure all data comes from sources with clearly defined
+    licenses. Suitable for academic or commercial use. Uses the U.S. Geological Survey International
+    ADM0 worldview for edge-matching.
   </p>
   <TableDest data={data.filter((x) => x.grp === 'open')} />
   <p>
-    <b>Attribution</b>: FieldMaps, geoBoundaries, U.S. Department of State, U.S.
-    Geological Survey
+    <b>Attribution</b>: FieldMaps, geoBoundaries, U.S. Department of State, U.S. Geological Survey
   </p>
   <p>
     <b>License</b>:
@@ -77,7 +74,7 @@
     <a href={dataUrl + '.xlsx'}>xlsx</a>
   </p>
   See
-  <a href="https://github.com/fieldmaps/edge-extender">GitHub</a> for technical information
-  on how edge-matching is performed.
+  <a href="https://github.com/fieldmaps/edge-extender">GitHub</a> for technical information on how edge-matching
+  is performed.
 </Body>
 <Footer />

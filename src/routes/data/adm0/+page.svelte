@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Header from '$lib/Header.svelte';
-  import HeaderData from '$lib/HeaderData.svelte';
   import Body from '$lib/Body.svelte';
   import Footer from '$lib/Footer.svelte';
+  import Header from '$lib/Header.svelte';
+  import HeaderData from '$lib/HeaderData.svelte';
   import TableDest from '$lib/TableDest.svelte';
   import data from '../../../data/adm0.json';
 
@@ -36,55 +36,43 @@
       United Nations Statistics Division M49
     </a>
     for attributes. See
-    <a href="https://github.com/fieldmaps/adm0-generator">GitHub</a> for technical
-    information on how this layer is made.
+    <a href="https://github.com/fieldmaps/adm0-generator">GitHub</a> for technical information on how
+    this layer is made.
   </p>
   <p>
-    International boundaries are built using either OpenStreetMap or U.S.
-    Geological Survey coastlines. Within each set, ADM0 layers comes in several
-    versions to represent different world views of disputed areas. Starting with
-    the "All" version, areas are dissolved together based on varying
-    international recognition. The following preset world views are available
-    for download:
+    International boundaries are built using either OpenStreetMap or U.S. Geological Survey
+    coastlines. Within each set, ADM0 layers comes in several versions to represent different world
+    views of disputed areas. Starting with the "All" version, areas are dissolved together based on
+    varying international recognition. The following preset world views are available for download:
   </p>
   <ul>
     <li>
-      <b>International</b>: A balanced world view for use by international
-      non-governmental organizations. Disputed areas follow recommended
-      representation used by the
-      <a
-        href="https://geoservices.un.org/Html5Viewer/index.html?viewer=clearmap"
-        >UN Clear Map</a
-      >. UN agencies should use official layers at the
-      <a href="https://geoservices.un.org/webapps/geohub/">UN Geospatial Hub</a
-      >.
+      <b>International</b>: A balanced world view for use by international non-governmental
+      organizations. Disputed areas follow recommended representation used by the
+      <a href="https://geoservices.un.org/Html5Viewer/index.html?viewer=clearmap">UN Clear Map</a>.
+      UN agencies should use official layers at the
+      <a href="https://geoservices.un.org/webapps/geohub/">UN Geospatial Hub</a>.
     </li>
     <li>
-      <b>All</b>: A conservative world view that dissagregates all disputed
-      areas. Useful if applying individual customization outside the presets
-      generated here.
+      <b>All</b>: A conservative world view that dissagregates all disputed areas. Useful if
+      applying individual customization outside the presets generated here.
     </li>
     <li>
-      <b>United States</b>: World view of the United States as represented in
-      the original Large Scale International Boundaries (LSIB) layer.
+      <b>United States</b>: World view of the United States as represented in the original Large
+      Scale International Boundaries (LSIB) layer.
     </li>
     <li>
-      <b>Land</b>: Only shorline data, recommended for using with point and line
-      layers above for cartographic applications.
+      <b>Land</b>: Only shorline data, recommended for using with point and line layers above for
+      cartographic applications.
     </li>
   </ul>
   <h2>OpenStreetMap (ODbL)</h2>
   <p>
-    Default version, uses <a
-      href="https://osmdata.openstreetmap.de/data/land-polygons.html"
-    >
+    Default version, uses <a href="https://osmdata.openstreetmap.de/data/land-polygons.html">
       OpenStreetMap
     </a>
-    (<a
-      href="https://osmdata.openstreetmap.de/download/land-polygons-complete-4326.zip"
-      >download</a
-    >) for coastlines so that it aligns with web maps using OSM for basemaps or
-    other data.
+    (<a href="https://osmdata.openstreetmap.de/download/land-polygons-complete-4326.zip">download</a
+    >) for coastlines so that it aligns with web maps using OSM for basemaps or other data.
   </p>
   <TableDest adm0 data={data.filter((x) => x.grp === 'osm')} />
   <p>
@@ -98,24 +86,20 @@
     (ODbL)
   </p>
   <p>
-    <b>Conditions</b>: Derived work must include attributions, be offered under
-    the same license, and keep open access to the data
+    <b>Conditions</b>: Derived work must include attributions, be offered under the same license,
+    and keep open access to the data
   </p>
   <h2>U.S. Geological Survey (Public Domain)</h2>
   <p>
-    Specialty version, uses <a href="https://rmgsc.cr.usgs.gov/gie/"
-      >U.S. Geological Survey</a
-    >
+    Specialty version, uses <a href="https://rmgsc.cr.usgs.gov/gie/">U.S. Geological Survey</a>
     (<a
       href="https://rmgsc.cr.usgs.gov/outgoing/ecosystems/Global/USGSEsriWCMC_GlobalIslands_v3.mpk"
       >download</a
-    >) for coastlines so that intellectual property and related rights in this
-    dataset are absent.
+    >) for coastlines so that intellectual property and related rights in this dataset are absent.
   </p>
   <TableDest adm0 data={data.filter((x) => x.grp === 'usgs')} />
   <p>
-    <b>Attribution</b>: FieldMaps, U.S. Department of State, U.S. Geological
-    Survey
+    <b>Attribution</b>: FieldMaps, U.S. Department of State, U.S. Geological Survey
   </p>
   <p>
     <b>License</b>: Public Domain

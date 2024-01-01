@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="icon" type="image/png" href="/img/logo-192.png" />
-    <meta name="viewport" content="width=device-width" />
+    <link rel="manifest" href="%sveltekit.assets%/manifest.webmanifest" />
+    <link rel="icon" type="image/png" href="%sveltekit.assets%/img/logo-192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     %sveltekit.head%
   </head>
-  <body>
-    <div>%sveltekit.body%</div>
+  <body data-sveltekit-preload-data="hover">
+    <div style="display: contents">%sveltekit.body%</div>
     <script
       defer
       src="https://static.cloudflareinsights.com/beacon.min.js"

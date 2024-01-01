@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Header from '$lib/Header.svelte';
-  import HeaderData from '$lib/HeaderData.svelte';
   import Body from '$lib/Body.svelte';
   import Footer from '$lib/Footer.svelte';
+  import Header from '$lib/Header.svelte';
+  import HeaderData from '$lib/HeaderData.svelte';
   import TableSrc from '$lib/TableSrc.svelte';
   import data from '../../../data/cod.json';
 
@@ -17,11 +17,10 @@
     <img src="/img/cod.png" alt="cod" />
   </p>
   <p>
-    Visit <a href="https://cod.unocha.org/">cod.unocha.org</a> for the latest information
-    about OCHA COD layers. Data below is manually downloaded from The Humanitarian
-    Data Exchange at the source URLs below before processed for edge matching. Extended
-    layers can be downloaded and clipped to any ADM0, with the original layer available
-    for reference.
+    Visit <a href="https://cod.unocha.org/">cod.unocha.org</a> for the latest information about OCHA
+    COD layers. Data below is manually downloaded from The Humanitarian Data Exchange at the source URLs
+    below before processed for edge matching. Extended layers can be downloaded and clipped to any ADM0,
+    with the original layer available for reference.
   </p>
   <TableSrc {data} />
   <p>

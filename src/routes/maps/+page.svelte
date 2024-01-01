@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Header from '$lib/Header.svelte';
   import Body from '$lib/Body.svelte';
   import Footer from '$lib/Footer.svelte';
+  import Header from '$lib/Header.svelte';
 
   const countries = [
     ['Afghanistan', 'afg'],
@@ -67,22 +67,19 @@
     <img src="/img/atlas.png" alt="atlas" />
   </p>
   <p>
-    These series of atlas reference maps have evolved organically overtime,
-    starting with the South Sudan version, growing to include neighbouring
-    countries, and finally to a larger sample of countries where structured
-    source data was available. Ultimately, maintaining separate code bases for
-    each country became more difficult as the list grew, and it was clear a new
-    approach would be needed.
+    These series of atlas reference maps have evolved organically overtime, starting with the South
+    Sudan version, growing to include neighbouring countries, and finally to a larger sample of
+    countries where structured source data was available. Ultimately, maintaining separate code
+    bases for each country became more difficult as the list grew, and it was clear a new approach
+    would be needed.
   </p>
   <p>
-    Development on country-level maps listed below has been paused since January
-    2020 to focus on building code foundations for a unified, global version of
-    these maps. From lessons learned in the field, the emphasis on this new
-    version will be for searching names, discovering new locations, and
-    providing tools to share precise location references between remote teams,
-    sensitive to low-bandwidth conditions. This page will be updated when the
-    new Global Atlas map is available, planned for early 2022, with a
-    development preview available here:{' '}
+    Development on country-level maps listed below has been paused since January 2020 to focus on
+    building code foundations for a unified, global version of these maps. From lessons learned in
+    the field, the emphasis on this new version will be for searching names, discovering new
+    locations, and providing tools to share precise location references between remote teams,
+    sensitive to low-bandwidth conditions. This page will be updated when the new Global Atlas map
+    is available, planned for early 2022, with a development preview available here:{' '}
     <a href="https://atlas.fieldmaps.io/">atlas.fieldmaps.io</a>
   </p>
   <h2 class="has-text-centered">Sources</h2>
@@ -129,18 +126,12 @@
               </a>
             </td>
             <td>
-              <a
-                href={`https://atlas.fieldmaps.io/styles/v1/${code}/default.json`}
-                target="_blank"
-              >
+              <a href={`https://atlas.fieldmaps.io/styles/v1/${code}/default.json`} target="_blank">
                 {`[Style URL]`}
               </a>
             </td>
             <td>
-              <a
-                href={`https://atlas.fieldmaps.io/v4/${code}.json`}
-                target="_blank"
-              >
+              <a href={`https://atlas.fieldmaps.io/v4/${code}.json`} target="_blank">
                 {`[TileJSON]`}
               </a>
             </td>

@@ -1,9 +1,9 @@
 <script lang="ts">
+  import Body from '$lib/Body.svelte';
+  import Footer from '$lib/Footer.svelte';
   import Header from '$lib/Header.svelte';
   import HeaderData from '$lib/HeaderData.svelte';
-  import Body from '$lib/Body.svelte';
   import TablePop from '$lib/TablePop.svelte';
-  import Footer from '$lib/Footer.svelte';
   import data from '../../../data/population.json';
 
   const dataUrl = 'https://data.fieldmaps.io/population';
@@ -28,18 +28,14 @@
     Population statistics using data from <a href="https://cod.unocha.org/"
       >OCHA / UNFPA Common Operational Datasets</a
     >,
-    <a
-      href="https://dataforgood.facebook.com/dfg/tools/high-resolution-population-density-maps"
-    >
+    <a href="https://dataforgood.facebook.com/dfg/tools/high-resolution-population-density-maps">
       Meta/Facebook High Resolution Population Density Maps
     </a>, and
     <a href="https://www.worldpop.org/geodata/listing?id=29">
       WorldPop Unconstrained Individual Countries
     </a>
-    to create a complete global coverage population raster. Results are aggregated
-    to
-    <a
-      href="https://data.fieldmaps.io/edge-matched/humanitarian/intl/adm4_polygons.gpkg.zip"
+    to create a complete global coverage population raster. Results are aggregated to
+    <a href="https://data.fieldmaps.io/edge-matched/humanitarian/intl/adm4_polygons.gpkg.zip"
       >humanitarian edge-matched boundaries</a
     >, adjusted so that ADM0 totals match those of the 2022 projections in the
     <a href="https://population.un.org/wpp/Download/Standard/CSV/"
@@ -48,23 +44,21 @@
   </p>
   <ul>
     <li>
-      <b>Common Operational Datasets</b>: Default version recommended for use.
-      Mixed source data including OCHA / UNFPA sex and age disaggregated data
-      (SADD), filling gaps with Meta / Facebook and WorldPop.
+      <b>Common Operational Datasets</b>: Default version recommended for use. Mixed source data
+      including OCHA / UNFPA sex and age disaggregated data (SADD), filling gaps with Meta /
+      Facebook and WorldPop.
     </li>
     <li>
-      <b>Meta / Facebook</b>: Data from Meta / Facebook, filling gaps with
-      WorldPop. Contains limited sex and age groups.
+      <b>Meta / Facebook</b>: Data from Meta / Facebook, filling gaps with WorldPop. Contains
+      limited sex and age groups.
     </li>
     <li>
-      <b>WorldPop</b>: Data only from WorldPop. Contains no sex or age groups,
-      only totals.
+      <b>WorldPop</b>: Data only from WorldPop. Contains no sex or age groups, only totals.
     </li>
   </ul>
   <TablePop {data} />
   <p>
-    <b>Attribution</b>: FieldMaps, United Nations, OCHA, UNFPA, Meta / Facebook,
-    WorldPop
+    <b>Attribution</b>: FieldMaps, United Nations, OCHA, UNFPA, Meta / Facebook, WorldPop
   </p>
   <p>
     <b>License</b>:

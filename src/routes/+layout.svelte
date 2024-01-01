@@ -1,4 +1,6 @@
 <script lang="ts">
+  import 'bulma/css/bulma.css';
+
   const url = 'https://fieldmaps.io/';
   const img = 'https://fieldmaps.io/img/edge-matched-preview.png';
   const title = 'FieldMaps — Humanitarian Maps & Data';
@@ -22,7 +24,3 @@
 </svelte:head>
 
 <slot />
-
-<style lang="scss" global>
-  @import '../app.scss';
-</style>
