@@ -7,7 +7,7 @@
     <thead>
       <tr>
         <th>Level</th>
-        <th>Common Operational Datasets</th>
+        <!-- <th>Common Operational Datasets</th> -->
         <th>Meta / Facebook</th>
         <th>WorldPop</th>
       </tr>
@@ -16,11 +16,11 @@
       {#each data as x}
         <tr>
           <td>{x.adm === 0 ? 'ADM 0' : 'ADM 0-' + x.adm}</td>
-          <td>
+          <!-- <td>
             <a href={x.c_xlsx}>xlsx</a> |
             <a href={x.c_csv}>csv</a> |
             <a href={x.c_json}>json</a>
-          </td>
+          </td> -->
           <td>
             <a href={x.m_xlsx}>xlsx</a> |
             <a href={x.m_csv}>csv</a> |

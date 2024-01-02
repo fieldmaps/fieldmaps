@@ -25,14 +25,14 @@
   </p>
   <p>Updated: {new Date(data[0]?.date).toLocaleDateString('en-GB', options)}</p>
   <p>
-    Population statistics using data from <a href="https://cod.unocha.org/"
-      >OCHA / UNFPA Common Operational Datasets</a
-    >,
+    Population statistics using data from
+    <!-- <a href="https://cod.unocha.org/">OCHA / UNFPA Common Operational Datasets</a>, -->
     <a href="https://dataforgood.facebook.com/dfg/tools/high-resolution-population-density-maps">
       Meta/Facebook High Resolution Population Density Maps
-    </a>, and
-    <a href="https://www.worldpop.org/geodata/listing?id=29">
-      WorldPop Unconstrained Individual Countries
+    </a>
+    and
+    <a href="https://www.worldpop.org/geodata/listing?id=29"
+      >WorldPop Unconstrained Individual Countries
     </a>
     to create a complete global coverage population raster. Results are aggregated to
     <a href="https://data.fieldmaps.io/edge-matched/humanitarian/intl/adm4_polygons.gpkg.zip"
@@ -43,11 +43,11 @@
     >. The following population datasets are available for download:
   </p>
   <ul>
-    <li>
+    <!-- <li>
       <b>Common Operational Datasets</b>: Default version recommended for use. Mixed source data
       including OCHA / UNFPA sex and age disaggregated data (SADD), filling gaps with Meta /
       Facebook and WorldPop.
-    </li>
+    </li> -->
     <li>
       <b>Meta / Facebook</b>: Data from Meta / Facebook, filling gaps with WorldPop. Contains
       limited sex and age groups.
@@ -58,7 +58,9 @@
   </ul>
   <TablePop {data} />
   <p>
-    <b>Attribution</b>: FieldMaps, United Nations, OCHA, UNFPA, Meta / Facebook, WorldPop
+    <b>Attribution</b>: FieldMaps, United Nations,
+    <!-- OCHA, UNFPA,  -->
+    Meta / Facebook, WorldPop
   </p>
   <p>
     <b>License</b>:
