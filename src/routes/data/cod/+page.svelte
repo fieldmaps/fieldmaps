@@ -7,6 +7,7 @@
   import data from '../../../data/cod.json';
 
   const dataUrl = 'https://data.fieldmaps.io/cod';
+  const pcodeUrl = 'https://data.fieldmaps.io/global-pcodes';
 </script>
 
 <Header active="data" />
@@ -22,9 +23,16 @@
     below before processed for edge matching. Extended layers can be downloaded and clipped to any ADM0,
     with the original layer available for reference.
   </p>
+  <p>
+    To obtain a list of global P-Codes used in global edge-matched subnational boundaries:
+    <a href={pcodeUrl + '.json'}>json</a> |
+    <a href={pcodeUrl + '.csv'}>csv</a> |
+    <a href={pcodeUrl + '.xlsx'}>xlsx</a>
+  </p>
   <TableSrc {data} />
   <p>
-    Download metadata table as: <a href={dataUrl + '.json'}>json</a> |
+    Download metadata table as:
+    <a href={dataUrl + '.json'}>json</a> |
     <a href={dataUrl + '.csv'}>csv</a> |
     <a href={dataUrl + '.xlsx'}>xlsx</a>
   </p>
