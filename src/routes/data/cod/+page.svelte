@@ -19,9 +19,10 @@
   </p>
   <p>
     Visit <a href="https://cod.unocha.org/">cod.unocha.org</a> for the latest information about OCHA
-    COD layers. Data below is manually downloaded from The Humanitarian Data Exchange at the source URLs
-    below before processed for edge matching. Extended layers can be downloaded and clipped to any ADM0,
-    with the original layer available for reference.
+    COD layers. Data below is automatically extracted from the
+    <a href="https://codgis.itos.uga.edu/arcgis/rest/services/">ITOS ArcGIS Server</a> before processed
+    for edge matching. Extended layers can be downloaded and clipped to any ADM0, with the original layer
+    available for reference.
   </p>
   <p>
     To obtain a list of global P-Codes used in global edge-matched subnational boundaries:
