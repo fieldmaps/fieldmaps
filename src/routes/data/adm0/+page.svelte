@@ -1,10 +1,10 @@
 <script lang="ts">
-  import Body from '$lib/Body.svelte';
-  import Footer from '$lib/Footer.svelte';
-  import Header from '$lib/Header.svelte';
-  import HeaderData from '$lib/HeaderData.svelte';
-  import TableDest from '$lib/TableDest.svelte';
-  import data from '../../../data/adm0.json';
+  import Body from '$lib/components/Body.svelte';
+  import Footer from '$lib/components/Footer.svelte';
+  import Header from '$lib/components/Header.svelte';
+  import HeaderData from '$lib/components/HeaderData.svelte';
+  import TableDest from '$lib/components/TableDest.svelte';
+  import { adm0 } from '$lib/stores';
 
   const dataUrl = 'https://data.fieldmaps.io/adm0';
   const options = {
@@ -24,7 +24,7 @@
     <img src="/img/adm0.png" alt="adm0" />
   </p>
   <p>
-    Updated: {new Date(data[0]?.date).toLocaleDateString('en-GB', options)}
+    Updated: {new Date($adm0[0]?.date).toLocaleDateString('en-GB', options)}
   </p>
   <p>
     Very high resolution boundaries combining coastline data with
@@ -57,14 +57,6 @@
       <b>All</b>: A conservative world view that dissagregates all disputed areas. Useful if
       applying individual customization outside the presets generated here.
     </li>
-    <li>
-      <b>United States</b>: World view of the United States as represented in the original Large
-      Scale International Boundaries (LSIB) layer.
-    </li>
-    <li>
-      <b>Land</b>: Only shorline data, recommended for using with point and line layers above for
-      cartographic applications.
-    </li>
   </ul>
   <h2>OpenStreetMap (ODbL)</h2>
   <p>
@@ -74,7 +66,7 @@
     (<a href="https://osmdata.openstreetmap.de/download/land-polygons-complete-4326.zip">download</a
     >) for coastlines so that it aligns with web maps using OSM for basemaps or other data.
   </p>
-  <TableDest adm0 data={data.filter((x) => x.grp === 'osm')} />
+  <TableDest adm0 data={$adm0.filter((x) => x.grp === 'osm')} />
   <p>
     <b>Attribution</b>: FieldMaps, U.S. Department of State, OpenStreetMap
   </p>
@@ -97,7 +89,7 @@
       >download</a
     >) for coastlines so that intellectual property and related rights in this dataset are absent.
   </p>
-  <TableDest adm0 data={data.filter((x) => x.grp === 'usgs')} />
+  <TableDest adm0 data={$adm0.filter((x) => x.grp === 'usgs')} />
   <p>
     <b>Attribution</b>: FieldMaps, U.S. Department of State, U.S. Geological Survey
   </p>

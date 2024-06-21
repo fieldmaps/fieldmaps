@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Body from '$lib/Body.svelte';
-  import Footer from '$lib/Footer.svelte';
-  import Header from '$lib/Header.svelte';
+  import Body from '$lib/components/Body.svelte';
+  import Footer from '$lib/components/Footer.svelte';
+  import Header from '$lib/components/Header.svelte';
 </script>
 
 <svelte:head>

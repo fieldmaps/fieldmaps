@@ -1,10 +1,10 @@
 <script lang="ts">
-  import Body from '$lib/Body.svelte';
-  import Footer from '$lib/Footer.svelte';
-  import Header from '$lib/Header.svelte';
-  import HeaderData from '$lib/HeaderData.svelte';
-  import TablePop from '$lib/TablePop.svelte';
-  import data from '../../../data/population.json';
+  import Body from '$lib/components/Body.svelte';
+  import Footer from '$lib/components/Footer.svelte';
+  import Header from '$lib/components/Header.svelte';
+  import HeaderData from '$lib/components/HeaderData.svelte';
+  import TablePop from '$lib/components/TablePop.svelte';
+  import { population } from '$lib/stores';
 
   const dataUrl = 'https://data.fieldmaps.io/population';
   const options = {
@@ -23,7 +23,7 @@
   <p class="has-text-centered">
     <img src="/img/population.png" alt="population" />
   </p>
-  <p>Updated: {new Date(data[0]?.date).toLocaleDateString('en-GB', options)}</p>
+  <p>Updated: {new Date($population[0]?.date).toLocaleDateString('en-GB', options)}</p>
   <p>
     Population statistics using data from
     <!-- <a href="https://cod.unocha.org/">OCHA / UNFPA Common Operational Datasets</a>, -->
@@ -56,7 +56,7 @@
       <b>WorldPop</b>: Data only from WorldPop. Contains no sex or age groups, only totals.
     </li>
   </ul>
-  <TablePop {data} />
+  <TablePop data={$population} />
   <p>
     <b>Attribution</b>: FieldMaps, United Nations,
     <!-- OCHA, UNFPA,  -->

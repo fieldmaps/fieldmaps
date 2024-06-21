@@ -1,10 +1,10 @@
 <script lang="ts">
-  import Body from '$lib/Body.svelte';
-  import Footer from '$lib/Footer.svelte';
-  import Header from '$lib/Header.svelte';
-  import HeaderData from '$lib/HeaderData.svelte';
-  import TableDest from '$lib/TableDest.svelte';
-  import data from '../../data/edge-matched.json';
+  import Body from '$lib/components/Body.svelte';
+  import Footer from '$lib/components/Footer.svelte';
+  import Header from '$lib/components/Header.svelte';
+  import HeaderData from '$lib/components/HeaderData.svelte';
+  import TableDest from '$lib/components/TableDest.svelte';
+  import { edgeMatched } from '$lib/stores';
 
   const dataUrl = 'https://data.fieldmaps.io/edge-matched';
   const options = {
@@ -24,7 +24,7 @@
     <img src="/img/edge-matched.png" alt="edge-matched" />
   </p>
   <p>
-    Updated: {new Date(data[0].date).toLocaleDateString('en-GB', options)}
+    Updated: {new Date($edgeMatched[0]?.date).toLocaleDateString('en-GB', options)}
   </p>
   <h2>Humanitarian</h2>
   <p>
@@ -32,7 +32,7 @@
     regions without coverage. Represents the latest available data for humanitarian operational use.
     Uses the OpenStreetMap International ADM0 worldview for edge-matching.
   </p>
-  <TableDest data={data.filter((x) => x.grp === 'humanitarian')} />
+  <TableDest data={$edgeMatched.filter((x) => x.grp === 'humanitarian')} />
   <p>
     <b>Attribution</b>: FieldMaps, OCHA, geoBoundaries, U.S. Department of State, OpenStreetMap
   </p>
@@ -53,7 +53,7 @@
     licenses. Suitable for academic or commercial use. Uses the U.S. Geological Survey International
     ADM0 worldview for edge-matching.
   </p>
-  <TableDest data={data.filter((x) => x.grp === 'open')} />
+  <TableDest data={$edgeMatched.filter((x) => x.grp === 'open')} />
   <p>
     <b>Attribution</b>: FieldMaps, geoBoundaries, U.S. Department of State, U.S. Geological Survey
   </p>

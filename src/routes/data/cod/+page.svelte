@@ -1,10 +1,10 @@
 <script lang="ts">
-  import Body from '$lib/Body.svelte';
-  import Footer from '$lib/Footer.svelte';
-  import Header from '$lib/Header.svelte';
-  import HeaderData from '$lib/HeaderData.svelte';
-  import TableSrc from '$lib/TableSrc.svelte';
-  import data from '../../../data/cod.json';
+  import Body from '$lib/components/Body.svelte';
+  import Footer from '$lib/components/Footer.svelte';
+  import Header from '$lib/components/Header.svelte';
+  import HeaderData from '$lib/components/HeaderData.svelte';
+  import TableSrc from '$lib/components/TableSrc.svelte';
+  import { cod } from '$lib/stores';
 
   const dataUrl = 'https://data.fieldmaps.io/cod';
   const pcodeUrl = 'https://data.fieldmaps.io/global-pcodes';
@@ -30,7 +30,7 @@
     <a href={pcodeUrl + '.csv'}>csv</a> |
     <a href={pcodeUrl + '.xlsx'}>xlsx</a>
   </p>
-  <TableSrc {data} />
+  <TableSrc data={$cod} />
   <p>
     Download metadata table as:
     <a href={dataUrl + '.json'}>json</a> |

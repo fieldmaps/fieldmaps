@@ -2,7 +2,6 @@
   const wlds = {
     intl: 'International',
     all: 'All',
-    usa: 'USA',
     land: 'Land',
   };
 
@@ -22,17 +21,7 @@
     </thead>
     <tbody>
       {#each data as x}
-        {#if x.wld === 'land'}
-          <tr>
-            <td>{x.adm === 0 ? wlds[x.wld] : 'ADM 0-' + x.adm}</td>
-            <td>
-              <a href={x.a_gpkg}>gpkg</a> |
-              <a href={x.a_gdb}>gdb</a>
-            </td>
-            <td />
-            <td />
-          </tr>
-        {:else}
+        {#if x.wld !== 'land'}
           <tr>
             <td>{x.adm === 0 ? wlds[x.wld] : 'ADM 0-' + x.adm}</td>
             <td>
