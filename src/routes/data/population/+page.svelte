@@ -4,7 +4,8 @@
   import Header from '$lib/components/Header.svelte';
   import HeaderData from '$lib/components/HeaderData.svelte';
   import TablePop from '$lib/components/TablePop.svelte';
-  import { population } from '$lib/stores';
+  import { getJSON } from '$lib/utils';
+  import { onMount } from 'svelte';
 
   const dataUrl = 'https://data.fieldmaps.io/population';
   const options = {
@@ -14,6 +15,12 @@
     day: 'numeric',
     timeZone: 'UTC',
   };
+
+  let data = [];
+
+  onMount(async () => {
+    data = await getJSON('population');
+  });
 </script>
 
 <Header active="data" />
@@ -23,7 +30,9 @@
   <p class="has-text-centered">
     <img src="/img/population.png" alt="population" />
   </p>
-  <p>Updated: {new Date($population[0]?.date).toLocaleDateString('en-GB', options)}</p>
+  <p>
+    Updated: {data[0] ? new Date(data[0].date).toLocaleDateString('en-GB', options) : ''}
+  </p>
   <p>
     Population statistics using data from
     <!-- <a href="https://cod.unocha.org/">OCHA / UNFPA Common Operational Datasets</a>, -->
@@ -56,7 +65,7 @@
       <b>WorldPop</b>: Data only from WorldPop. Contains no sex or age groups, only totals.
     </li>
   </ul>
-  <TablePop data={$population} />
+  <TablePop {data} />
   <p>
     <b>Attribution</b>: FieldMaps, United Nations,
     <!-- OCHA, UNFPA,  -->

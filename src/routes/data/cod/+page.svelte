@@ -4,10 +4,17 @@
   import Header from '$lib/components/Header.svelte';
   import HeaderData from '$lib/components/HeaderData.svelte';
   import TableSrc from '$lib/components/TableSrc.svelte';
-  import { cod } from '$lib/stores';
+  import { getJSON } from '$lib/utils';
+  import { onMount } from 'svelte';
 
   const dataUrl = 'https://data.fieldmaps.io/cod';
   const pcodeUrl = 'https://data.fieldmaps.io/global-pcodes';
+
+  let data = [];
+
+  onMount(async () => {
+    data = await getJSON('cod');
+  });
 </script>
 
 <Header active="data" />
@@ -30,7 +37,7 @@
     <a href={pcodeUrl + '.csv'}>csv</a> |
     <a href={pcodeUrl + '.xlsx'}>xlsx</a>
   </p>
-  <TableSrc data={$cod} />
+  <TableSrc {data} />
   <p>
     Download metadata table as:
     <a href={dataUrl + '.json'}>json</a> |

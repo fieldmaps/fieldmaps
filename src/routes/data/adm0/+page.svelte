@@ -4,7 +4,8 @@
   import Header from '$lib/components/Header.svelte';
   import HeaderData from '$lib/components/HeaderData.svelte';
   import TableDest from '$lib/components/TableDest.svelte';
-  import { adm0 } from '$lib/stores';
+  import { getJSON } from '$lib/utils';
+  import { onMount } from 'svelte';
 
   const dataUrl = 'https://data.fieldmaps.io/adm0';
   const options = {
@@ -14,6 +15,12 @@
     day: 'numeric',
     timeZone: 'UTC',
   };
+
+  let data = [];
+
+  onMount(async () => {
+    data = await getJSON('adm0');
+  });
 </script>
 
 <Header active="data" />
@@ -24,7 +31,7 @@
     <img src="/img/adm0.png" alt="adm0" />
   </p>
   <p>
-    Updated: {new Date($adm0[0]?.date).toLocaleDateString('en-GB', options)}
+    Updated: {data[0] ? new Date(data[0].date).toLocaleDateString('en-GB', options) : ''}
   </p>
   <p>
     Very high resolution boundaries combining coastline data with
@@ -66,7 +73,7 @@
     (<a href="https://osmdata.openstreetmap.de/download/land-polygons-complete-4326.zip">download</a
     >) for coastlines so that it aligns with web maps using OSM for basemaps or other data.
   </p>
-  <TableDest adm0 data={$adm0.filter((x) => x.grp === 'osm')} />
+  <TableDest adm0 data={data.filter((x) => x.grp === 'osm')} />
   <p>
     <b>Attribution</b>: FieldMaps, U.S. Department of State, OpenStreetMap
   </p>
@@ -89,7 +96,7 @@
       >download</a
     >) for coastlines so that intellectual property and related rights in this dataset are absent.
   </p>
-  <TableDest adm0 data={$adm0.filter((x) => x.grp === 'usgs')} />
+  <TableDest adm0 data={data.filter((x) => x.grp === 'usgs')} />
   <p>
     <b>Attribution</b>: FieldMaps, U.S. Department of State, U.S. Geological Survey
   </p>

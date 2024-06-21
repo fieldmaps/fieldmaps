@@ -4,9 +4,16 @@
   import Header from '$lib/components/Header.svelte';
   import HeaderData from '$lib/components/HeaderData.svelte';
   import TableSrc from '$lib/components/TableSrc.svelte';
-  import { geoboundaries } from '$lib/stores';
+  import { getJSON } from '$lib/utils';
+  import { onMount } from 'svelte';
 
   const dataUrl = 'https://data.fieldmaps.io/geoboundaries';
+
+  let data = [];
+
+  onMount(async () => {
+    data = await getJSON('geoboundaries');
+  });
 </script>
 
 <Header active="data" />
@@ -22,7 +29,7 @@
     URLs below before processed for edge matching. Extended layers can be downloaded and clipped to any
     ADM0, with the original layer available for reference.
   </p>
-  <TableSrc data={$geoboundaries} />
+  <TableSrc {data} />
   <p>
     Download metadata table as: <a href={dataUrl + '.json'}>json</a> |
     <a href={dataUrl + '.csv'}>csv</a> |
