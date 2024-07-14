@@ -72,7 +72,8 @@
     (ODbL)
   </p>
   <p>
-    <b>Conditions</b>: Derived work must include attributions
+    <b>Conditions</b>: Derived work must include attributions, be offered under the same license,
+    and keep open access to the data
   </p>
   <br /><br /><br />
   <p>
