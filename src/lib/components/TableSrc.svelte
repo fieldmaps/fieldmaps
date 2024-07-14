@@ -37,11 +37,11 @@
           </td>
           <td>
             <a href={x.e_gpkg}>gpkg</a> | <a href={x.e_shp}>shp</a> |
-            <a href={x.e_xlsx}>xlsx</a>
+            <a href={x.e_geojson}>geojson</a>
           </td>
           <td>
             <a href={x.o_gpkg}>gpkg</a> | <a href={x.o_shp}>shp</a> |
-            <a href={x.o_xlsx}>xlsx</a>
+            <a href={x.o_geojson}>geojson</a>
           </td>
         </tr>
       {/each}
