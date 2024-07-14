@@ -35,41 +35,20 @@
   </p>
   <p>
     Population statistics using data from
-    <!-- <a href="https://cod.unocha.org/">OCHA / UNFPA Common Operational Datasets</a>, -->
-    <a href="https://dataforgood.facebook.com/dfg/tools/high-resolution-population-density-maps">
-      Meta/Facebook High Resolution Population Density Maps
-    </a>
-    and
     <a href="https://www.worldpop.org/geodata/listing?id=29"
       >WorldPop Unconstrained Individual Countries
     </a>
     to create a complete global coverage population raster. Results are aggregated to
     <a href="https://data.fieldmaps.io/edge-matched/humanitarian/intl/adm4_polygons.gpkg.zip"
       >humanitarian edge-matched boundaries</a
-    >, adjusted so that ADM0 totals match those of the 2022 projections in the
+    >, adjusted so that ADM0 totals match those of the 2024 projections in the
     <a href="https://population.un.org/wpp/Download/Standard/CSV/"
       >United Nations World Population Prospects</a
-    >. The following population datasets are available for download:
+    >.
   </p>
-  <ul>
-    <!-- <li>
-      <b>Common Operational Datasets</b>: Default version recommended for use. Mixed source data
-      including OCHA / UNFPA sex and age disaggregated data (SADD), filling gaps with Meta /
-      Facebook and WorldPop.
-    </li> -->
-    <li>
-      <b>Meta / Facebook</b>: Data from Meta / Facebook, filling gaps with WorldPop. Contains
-      limited sex and age groups.
-    </li>
-    <li>
-      <b>WorldPop</b>: Data only from WorldPop. Contains no sex or age groups, only totals.
-    </li>
-  </ul>
   <TablePop {data} />
   <p>
-    <b>Attribution</b>: FieldMaps, United Nations,
-    <!-- OCHA, UNFPA,  -->
-    Meta / Facebook, WorldPop
+    <b>Attribution</b>: FieldMaps, United Nations, WorldPop
   </p>
   <p>
     <b>License</b>:

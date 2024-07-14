@@ -35,13 +35,13 @@
   </p>
   <h2>Humanitarian</h2>
   <p>
-    Uses OCHA Common Operational Datasets (COD) when available, falling back to geoBoundaries for
+    Uses UN Common Operational Datasets (COD) when available, falling back to geoBoundaries for
     regions without coverage. Represents the latest available data for humanitarian operational use.
     Uses the OpenStreetMap International ADM0 worldview for edge-matching.
   </p>
   <TableDest data={data.filter((x) => x.grp === 'humanitarian')} />
   <p>
-    <b>Attribution</b>: FieldMaps, OCHA, geoBoundaries, U.S. Department of State, OpenStreetMap
+    <b>Attribution</b>: FieldMaps, UN CODs, geoBoundaries, U.S. Department of State, OpenStreetMap
   </p>
   <p>
     <b>License</b>:
@@ -62,14 +62,14 @@
   </p>
   <TableDest data={data.filter((x) => x.grp === 'open')} />
   <p>
-    <b>Attribution</b>: FieldMaps, geoBoundaries, U.S. Department of State, U.S. Geological Survey
+    <b>Attribution</b>: FieldMaps, geoBoundaries, U.S. Department of State, OpenStreetMap
   </p>
   <p>
     <b>License</b>:
-    <a href="https://creativecommons.org/licenses/by/4.0/">
-      Creative Commons Attribution 4.0 International
+    <a href="https://opendatacommons.org/licenses/odbl/">
+      Open Data Commons Open Database License
     </a>
-    (CC BY 4.0)
+    (ODbL)
   </p>
   <p>
     <b>Conditions</b>: Derived work must include attributions

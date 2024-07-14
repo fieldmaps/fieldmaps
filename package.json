@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=18.20"
+    "node": ">=20"
   },
   "scripts": {
     "dev": "vite dev",
@@ -19,23 +19,23 @@
     "test:unit": "vitest"
   },
   "devDependencies": {
-    "@playwright/test": "^1.44.1",
+    "@playwright/test": "^1.45.1",
     "@sveltejs/adapter-static": "^3.0.2",
-    "@sveltejs/kit": "^2.5.17",
+    "@sveltejs/kit": "^2.5.18",
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
     "@types/eslint": "^8.56.10",
-    "@typescript-eslint/eslint-plugin": "^7.13.1",
-    "@typescript-eslint/parser": "^7.13.1",
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-svelte": "^2.40.0",
-    "prettier": "^3.3.2",
+    "eslint-plugin-svelte": "^2.42.0",
+    "prettier": "^3.3.3",
     "prettier-plugin-svelte": "^3.2.5",
     "svelte": "^4.2.18",
-    "svelte-check": "^3.8.1",
+    "svelte-check": "^3.8.4",
     "tslib": "^2.6.3",
-    "typescript": "^5.5.2",
-    "vite": "^5.3.1",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.3",
     "vitest": "^1.6.0"
   },
   "dependencies": {
