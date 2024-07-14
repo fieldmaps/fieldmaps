@@ -57,8 +57,8 @@
   <h2>Open</h2>
   <p>
     Uses geoBoundaries exclusively to ensure all data comes from sources with clearly defined
-    licenses. Suitable for academic or commercial use. Uses the U.S. Geological Survey International
-    ADM0 worldview for edge-matching.
+    licenses. Suitable for academic or commercial use. Uses the OpenStreetMap International ADM0
+    worldview for edge-matching.
   </p>
   <TableDest data={data.filter((x) => x.grp === 'open')} />
   <p>
