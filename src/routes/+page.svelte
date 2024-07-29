@@ -11,9 +11,9 @@
 <Body>
   <h1 class="has-text-centered">Humanitarian Reference Maps</h1>
   <p>
-    Fieldmaps is a personal project designed to address the needs of humanitarian field workers
-    operating in environments where data quality is variable, connectivity is sporadic, or where the
-    context changes frequently. It looks to consolidate work that has already been done within the
+    Fieldmaps is an initiative designed to address the needs of humanitarian field workers operating
+    in environments where data quality is variable, connectivity is sporadic, or where the context
+    changes frequently. It looks to consolidate work that has already been done within the
     humanitarian community into living products designed for daily use. Beyond creating tools for
     end-users, a primary focus is promoting inter-agency data sharing.
   </p>
@@ -52,14 +52,19 @@
     containing 10,000+ populated places among field teams, each trying to communicate back complex
     patterns of displacement between specific locations, often sharing similar colloquial names.
   </p>
-  <p>
-    The first prototype map of this kind was built to pull data offline for local searches. The
-    usefulness of such a tool inspired regional copies, which resulted in the current set of 31 maps
-    last updated in January 2020. From these experiences, a single unified reference map emerged as
-    the ideal way to scale this type of product globally, due to be completed in early 2021. The
-    intenion is for this feedback loop of practical visualizations informing data standards to
-    continue, as the efforts between humanitarian agencies continue to converge in creating improved
-    coordination tools for a better response.
+  <h2 class="has-text-centered">Roadmap</h2>
+  <p>The following slides show the roadmap for what the future of FieldMaps could expand into:</p>
+  <p class="has-text-centered">
+    <iframe
+      src="https://docs.google.com/presentation/d/e/2PACX-1vSt7NyWPBZhD250rw_mbyv3XtjCT6m0HiE3L1kpP1Wowlm9My6R4qZVZiREIvwyO_UZDVwe0TGsHXJF/embed?start=false&loop=false&delayms=3000"
+      title="Google Slides"
+      frameborder="0"
+      width="960"
+      height="569"
+      allowfullscreen
+      mozallowfullscreen
+      webkitallowfullscreen
+    />
   </p>
 </Body>
 <Footer />
