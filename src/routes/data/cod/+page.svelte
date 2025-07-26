@@ -10,7 +10,7 @@
   const dataUrl = 'https://data.fieldmaps.io/cod';
   const pcodeUrl = 'https://data.fieldmaps.io/global-pcodes';
 
-  let data = [];
+  let data = $state([]);
 
   onMount(async () => {
     data = await getJSON('cod');

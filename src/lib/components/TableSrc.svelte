@@ -5,7 +5,11 @@
     timeZone: 'UTC',
   };
 
-  export let data: any[];
+  interface Props {
+    data: any[];
+  }
+
+  let { data }: Props = $props();
 </script>
 
 <div class="table-container">

@@ -5,8 +5,12 @@
     land: 'Land',
   };
 
-  export let data: any[];
-  export let adm0 = false;
+  interface Props {
+    data: any[];
+    adm0?: boolean;
+  }
+
+  let { data, adm0 = false }: Props = $props();
 </script>
 
 <div class="table-container">

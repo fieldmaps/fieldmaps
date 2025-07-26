@@ -1,5 +1,10 @@
 <script lang="ts">
   import 'bulma/css/bulma.css';
+  interface Props {
+    children?: import('svelte').Snippet;
+  }
+
+  let { children }: Props = $props();
 
   const url = 'https://fieldmaps.io/';
   const img = 'https://fieldmaps.io/img/edge-matched-preview.png';
@@ -23,4 +28,4 @@
   <meta name="twitter:image" content={img} />
 </svelte:head>
 
-<slot />
+{@render children?.()}

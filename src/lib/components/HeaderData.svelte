@@ -1,5 +1,9 @@
 <script lang="ts">
-  export let active: string;
+  interface Props {
+    active: string;
+  }
+
+  let { active }: Props = $props();
 </script>
 
 <div class="tabs is-toggle is-centered">

@@ -16,7 +16,7 @@
     timeZone: 'UTC',
   };
 
-  let data = [];
+  let data = $state([]);
 
   onMount(async () => {
     data = await getJSON('edge-matched');

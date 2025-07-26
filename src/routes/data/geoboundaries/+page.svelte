@@ -9,7 +9,7 @@
 
   const dataUrl = 'https://data.fieldmaps.io/geoboundaries';
 
-  let data = [];
+  let data = $state([]);
 
   onMount(async () => {
     data = await getJSON('geoboundaries');
