@@ -14,9 +14,6 @@
     <li class={active === 'adm0' ? 'is-active' : ''}>
       <a href="/data/adm0">adm0</a>
     </li>
-    <li class={active === 'population' ? 'is-active' : ''}>
-      <a href="/data/population">population</a>
-    </li>
     <li class={active === 'cod' ? 'is-active' : ''}>
       <a href="/data/cod">cod</a>
     </li>
