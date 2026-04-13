@@ -1,38 +1,31 @@
-<script lang="ts">
-  import Body from '$lib/components/Body.svelte';
-  import Footer from '$lib/components/Footer.svelte';
-  import Header from '$lib/components/Header.svelte';
-  import HeaderData from '$lib/components/HeaderData.svelte';
-  import TableDest from '$lib/components/TableDest.svelte';
-  import { getJSON } from '$lib/utils';
-  import { onMount } from 'svelte';
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import HeaderData from '../../components/HeaderData.astro';
+import TableDest from '../../components/TableDest.astro';
 
-  const dataUrl = 'https://data.fieldmaps.io/adm0';
-  const options = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    timeZone: 'UTC',
-  };
+const dataUrl = 'https://data.fieldmaps.io/adm0';
+const options: Intl.DateTimeFormatOptions = {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+};
 
-  let data = $state([]);
+const res = await fetch(`${dataUrl}.json`);
+const data: any[] = await res.json();
+const updated = data[0] ? new Date(data[0].date).toLocaleDateString('en-GB', options) : '';
+---
 
-  onMount(async () => {
-    data = await getJSON('adm0');
-  });
-</script>
-
-<Header active="data" />
-<HeaderData active="adm0" />
-<Body>
+<Layout pageTitle="Data | Fieldmaps.io">
+  <Header slot="header" active="data" />
+  <HeaderData slot="subheader" active="adm0" />
   <h1 class="has-text-centered">Global International Boundaries</h1>
   <p class="has-text-centered">
     <img src="/img/adm0.png" alt="adm0" />
   </p>
-  <p>
-    Updated: {data[0] ? new Date(data[0].date).toLocaleDateString('en-GB', options) : ''}
-  </p>
+  <p>Updated: {updated}</p>
   <p>
     Very high resolution boundaries combining coastline data with
     <a href="https://hiu.state.gov/data/">
@@ -70,8 +63,8 @@
     Default version, uses <a href="https://osmdata.openstreetmap.de/data/land-polygons.html">
       OpenStreetMap
     </a>
-    (<a href="https://osmdata.openstreetmap.de/download/land-polygons-complete-4326.zip">download</a
-    >) for coastlines so that it aligns with web maps using OSM for basemaps or other data.
+    (<a href="https://osmdata.openstreetmap.de/download/land-polygons-complete-4326.zip">download</a>)
+    for coastlines so that it aligns with web maps using OSM for basemaps or other data.
   </p>
   <TableDest adm0 data={data.filter((x) => x.grp === 'osm')} />
   <p>
@@ -91,10 +84,8 @@
   <h2>U.S. Geological Survey (Public Domain)</h2>
   <p>
     Specialty version, uses <a href="https://rmgsc.cr.usgs.gov/gie/">U.S. Geological Survey</a>
-    (<a
-      href="https://rmgsc.cr.usgs.gov/outgoing/ecosystems/Global/USGSEsriWCMC_GlobalIslands_v3.mpk"
-      >download</a
-    >) for coastlines so that intellectual property and related rights in this dataset are absent.
+    (<a href="https://rmgsc.cr.usgs.gov/outgoing/ecosystems/Global/USGSEsriWCMC_GlobalIslands_v3.mpk">download</a>)
+    for coastlines so that intellectual property and related rights in this dataset are absent.
   </p>
   <TableDest adm0 data={data.filter((x) => x.grp === 'usgs')} />
   <p>
@@ -112,5 +103,4 @@
     <a href={dataUrl + '.csv'}>csv</a> |
     <a href={dataUrl + '.xlsx'}>xlsx</a>
   </p>
-</Body>
-<Footer />
+</Layout>

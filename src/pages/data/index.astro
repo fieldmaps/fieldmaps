@@ -1,38 +1,31 @@
-<script lang="ts">
-  import Body from '$lib/components/Body.svelte';
-  import Footer from '$lib/components/Footer.svelte';
-  import Header from '$lib/components/Header.svelte';
-  import HeaderData from '$lib/components/HeaderData.svelte';
-  import TableDest from '$lib/components/TableDest.svelte';
-  import { getJSON } from '$lib/utils';
-  import { onMount } from 'svelte';
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import HeaderData from '../../components/HeaderData.astro';
+import TableDest from '../../components/TableDest.astro';
 
-  const dataUrl = 'https://data.fieldmaps.io/edge-matched';
-  const options = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    timeZone: 'UTC',
-  };
+const dataUrl = 'https://data.fieldmaps.io/edge-matched';
+const options: Intl.DateTimeFormatOptions = {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+};
 
-  let data = $state([]);
+const res = await fetch(`${dataUrl}.json`);
+const data: any[] = await res.json();
+const updated = data[0] ? new Date(data[0].date).toLocaleDateString('en-GB', options) : '';
+---
 
-  onMount(async () => {
-    data = await getJSON('edge-matched');
-  });
-</script>
-
-<Header active="data" />
-<HeaderData active="" />
-<Body>
+<Layout pageTitle="Data | Fieldmaps.io">
+  <Header slot="header" active="data" />
+  <HeaderData slot="subheader" active="" />
   <h1 class="has-text-centered">Global Edge-matched Subnational Boundaries</h1>
   <p class="has-text-centered">
     <img src="/img/edge-matched.png" alt="edge-matched" />
   </p>
-  <p>
-    Updated: {data[0] ? new Date(data[0].date).toLocaleDateString('en-GB', options) : ''}
-  </p>
+  <p>Updated: {updated}</p>
   <h2>Humanitarian</h2>
   <p>
     Uses UN Common Operational Datasets (COD) when available, falling back to geoBoundaries for
@@ -84,5 +77,4 @@
   See
   <a href="https://github.com/fieldmaps/edge-extender">GitHub</a> for technical information on how edge-matching
   is performed.
-</Body>
-<Footer />
+</Layout>

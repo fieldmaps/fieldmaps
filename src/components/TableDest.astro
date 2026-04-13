@@ -1,0 +1,37 @@
+---
+const wlds: Record<string, string> = {
+  intl: 'International',
+  all: 'All',
+  land: 'Land',
+};
+
+interface Props {
+  data: any[];
+  adm0?: boolean;
+}
+
+const { data, adm0 = false } = Astro.props;
+---
+
+<div class="table-container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{adm0 ? 'World View' : 'Level'}</th>
+        <th>GeoParquet (cloud-native)</th>
+        <th>Geopackage (QGIS)</th>
+        <th>Geodatabase (ArcGIS)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {data.filter((x) => x.wld !== 'land').map((x) => (
+        <tr>
+          <td>{x.adm === 0 ? wlds[x.wld] : 'ADM 0-' + x.adm}</td>
+          <td><a href={x.a_parquet}>Parquet</a></td>
+          <td><a href={x.a_gpkg}>GPKG</a></td>
+          <td><a href={x.a_gdb}>GDB</a></td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

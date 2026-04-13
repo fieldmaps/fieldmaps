@@ -1,0 +1,72 @@
+---
+import Header from '../components/Header.astro';
+
+const url = 'https://fieldmaps.io/';
+const img = 'https://fieldmaps.io/img/edge-matched-preview.png';
+const title = 'FieldMaps — Humanitarian Maps & Data';
+const description =
+  'Mobile, offline, interactive reference maps & globally aggregated datasets for humanitarian use.';
+
+interface Props {
+  pageTitle?: string;
+  frontmatter?: { title: string; active: string };
+}
+
+const { pageTitle, frontmatter } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/png" href="/img/logo-192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle ?? frontmatter?.title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={img} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={url} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={img} />
+  </head>
+  <body>
+    {frontmatter && <Header active={frontmatter.active} />}
+    <slot name="header" />
+    <slot name="subheader" />
+    <section class="section">
+      <div class="container is-max-widescreen">
+        <div class="content">
+          <slot />
+        </div>
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          © 2019-{year}
+          <a href="https://github.com/fieldmaps">Max Malynowsky</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  @import 'bulma/css/versions/bulma-no-dark-mode.css';
+
+  .content h1,
+  .content h2 {
+    text-align: center;
+  }
+  .content p:has(img) {
+    text-align: center;
+  }
+</style>

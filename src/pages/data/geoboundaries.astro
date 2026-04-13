@@ -1,24 +1,18 @@
-<script lang="ts">
-  import Body from '$lib/components/Body.svelte';
-  import Footer from '$lib/components/Footer.svelte';
-  import Header from '$lib/components/Header.svelte';
-  import HeaderData from '$lib/components/HeaderData.svelte';
-  import TableSrc from '$lib/components/TableSrc.svelte';
-  import { getJSON } from '$lib/utils';
-  import { onMount } from 'svelte';
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import HeaderData from '../../components/HeaderData.astro';
+import TableSrc from '../../components/TableSrc.astro';
 
-  const dataUrl = 'https://data.fieldmaps.io/geoboundaries';
+const dataUrl = 'https://data.fieldmaps.io/geoboundaries';
 
-  let data = $state([]);
+const res = await fetch(`${dataUrl}.json`);
+const data: any[] = await res.json();
+---
 
-  onMount(async () => {
-    data = await getJSON('geoboundaries');
-  });
-</script>
-
-<Header active="data" />
-<HeaderData active="geoboundaries" />
-<Body>
+<Layout pageTitle="Data | Fieldmaps.io">
+  <Header slot="header" active="data" />
+  <HeaderData slot="subheader" active="geoboundaries" />
   <h1 class="has-text-centered">geoBoundaries</h1>
   <p class="has-text-centered">
     <img src="/img/geoboundaries.png" alt="cod" />
@@ -35,5 +29,4 @@
     <a href={dataUrl + '.csv'}>csv</a> |
     <a href={dataUrl + '.xlsx'}>xlsx</a>
   </p>
-</Body>
-<Footer />
+</Layout>

@@ -1,10 +1,10 @@
-<script lang="ts">
-  interface Props {
-    active: string;
-  }
+---
+interface Props {
+  active: string;
+}
 
-  let { active }: Props = $props();
-</script>
+const { active } = Astro.props;
+---
 
 <div class="tabs is-centered">
   <ul>
