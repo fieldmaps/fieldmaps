@@ -4,10 +4,14 @@ import "../styles/global.css";
 interface Props {
   title: string;
   description?: string;
+  canonical?: boolean;
 }
 
-const { title, description = "Global administrative boundaries for humanitarian use." } =
-  Astro.props;
+const {
+  title,
+  description = "Global administrative boundaries for humanitarian use.",
+  canonical = true,
+} = Astro.props;
 const pageTitle = title === "FieldMaps" ? title : `${title} | FieldMaps`;
 ---
 
@@ -17,7 +21,7 @@ const pageTitle = title === "FieldMaps" ? title : `${title} | FieldMaps`;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    {canonical && <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />}
     <link rel="manifest" href="/manifest.json" />
     <link rel="icon" href="/img/logo-192.png" />
     <title>{pageTitle}</title>
