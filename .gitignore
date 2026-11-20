@@ -7,3 +7,5 @@ node_modules
 !.env.example
 src/data
 .wrangler/
+.dev.vars*
+tmp/
