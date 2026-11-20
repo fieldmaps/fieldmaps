@@ -1,0 +1,6 @@
+/data / 301
+/maps / 301
+/about / 301
+/data/* / 301
+/maps/* / 301
+/about/* / 301

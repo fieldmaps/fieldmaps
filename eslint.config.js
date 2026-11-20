@@ -1,31 +1,31 @@
-import tsPlugin from "@typescript-eslint/eslint-plugin";
-import tsParser from "@typescript-eslint/parser";
-import eslintConfigPrettier from "eslint-config-prettier";
+import js from "@eslint/js";
+import prettier from "eslint-config-prettier";
+import astro from "eslint-plugin-astro";
+import svelte from "eslint-plugin-svelte";
+import { defineConfig, includeIgnoreFile } from "eslint/config";
+import globals from "globals";
+import path from "node:path";
+import ts from "typescript-eslint";
 
-export default [
+const gitignorePath = path.resolve(import.meta.dirname, ".gitignore");
+
+export default defineConfig(
+  includeIgnoreFile(gitignorePath),
+  js.configs.recommended,
+  ts.configs.recommended,
+  ...astro.configs["flat/recommended"],
+  ...svelte.configs["flat/recommended"],
+  prettier,
+  ...svelte.configs["flat/prettier"],
   {
-    files: ["**/*.ts"],
-    plugins: {
-      "@typescript-eslint": tsPlugin,
-    },
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        sourceType: "module",
-        ecmaVersion: 2020,
-      },
-      globals: {
-        browser: true,
-        node: true,
-      },
-    },
+    languageOptions: { globals: { ...globals.browser, ...globals.node } },
     rules: {
-      ...tsPlugin.configs.recommended.rules,
-      "func-style": ["error", "declaration"],
+      "no-undef": "off",
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     },
   },
-  eslintConfigPrettier,
   {
-    ignores: ["dist/", "node_modules/", ".astro/"],
+    files: ["**/*.svelte", "**/*.svelte.ts"],
+    languageOptions: { parserOptions: { parser: ts.parser } },
   },
-];
+);
