@@ -3,6 +3,7 @@
   import "maplibre-gl/dist/maplibre-gl.css";
   import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
   import { Protocol } from "pmtiles";
+  import { SATELLITE, SATELLITE_PROTOCOL, satelliteTile } from "../map/satellite";
   import { globeFitZoom, pmtiles } from "../map/style";
   import { SLOTS, SOURCES, type CompareState } from "./state.svelte";
 
@@ -10,6 +11,7 @@
 
   const FILL_OPACITY = 0.15;
   const BASEMAP = "https://tiles.openfreemap.org/styles/positron";
+  let positronIds: string[] = [];
   // Positron's own borders and country names would compete with the sources being compared.
   const hidden = (l: maplibregl.LayerSpecification) =>
     ("source-layer" in l && l["source-layer"] === "boundary") ||
@@ -53,6 +55,7 @@
     maplibregl.setWorkerUrl(workerUrl);
     const protocol = new Protocol();
     maplibregl.addProtocol("pmtiles", protocol.tile);
+    maplibregl.addProtocol(SATELLITE_PROTOCOL, satelliteTile);
     const m = new maplibregl.Map({
       container,
       center: [20, 10],
@@ -61,6 +64,7 @@
       style: BASEMAP,
       transformStyle: (_, next) => {
         const base = next!.layers.filter((l) => !hidden(l));
+        positronIds = base.map((l) => l.id);
         return {
           ...next!,
           projection: { type: "globe" },
@@ -69,6 +73,7 @@
           transition: { duration: 0, delay: 0 },
           sources: {
             ...next!.sources,
+            satellite: SATELLITE,
             ...Object.fromEntries(
               SOURCES.map((s) => [
                 s.id,
@@ -78,6 +83,12 @@
           },
           layers: [
             ...base,
+            {
+              id: "satellite",
+              type: "raster",
+              source: "satellite",
+              layout: { visibility: "none" },
+            },
             ...OSM_BORDERS,
             ...SOURCES.flatMap((s): maplibregl.LayerSpecification[] => {
               const common = {
@@ -108,6 +119,7 @@
       m.remove();
       map = null;
       maplibregl.removeProtocol("pmtiles");
+      maplibregl.removeProtocol(SATELLITE_PROTOCOL);
     };
   });
 
@@ -131,6 +143,14 @@
       map.setPaintProperty(`${id}-fill`, "fill-opacity", FILL_OPACITY * o);
       map.setPaintProperty(`${id}-line`, "line-opacity", o);
     }
+  });
+
+  $effect(() => {
+    if (!map) return;
+    const satellite = compare.basemap === "satellite";
+    for (const id of positronIds)
+      map.setLayoutProperty(id, "visibility", satellite ? "none" : "visible");
+    map.setLayoutProperty("satellite", "visibility", satellite ? "visible" : "none");
   });
 
   $effect(() => {

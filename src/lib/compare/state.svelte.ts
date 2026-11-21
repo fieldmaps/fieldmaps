@@ -14,6 +14,11 @@ export const VIEWS: { id: View; label: string }[] = [
   { id: "b", label: "B" },
 ];
 export const SLOTS: Slot[] = ["a", "b"];
+export type Basemap = "map" | "satellite";
+export const BASEMAPS: { id: Basemap; label: string }[] = [
+  { id: "map", label: "Map" },
+  { id: "satellite", label: "Satellite" },
+];
 
 const FADE_CYCLE_MS = 3000;
 const KEY_STEP: Record<string, number> = { "[": -1, "]": 1 };
@@ -21,6 +26,7 @@ const KEY_STEP: Record<string, number> = { "[": -1, "]": 1 };
 export class CompareState {
   pair = $state<Record<Slot, SourceId>>({ a: "fieldmaps", b: "wp" });
   view = $state<View>("fade");
+  basemap = $state<Basemap>("map");
   sweep = $state(0);
   #frame = 0;
 

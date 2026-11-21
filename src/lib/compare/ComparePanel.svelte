@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { SLOTS, SOURCES, VIEWS, type CompareState } from "./state.svelte";
+  import { BASEMAPS, SLOTS, SOURCES, VIEWS, type CompareState } from "./state.svelte";
 
   let { compare }: { compare: CompareState } = $props();
 </script>
@@ -24,6 +24,8 @@
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
     Overview
   </a>
+  <h2>Basemap</h2>
+  {@render segmented("Basemap", BASEMAPS, compare.basemap, (id) => (compare.basemap = id))}
   <h2>View</h2>
   {@render segmented("View", VIEWS, compare.view, (id) => (compare.view = id))}
   <h2>Compare</h2>
