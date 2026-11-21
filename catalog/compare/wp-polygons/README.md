@@ -15,16 +15,36 @@ U.S. Department of State World Polygons, full-resolution layer.
 
 | Column | Type | Description |
 |--------|------|-------------|
-| iso3 | string |  |
-| name | string |  |
 | geometry | binary |  |
+| WP_Name | string |  |
+| WP_Name_ND | string |  |
+| DOS_Short | string |  |
+| DOS_Long | string |  |
+| Map_Label | string |  |
+| US_Recog | string |  |
+| Show_Disp | string |  |
+| Map_Disp | string |  |
+| NOTES | string |  |
+| NOTES_Cont | string |  |
+| MapTint_2 | string |  |
+| MapTint_3 | string |  |
+| GENC_Short | string |  |
+| GENC_Full | string |  |
+| GENC_2 | string |  |
+| GENC_3 | string |  |
+| ISO_3166_1 | string |  |
+| ISO_3166_2 | string |  |
+| WP_ID | string |  |
+| WP_PREV_ID | string |  |
+| WP_PAR_ID | string |  |
+| fid_orig | int64 |  |
 
 ## Files
 
 | File | Size | Checksum |
 |------|------|----------|
-| ./wp_polygons.parquet | 692.7 MB | 1220a8eabc4b... |
-| ./wp_polygons.pmtiles | 297.6 MB | 12206c20ef94... |
+| ./wp_polygons.parquet | 627.0 MB | 1220026f36ee... |
+| ./wp_polygons.pmtiles | 448.6 MB | 122001ec4a70... |
 | ./styles/default.json | 466 B | 12202b8f90ff... |
 | ./wp_polygons.thumb.jpg | 32.6 KB | 1220786fdf4e... |
 
