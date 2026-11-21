@@ -32,7 +32,8 @@ def main() -> None:
         if args.only and story != args.only:
             continue
         if story == "compare":
-            compare.prepare()
+            if failed := compare.build():
+                print("\n".join(failed))  # noqa: T201
         else:
             subprocess.run(
                 ["duckdb", "-no-agent", "-c", f".read scripts/{story}-steps.sql"],
@@ -41,6 +42,9 @@ def main() -> None:
                 check=True,
             )
         for parquet in sorted(CATALOG.glob(f"{story}/*/*.parquet")):
+            pmtiles = parquet.with_suffix(".pmtiles")
+            if compare.fresh(pmtiles, [parquet]):
+                continue
             overview = TMP / f"{story}_{parquet.name}"
             try:
                 tylertoo.overview(
@@ -55,7 +59,7 @@ def main() -> None:
                 )
                 tylertoo.export_pmtiles(
                     str(overview),
-                    str(parquet.with_suffix(".pmtiles")),
+                    str(pmtiles),
                     layer_name=parquet.stem,
                     tile_size_limit=None,
                 )
