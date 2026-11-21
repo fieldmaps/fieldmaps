@@ -326,24 +326,30 @@ def lines(source: str) -> None:
         )
         return
     code, name = FIELDS[source]
-    units = WORK / f"{source}_units.parquet"
+    lookup = WORK / f"{source}_units_lookup.parquet"
     conn.execute(f"""
         COPY (
-            SELECT 'U' || row_number() OVER () AS adm0_pcode, "{name}" AS adm0_name,
-                "{code}" AS code, geometry
+            SELECT 'U' || row_number() OVER () AS unit, "{code}" AS code,
+                "{name}" AS name, geometry
             FROM '{output(source, "polygons")}'
-        ) TO '{units}' ({OPTS})
+        ) TO '{lookup}' ({OPTS})
+    """)
+    # package-lines detects levels from unique names, and some sources repeat names.
+    units = WORK / f"{source}_units.parquet"
+    conn.execute(f"""
+        COPY (SELECT unit AS adm0_pcode, unit AS adm0_name, geometry FROM '{lookup}')
+        TO '{units}' ({OPTS})
     """)
     derived = WORK / f"{source}_lines_all.parquet"
     topo_tools("package-lines", units, derived)
     publish(
         conn,
         f"""
-        SELECT a.code AS a_code, l.a_name, b.code AS b_code, l.b_name,
+        SELECT a.code AS a_code, a.name AS a_name, b.code AS b_code, b.name AS b_name,
             'international' AS line_type, l.geometry
         FROM '{derived}' AS l
-        JOIN '{units}' AS a ON a.adm0_pcode = l.a_code
-        JOIN '{units}' AS b ON b.adm0_pcode = l.b_code
+        JOIN '{lookup}' AS a ON a.unit = l.a_code
+        JOIN '{lookup}' AS b ON b.unit = l.b_code
         WHERE l.adm_lvl = 0
         """,
         out,
