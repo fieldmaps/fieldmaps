@@ -12,14 +12,16 @@
 )}
   <div class="segmented" role="radiogroup" aria-label={label}>
     {#each options as o (o.id)}
-      <button type="button" role="radio" aria-checked={current === o.id} onclick={() => pick(o.id)}>
+      <label>
+        <input type="radio" name={label} checked={current === o.id} onchange={() => pick(o.id)} />
         {o.label}
-      </button>
+      </label>
     {/each}
   </div>
 {/snippet}
 
 <div class="panel">
+  <h1 class="sr-only">Compare international boundaries</h1>
   <a class="back" href="/international/">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
     Overview
@@ -111,25 +113,38 @@
     display: flex;
     border: 1px solid var(--ink);
   }
-  .segmented button {
+  .segmented label {
     flex: 1 1 0;
+    text-align: center;
     padding: 0.3rem 0.6rem;
     border: 0;
     border-left: 1px solid var(--ink);
     background: var(--white);
     color: var(--ink);
-    font: inherit;
     cursor: pointer;
   }
-  .segmented button:first-child {
+  .segmented label:first-child {
     border-left: 0;
   }
-  .segmented button:hover:not([aria-checked="true"]) {
+  .segmented label:hover:not(:has(:checked)) {
     background: var(--paper-light);
   }
-  .segmented button[aria-checked="true"] {
+  .segmented label:has(:checked) {
     background: var(--ink);
     color: var(--white);
+  }
+  .segmented label:has(:focus-visible) {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+  .segmented input,
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
   table {
     width: 100%;
