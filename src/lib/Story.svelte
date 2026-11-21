@@ -26,7 +26,7 @@
     fill: ["fill-opacity"],
     line: ["line-opacity"],
     symbol: ["text-opacity"],
-    circle: ["circle-opacity", "circle-stroke-opacity"],
+    circle: ["circle-opacity"],
   };
 
   let container: HTMLDivElement;

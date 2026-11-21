@@ -109,7 +109,9 @@
         { ...fill("world", "world", "--white"), "source-layer": "adm0_polygons" },
         { ...line("world-adm1", "worldAdm1", "--fold", 0.6), "source-layer": "adm1_lines" },
         {
-          ...line("world-adm0", "worldLines", "--ink", 0.8),
+          id: "world-adm0",
+          type: "line",
+          source: "worldLines",
           "source-layer": "adm0_lines",
           paint: {
             "line-color": color("--ink"),
