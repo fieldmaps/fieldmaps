@@ -1,9 +1,10 @@
 ---
 interface Props {
   size?: number;
+  alt?: string;
 }
 
-const { size = 40 } = Astro.props;
+const { size = 40, alt = "FieldMaps" } = Astro.props;
 ---
 
-<img src="/img/logo-192.png" width={size} height={size} alt="FieldMaps" />
+<img src="/img/logo-192.png" width={size} height={size} {alt} />
