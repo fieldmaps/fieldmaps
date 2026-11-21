@@ -1,0 +1,10 @@
+title: "US State Department World Polygons"
+description: "U.S. Department of State World Polygons, full-resolution layer."
+license: "other"
+license_url: "https://geodata.state.gov"
+providers:
+  - name: "U.S. Department of State, Office of the Geographer and Global Issues"
+    roles: ["producer", "licensor"]
+    url: "https://geodata.state.gov"
+attribution: "U.S. Department of State"
+source_url: "https://geodata.state.gov"

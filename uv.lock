@@ -750,6 +750,7 @@ dependencies = [
     { name = "duckdb" },
     { name = "portolan-cli" },
     { name = "python-dotenv" },
+    { name = "tenacity" },
     { name = "tylertoo" },
 ]
 
@@ -763,6 +764,7 @@ requires-dist = [
     { name = "duckdb", specifier = ">=2.0.0" },
     { name = "portolan-cli", specifier = ">=0.9.0" },
     { name = "python-dotenv", specifier = ">=1.2.4" },
+    { name = "tenacity", specifier = ">=9.2.1" },
     { name = "tylertoo", specifier = ">=0.8.0" },
 ]
 
@@ -3335,6 +3337,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c1/33/948326d0c52cec3aac8c4bf12b72736ec739addb86b3fc5be235cdb242f5/stac_geoparquet-0.9.0.tar.gz", hash = "sha256:37db2c8cf4b61131be419cbaa725324ba1db67878d518ef894fd2da2214649bc", size = 2030438, upload-time = "2026-11-20T13:55:52.392Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/bc/8b/4d9049f7fcfb0f53e75b8c548e61c63065ddb3c82d22593a6fc6c421eb6a/stac_geoparquet-0.9.0-py3-none-any.whl", hash = "sha256:4cf3df0ee7825e2f9e568ce5670b0e167ea374564e4c617cee1f32faf37c4532", size = 44560, upload-time = "2026-11-20T13:55:50.604Z" },
+]
+
+[[package]]
+name = "tenacity"
+version = "9.2.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/82/9e/497c1c8ebe5a5b5d1d4a7511aea22c0bb1a97e3170d98abdef0e1b34265a/tenacity-9.2.1.tar.gz", hash = "sha256:a606b5c808d0cded4a359d5b9932d867ff2a6a6b64d37350260fd01bbdf83839", size = 58261, upload-time = "2026-10-07T12:13:01.633Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d6/26/1ff2b0721ac66a3ec5b1402b333110b352ab0a8724052ac279a7b82d40c4/tenacity-9.2.1-py3-none-any.whl", hash = "sha256:9e56f17539296baab7beabb08b92f6ee3d7be92d8be72d763360677c2ad6580e", size = 32310, upload-time = "2026-10-07T12:13:00.102Z" },
 ]
 
 [[package]]

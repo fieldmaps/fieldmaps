@@ -23,6 +23,12 @@
       "title": "Subnational build steps (Tanzania)"
     },
     {
+      "rel": "child",
+      "href": "./compare/catalog.json",
+      "type": "application/json",
+      "title": "Boundary comparison"
+    },
+    {
       "rel": "agents",
       "href": "./AGENTS.md",
       "type": "text/markdown",

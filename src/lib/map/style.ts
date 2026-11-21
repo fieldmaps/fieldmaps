@@ -3,9 +3,15 @@ import type { ExpressionSpecification } from "maplibre-gl";
 const DATA = "https://data.source.coop/fieldmaps";
 const ATTRIBUTION =
   '<a href="https://source.coop/fieldmaps">FieldMaps</a>, LSIB, © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+// Dev can read the site catalog's own tiles from a local catalog/ (PUBLIC_SITE_DATA=/site-data).
+const SITE_DATA = import.meta.env.DEV && import.meta.env.PUBLIC_SITE_DATA;
+const tileUrl = (path: string) =>
+  SITE_DATA && path.startsWith("site/")
+    ? `${location.origin}${SITE_DATA}/${path.slice("site/".length)}`
+    : `${DATA}/${path}`;
 export const pmtiles = (path: string) => ({
   type: "vector" as const,
-  url: `pmtiles://${DATA}/${path}`,
+  url: `pmtiles://${tileUrl(path)}`,
   attribution: ATTRIBUTION,
 });
 

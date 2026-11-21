@@ -199,12 +199,7 @@
       bind:this={links}
     >
       {#each TABS as tab (tab.id)}
-        <a class="button" class:off={name !== tab.id} href="/{tab.id}/">Methodology</a>
-      {/each}
-      {#each TABS as tab (tab.id)}
-        <a class="button" class:off={name !== tab.id} href="https://source.coop/fieldmaps/{tab.id}">
-          Download
-        </a>
+        <a class="button" class:off={name !== tab.id} href="/{tab.id}/">Overview</a>
       {/each}
     </div>
   </section>

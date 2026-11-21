@@ -1,4 +1,4 @@
-"""Build the site demo catalog: step SQL, PMTiles, portolan add, check, push."""
+"""Build the site catalog: sources, PMTiles, portolan add, check, push."""
 
 import argparse
 import os
@@ -6,13 +6,14 @@ import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
 
+import compare
 import fieldmaps_publish
 import tylertoo
 
 ROOT = Path(__file__).resolve().parent.parent
 CATALOG = ROOT / "catalog"
 TMP = ROOT / "tmp" / "catalog"
-MAX_ZOOM = {"international": 6, "subnational": 12}
+MAX_ZOOM = {"international": 6, "subnational": 12, "compare": 12}
 ENV = {
     "international": {"FIELDMAPS_BUILD": "../international"},
     "subnational": {"FIELDMAPS": "..", "TZA_DEBUG": "tmp/tza-debug/work"},
@@ -23,16 +24,22 @@ def main() -> None:
     """Rebuild every collection, validate the catalog, and push it with --push."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--push", action="store_true")
+    parser.add_argument("--only", choices=MAX_ZOOM)
     args = parser.parse_args()
     now = datetime.now(UTC).replace(microsecond=0).isoformat()
     TMP.mkdir(parents=True, exist_ok=True)
     for story, zoom in MAX_ZOOM.items():
-        subprocess.run(
-            ["duckdb", "-no-agent", "-c", f".read scripts/{story}-steps.sql"],
-            cwd=ROOT,
-            env={**os.environ, **ENV[story]},
-            check=True,
-        )
+        if args.only and story != args.only:
+            continue
+        if story == "compare":
+            compare.prepare()
+        else:
+            subprocess.run(
+                ["duckdb", "-no-agent", "-c", f".read scripts/{story}-steps.sql"],
+                cwd=ROOT,
+                env={**os.environ, **ENV[story]},
+                check=True,
+            )
         for parquet in sorted(CATALOG.glob(f"{story}/*/*.parquet")):
             overview = TMP / f"{story}_{parquet.name}"
             try:
