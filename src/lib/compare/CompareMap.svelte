@@ -1,8 +1,6 @@
 <script lang="ts">
   import * as maplibregl from "maplibre-gl";
-  import "maplibre-gl/dist/maplibre-gl.css";
-  import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
-  import { Protocol } from "pmtiles";
+  import { color, createMap, GLOBE } from "../map/map";
   import { SATELLITE, SATELLITE_PROTOCOL, satelliteTile } from "../map/satellite";
   import { globeFitZoom, pmtiles } from "../map/style";
   import { SLOTS, SOURCES, type CompareState } from "./state.svelte";
@@ -45,18 +43,13 @@
       paint: { "text-color": OSM_COLOR, "text-halo-color": "#ffffff", "text-halo-width": 1 },
     })),
   ];
-  const css = getComputedStyle(document.documentElement);
-  const color = (name: string) => css.getPropertyValue(name).trim();
 
   let container: HTMLDivElement;
   let map = $state.raw<maplibregl.Map | null>(null);
 
   $effect(() => {
-    maplibregl.setWorkerUrl(workerUrl);
-    const protocol = new Protocol();
-    maplibregl.addProtocol("pmtiles", protocol.tile);
     maplibregl.addProtocol(SATELLITE_PROTOCOL, satelliteTile);
-    const m = new maplibregl.Map({
+    const { map: m, destroy } = createMap({
       container,
       center: [20, 10],
       zoom: globeFitZoom(container),
@@ -67,8 +60,7 @@
         positronIds = base.map((l) => l.id);
         return {
           ...next!,
-          projection: { type: "globe" },
-          sky: { "atmosphere-blend": 0 },
+          ...GLOBE,
           // Fade sets opacity every frame, so easing would only make it lag.
           transition: { duration: 0, delay: 0 },
           sources: {
@@ -112,13 +104,9 @@
     });
     m.addControl(new maplibregl.NavigationControl({ showCompass: false }));
     m.once("load", () => (map = m));
-    const resize = new ResizeObserver(() => m.resize());
-    resize.observe(container);
     return () => {
-      resize.disconnect();
-      m.remove();
+      destroy();
       map = null;
-      maplibregl.removeProtocol("pmtiles");
       maplibregl.removeProtocol(SATELLITE_PROTOCOL);
     };
   });
