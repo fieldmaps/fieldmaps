@@ -4,13 +4,13 @@ Global ADM0 boundary datasets, each trimmed to an ISO3 code and a name, shown si
 
 ## Collections
 
-### [compare/fieldmaps-polygons](compare/compare/fieldmaps-polygons/)
+### [compare/wp-polygons](compare/compare/wp-polygons/)
 
 ## Coverage
 
 **Spatial Extent**
 
-- West: -180.0000, South: -85.0511, East: 180.0000, North: 83.6651
+- West: -180.0000, South: -85.0511, East: 180.0000, North: 83.6663
 
 ## Attribution
 
@@ -18,7 +18,7 @@ See each collection
 
 ## License
 
-[other](https://fieldmaps.io/international/compare/)
+other
 
 ---
 

@@ -25,6 +25,8 @@ U.S. Department of State World Polygons, full-resolution layer.
 |------|------|----------|
 | ./wp_polygons.parquet | 692.7 MB | 1220a8eabc4b... |
 | ./wp_polygons.pmtiles | 297.6 MB | 12206c20ef94... |
+| ./styles/default.json | 466 B | 12202b8f90ff... |
+| ./wp_polygons.thumb.jpg | 32.6 KB | 1220786fdf4e... |
 
 ## Quick Start
 
@@ -39,6 +41,10 @@ print(gdf.head())
 
 - **root**: `../../catalog.json`
 - **parent**: `../catalog.json`
+
+## Source
+
+[https://geodata.state.gov](https://geodata.state.gov)
 
 ## Attribution
 
