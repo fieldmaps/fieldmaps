@@ -124,7 +124,16 @@ def prepare() -> None:
         cleaned = work / f"{source}_polygons_cleaned.parquet"
         issues = work / f"{source}_polygons_issues.parquet"
         run(
-            [TOPO_TOOLS, "topo-clean", clipped, cleaned, "--issues-file", issues],
+            [
+                TOPO_TOOLS,
+                "topo-clean",
+                clipped,
+                cleaned,
+                "--issues-file",
+                issues,
+                "--threads",
+                str(THREADS),
+            ],
             check=True,
         )
         conn.execute(f"""
