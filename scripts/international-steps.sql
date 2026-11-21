@@ -23,6 +23,8 @@ COPY (
   WHERE NOT ST_IsEmpty(geom)
 ) TO 'catalog/international/areas/areas.parquet' (COMPRESSION ZSTD, COMPRESSION_LEVEL 15, GEOPARQUET_VERSION V2);
 
--- Fail the build on any invalid output geometry.
+-- Fail the build on any invalid output geometry or polygon coverage.
 SELECT CASE WHEN NOT bool_and(ST_IsValid(geom)) THEN error('invalid geometry in ' || filename) END
 FROM read_parquet('catalog/international/*/*.parquet', filename = true) GROUP BY filename;
+SELECT CASE WHEN ST_CoverageInvalidEdges_Agg(geom, 1e-8) IS NOT NULL THEN error('invalid coverage in ' || filename) END
+FROM read_parquet(['catalog/international/areas/areas.parquet'], filename = true) GROUP BY filename;
