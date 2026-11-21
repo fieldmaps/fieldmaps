@@ -144,10 +144,20 @@
 </script>
 
 <Story title="International Boundaries" steps={STEPS} {options} {move}>
-  {#snippet intro()}
-    <a class="button" href={DOWNLOAD}>Download</a>
-  {/snippet}
-  {#snippet outro()}
-    <a class="button" href={DOWNLOAD}>Download</a>
-  {/snippet}
+  {#snippet intro()}{@render actions()}{/snippet}
+  {#snippet outro()}{@render actions()}{/snippet}
 </Story>
+
+{#snippet actions()}
+  <div class="actions">
+    <a class="button" href="/international/compare/">Compare</a>
+    <a class="button" href={DOWNLOAD}>Download</a>
+  </div>
+{/snippet}
+
+<style>
+  .actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+</style>

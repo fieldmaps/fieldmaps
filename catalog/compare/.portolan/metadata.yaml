@@ -1,0 +1,8 @@
+title: "Boundary comparison"
+description: "Global ADM0 boundary datasets, each trimmed to an ISO3 code and a name, shown side by side on the boundary comparison page. Licenses are set per collection."
+license: "other"
+providers:
+  - name: "FieldMaps"
+    roles: ["processor", "host"]
+    url: "https://fieldmaps.io"
+attribution: "See each collection"

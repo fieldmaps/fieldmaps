@@ -7,6 +7,25 @@ interface Props {
   description?: string;
   canonical?: boolean;
 }
+
+const menus = [
+  {
+    label: "International",
+    items: [
+      { label: "Overview", href: "/international/" },
+      { label: "Compare", href: "/international/compare/" },
+      { label: "Download", href: "https://source.coop/fieldmaps/international" },
+    ],
+  },
+  {
+    label: "Subnational",
+    items: [
+      { label: "Overview", href: "/subnational/" },
+      { label: "Download", href: "https://source.coop/fieldmaps/subnational" },
+    ],
+  },
+];
+const path = Astro.url.pathname;
 ---
 
 <Base {...Astro.props}>
@@ -16,14 +35,35 @@ interface Props {
         <Logo size={36} />
         <span>FieldMaps</span>
       </a>
-      <a href="/international/">International</a>
-      <a href="/subnational/">Subnational</a>
+      {menus.map((menu) => (
+        <details class="menu" name="site-menu">
+          <summary>{menu.label}</summary>
+          <ul>
+            {menu.items.map((item) => (
+              <li>
+                <a href={item.href} aria-current={item.href === path ? "page" : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      ))}
     </nav>
   </header>
   <main>
     <slot />
   </main>
 </Base>
+
+<script>
+  const menus = [...document.querySelectorAll<HTMLDetailsElement>(".menu")];
+  const close = () => menus.forEach((m) => (m.open = false));
+  document.addEventListener("click", (e) => {
+    if (!menus.some((m) => m.contains(e.target as Node))) close();
+  });
+  document.addEventListener("keydown", (e) => e.key === "Escape" && close());
+</script>
 
 <style>
   .site-header {
@@ -43,6 +83,40 @@ interface Props {
     color: var(--ink);
     text-decoration: none;
   }
+  .menu {
+    position: relative;
+  }
+  summary {
+    cursor: pointer;
+    list-style-position: outside;
+  }
+  summary::marker {
+    content: "";
+  }
+  summary::after {
+    content: "▾";
+    margin-left: 0.35rem;
+    font-size: 0.8em;
+  }
+  ul {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    min-width: 10rem;
+    margin: 0;
+    padding: 0.25rem 0;
+    list-style: none;
+    background: var(--white);
+    border: 1px solid var(--paper);
+  }
+  ul a {
+    display: block;
+    padding: 0.4rem 1rem;
+  }
+  ul a:hover,
+  ul a[aria-current="page"] {
+    background: var(--paper-light);
+  }
   .brand {
     display: flex;
     align-items: center;
@@ -50,5 +124,15 @@ interface Props {
     margin-right: auto;
     font-size: 1.2rem;
     font-weight: 700;
+  }
+  @media (max-width: 480px) {
+    .brand span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
   }
 </style>

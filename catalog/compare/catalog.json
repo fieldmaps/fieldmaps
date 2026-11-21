@@ -1,0 +1,40 @@
+{
+  "type": "Catalog",
+  "id": "compare",
+  "stac_version": "1.1.0",
+  "title": "Boundary comparison",
+  "description": "Global ADM0 boundary datasets, each trimmed to an ISO3 code and a name, shown side by side on the boundary comparison page. Licenses are set per collection.",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "child",
+      "href": "./wp-polygons/collection.json",
+      "type": "application/json",
+      "title": "US State Department World Polygons"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Agent/LLM usage guide"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Human-readable documentation"
+    }
+  ],
+  "stac_extensions": [
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json"
+  ]
+}

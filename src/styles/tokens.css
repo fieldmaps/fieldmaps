@@ -11,4 +11,7 @@
 
   --font-body: var(--font-sans);
   --font-mono: var(--font-mono-face);
+
+  --compare-a: #cf3f0b;
+  --compare-b: #009edb;
 }
