@@ -12,22 +12,4 @@
 
   --font-body: var(--font-sans);
   --font-mono: var(--font-mono-face);
-
-  --map-water: #77b4d5;
-  --map-land: #efefe6;
-  --map-fill: #707068;
-  --map-adm0: #2b2b27;
-  --map-adm1: #6696b0;
-  --map-label: #2b2b27;
-
-  --fold-clip: polygon(
-    0 0,
-    33.33% 4%,
-    66.66% 0,
-    100% 4%,
-    100% 100%,
-    66.66% 96%,
-    33.33% 100%,
-    0 96%
-  );
 }
