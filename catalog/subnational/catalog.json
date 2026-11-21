@@ -1,0 +1,82 @@
+{
+  "type": "Catalog",
+  "id": "subnational",
+  "stac_version": "1.1.0",
+  "title": "Subnational build steps (Tanzania)",
+  "description": "Intermediate layers from the FieldMaps subnational edge-extension build for Tanzania, shown in the Subnational story.",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "child",
+      "href": "./adm0/collection.json",
+      "type": "application/json",
+      "title": "ADM0 boundary"
+    },
+    {
+      "rel": "child",
+      "href": "./cells/collection.json",
+      "type": "application/json",
+      "title": "Voronoi cells (Rufiji delta)"
+    },
+    {
+      "rel": "child",
+      "href": "./clipped/collection.json",
+      "type": "application/json",
+      "title": "Clipped to ADM0"
+    },
+    {
+      "rel": "child",
+      "href": "./delta/collection.json",
+      "type": "application/json",
+      "title": "Original input (Rufiji delta)"
+    },
+    {
+      "rel": "child",
+      "href": "./extended/collection.json",
+      "type": "application/json",
+      "title": "Extended polygons"
+    },
+    {
+      "rel": "child",
+      "href": "./original/collection.json",
+      "type": "application/json",
+      "title": "Original input"
+    },
+    {
+      "rel": "child",
+      "href": "./outlines/collection.json",
+      "type": "application/json",
+      "title": "Polygon outlines"
+    },
+    {
+      "rel": "child",
+      "href": "./points/collection.json",
+      "type": "application/json",
+      "title": "Outline points (Rufiji delta)"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Agent/LLM usage guide"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Human-readable documentation"
+    }
+  ],
+  "stac_extensions": [
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json"
+  ]
+}

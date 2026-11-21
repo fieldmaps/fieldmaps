@@ -1,0 +1,35 @@
+---
+import { Font } from "astro:assets";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  canonical?: boolean;
+}
+
+const {
+  title,
+  description = "High-resolution international and subnational boundaries for humanitarian reference maps.",
+  canonical = true,
+} = Astro.props;
+const pageTitle = title === "FieldMaps" ? title : `${title} | FieldMaps`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />}
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="/img/logo-192.png" />
+    <title>{pageTitle}</title>
+    <Font cssVariable="--font-sans" preload />
+    <Font cssVariable="--font-mono-face" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

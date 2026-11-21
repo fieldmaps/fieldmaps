@@ -1,0 +1,14 @@
+title: "ADM0 boundary"
+description: "FieldMaps ADM0 polygon for Tanzania, from the OpenStreetMap-based humanitarian view."
+license: "ODbL-1.0"
+providers:
+  - name: "FieldMaps"
+    roles: ["producer", "processor", "host"]
+    url: "https://fieldmaps.io"
+  - name: "U.S. Department of State, Office of the Geographer and Global Issues"
+    roles: ["producer"]
+    url: "https://geodata.state.gov"
+  - name: "OpenStreetMap contributors"
+    roles: ["producer", "licensor"]
+    url: "https://www.openstreetmap.org/copyright"
+attribution: "© OpenStreetMap contributors, U.S. Department of State, FieldMaps"

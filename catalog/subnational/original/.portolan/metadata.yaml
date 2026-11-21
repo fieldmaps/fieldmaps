@@ -1,0 +1,11 @@
+title: "Original input"
+description: "Tanzania ADM3 polygons as published."
+license: "CC-BY-3.0-IGO"
+providers:
+  - name: "FieldMaps"
+    roles: ["producer", "processor", "host"]
+    url: "https://fieldmaps.io"
+  - name: "Tanzania National Bureau of Statistics / UN OCHA ROSA"
+    roles: ["producer", "licensor"]
+    url: "https://data.humdata.org/dataset/cod-ab-tza"
+attribution: "Tanzania National Bureau of Statistics, UN OCHA ROSA, FieldMaps"

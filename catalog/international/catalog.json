@@ -1,0 +1,58 @@
+{
+  "type": "Catalog",
+  "id": "international",
+  "stac_version": "1.1.0",
+  "title": "International build steps",
+  "description": "Intermediate layers from the FieldMaps international boundaries build, shown in the International story.",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "child",
+      "href": "./areas/collection.json",
+      "type": "application/json",
+      "title": "Polygonized areas"
+    },
+    {
+      "rel": "child",
+      "href": "./lsib/collection.json",
+      "type": "application/json",
+      "title": "LSIB lines"
+    },
+    {
+      "rel": "child",
+      "href": "./points/collection.json",
+      "type": "application/json",
+      "title": "ISO3 points"
+    },
+    {
+      "rel": "child",
+      "href": "./template/collection.json",
+      "type": "application/json",
+      "title": "Extension lines"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Agent/LLM usage guide"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Human-readable documentation"
+    }
+  ],
+  "stac_extensions": [
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json"
+  ]
+}

@@ -1,0 +1,14 @@
+:root {
+  --sky: #77b4d5;
+  --fold: #6696b0;
+  --fold-deep: #3f6f8a;
+  --paper: #e0e0d1;
+  --paper-light: #efefe6;
+  --white: #ffffff;
+  --ink: #2b2b27;
+  --ink-soft: #4f4f49;
+  --link: #2f5f7c;
+
+  --font-body: var(--font-sans);
+  --font-mono: var(--font-mono-face);
+}

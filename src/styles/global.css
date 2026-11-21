@@ -1,10 +1,61 @@
+@import "./tokens.css";
+
+:root {
+  --header-h: calc(4rem + 3px);
+}
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+html:has([data-snap]) {
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: var(--header-h);
+}
+
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--link);
+}
+
+code,
+pre,
+.mono {
+  font-family: var(--font-mono);
+}
+
+.wrap {
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.button {
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--white);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+.button:hover {
+  background: var(--ink-soft);
 }

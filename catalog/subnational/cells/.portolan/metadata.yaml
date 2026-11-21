@@ -1,0 +1,11 @@
+title: "Voronoi cells (Rufiji delta)"
+description: "Voronoi polygons from the outline points in the Rufiji delta, each carrying its source polygon's attributes."
+license: "CC-BY-3.0-IGO"
+providers:
+  - name: "FieldMaps"
+    roles: ["producer", "processor", "host"]
+    url: "https://fieldmaps.io"
+  - name: "Tanzania National Bureau of Statistics / UN OCHA ROSA"
+    roles: ["producer", "licensor"]
+    url: "https://data.humdata.org/dataset/cod-ab-tza"
+attribution: "Tanzania National Bureau of Statistics, UN OCHA ROSA, FieldMaps"

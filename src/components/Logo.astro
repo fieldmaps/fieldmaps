@@ -1,0 +1,9 @@
+---
+interface Props {
+  size?: number;
+}
+
+const { size = 40 } = Astro.props;
+---
+
+<img src="/img/logo-192.png" width={size} height={size} alt="" />
