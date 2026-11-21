@@ -35,23 +35,25 @@ def main() -> None:
         )
         for parquet in sorted(CATALOG.glob(f"{story}/*/*.parquet")):
             overview = TMP / f"{story}_{parquet.name}"
-            tylertoo.overview(
-                str(parquet),
-                str(overview),
-                max_zoom=zoom,
-                density_drop=False,
-                line_thinning=0,
-                line_visibility=0,
-                polygon_thinning=0,
-                polygon_visibility=0,
-            )
-            tylertoo.export_pmtiles(
-                str(overview),
-                str(parquet.with_suffix(".pmtiles")),
-                layer_name=parquet.stem,
-                tile_size_limit=None,
-            )
-            overview.unlink()
+            try:
+                tylertoo.overview(
+                    str(parquet),
+                    str(overview),
+                    max_zoom=zoom,
+                    density_drop=False,
+                    line_thinning=0,
+                    line_visibility=0,
+                    polygon_thinning=0,
+                    polygon_visibility=0,
+                )
+                tylertoo.export_pmtiles(
+                    str(overview),
+                    str(parquet.with_suffix(".pmtiles")),
+                    layer_name=parquet.stem,
+                    tile_size_limit=None,
+                )
+            finally:
+                overview.unlink(missing_ok=True)
             collection = str(parquet.parent.relative_to(CATALOG))
             fieldmaps_publish.add(CATALOG, collection, "--datetime", now, "--force")
             print(collection)  # noqa: T201
