@@ -22,21 +22,22 @@ const siteData = {
     server.middlewares.use("/site-data", (req, res, next) => {
       const path = resolve(CATALOG, "." + decodeURIComponent(req.url.split("?")[0]));
       if (!path.startsWith(CATALOG + sep)) return next();
-      let size;
-      try {
-        size = statSync(path).size;
-      } catch {
-        return next();
-      }
+      const stat = statSync(path, { throwIfNoEntry: false });
+      if (!stat?.isFile()) return next();
+      const { size } = stat;
       const range = /bytes=(\d+)-(\d*)/.exec(req.headers.range ?? "");
       const start = range ? Number(range[1]) : 0;
       const end = range?.[2] ? Math.min(Number(range[2]), size - 1) : size - 1;
+      if (start > end) {
+        res.writeHead(416, { "Content-Range": `bytes */${size}` });
+        return res.end();
+      }
       res.writeHead(range ? 206 : 200, {
         "Accept-Ranges": "bytes",
         "Content-Length": end - start + 1,
         ...(range && { "Content-Range": `bytes ${start}-${end}/${size}` }),
       });
-      createReadStream(path, { start, end }).pipe(res);
+      createReadStream(path, { start, end }).on("error", next).pipe(res);
     });
   },
 };
