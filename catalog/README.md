@@ -1,6 +1,6 @@
 # FieldMaps site demo data
 
-Layers behind the build-step stories on fieldmaps.io, as GeoParquet with PMTiles. Catalog metadata is CC0-1.0; data licenses are set per folder: international/ is ODbL-1.0, subnational/ is CC-BY-3.0-IGO.
+Layers behind the build-step stories on fieldmaps.io, as GeoParquet with PMTiles. Catalog metadata is CC0-1.0; data licenses are set per folder: international/ is ODbL-1.0, subnational/ is CC-BY-3.0-IGO except adm0/ and clipped/, which are ODbL-1.0.
 
 ## Attribution
 

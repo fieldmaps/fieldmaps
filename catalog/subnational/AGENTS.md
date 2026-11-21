@@ -19,4 +19,4 @@ Base URL `https://data.source.coop/fieldmaps/site/subnational/`. Each collection
 
 ## License
 
-CC-BY-3.0-IGO, except `adm0/` (ODbL-1.0). Each collection's AGENTS.md has its attribution.
+CC-BY-3.0-IGO, except `adm0/` and `clipped/` (ODbL-1.0). Each collection's AGENTS.md has its attribution.

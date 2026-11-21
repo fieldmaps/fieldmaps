@@ -42,11 +42,11 @@ print(gdf.head())
 
 ## Attribution
 
-Tanzania National Bureau of Statistics, UN OCHA ROSA, FieldMaps
+© OpenStreetMap contributors, U.S. Department of State, FieldMaps
 
 ## License
 
-CC-BY-3.0-IGO
+ODbL-1.0
 
 ## Contact
 

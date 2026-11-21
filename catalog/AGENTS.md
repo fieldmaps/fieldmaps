@@ -5,7 +5,7 @@ Layers behind the build-step stories on fieldmaps.io, as GeoParquet with PMTiles
 ## Catalogs
 
 - `international/`: steps from the international boundaries build (ODbL-1.0).
-- `subnational/`: steps from the subnational edge-extension build for Tanzania (CC-BY-3.0-IGO).
+- `subnational/`: steps from the subnational edge-extension build for Tanzania (CC-BY-3.0-IGO, except `adm0/` and `clipped/`, which are ODbL-1.0).
 
 Each collection's AGENTS.md lists its files, columns and license.
 

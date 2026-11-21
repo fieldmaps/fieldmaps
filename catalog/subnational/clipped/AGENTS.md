@@ -15,4 +15,4 @@ SELECT * FROM 'https://data.source.coop/fieldmaps/site/subnational/clipped/clipp
 
 ## License
 
-CC-BY-3.0-IGO. Attribution: Tanzania National Bureau of Statistics, UN OCHA ROSA, FieldMaps.
+ODbL-1.0. Attribution: © OpenStreetMap contributors, U.S. Department of State, FieldMaps.

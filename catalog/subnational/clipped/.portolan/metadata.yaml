@@ -1,11 +1,14 @@
 title: "Clipped to ADM0"
 description: "Extended polygons clipped to the FieldMaps ADM0 boundary."
-license: "CC-BY-3.0-IGO"
+license: "ODbL-1.0"
 providers:
   - name: "FieldMaps"
     roles: ["producer", "processor", "host"]
     url: "https://fieldmaps.io"
-  - name: "Tanzania National Bureau of Statistics / UN OCHA ROSA"
+  - name: "U.S. Department of State, Office of the Geographer and Global Issues"
+    roles: ["producer"]
+    url: "https://geodata.state.gov"
+  - name: "OpenStreetMap contributors"
     roles: ["producer", "licensor"]
-    url: "https://data.humdata.org/dataset/cod-ab-tza"
-attribution: "Tanzania National Bureau of Statistics, UN OCHA ROSA, FieldMaps"
+    url: "https://www.openstreetmap.org/copyright"
+attribution: "© OpenStreetMap contributors, U.S. Department of State, FieldMaps"
