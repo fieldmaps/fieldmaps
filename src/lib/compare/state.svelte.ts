@@ -29,7 +29,7 @@ const KEY_STEP: Record<string, number> = { "[": -1, "]": 1 };
 
 export class CompareState {
   pair = $state<Record<Slot, SourceId>>({ a: "fieldmaps", b: "wp" });
-  view = $state<View>("fade");
+  view = $state<View>(matchMedia("(prefers-reduced-motion: reduce)").matches ? "a" : "fade");
   basemap = $state<Basemap>("map");
   sweep = $state(0);
   #frame = 0;
@@ -59,6 +59,7 @@ export class CompareState {
   }
 
   keydown(e: KeyboardEvent) {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
     if ((e.target as Element).closest?.("input:not([type=radio]), select, textarea")) return;
     const by = KEY_STEP[e.key];
     if (by === undefined) return;
