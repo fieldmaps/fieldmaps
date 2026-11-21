@@ -12,6 +12,12 @@
     },
     {
       "rel": "child",
+      "href": "./compare/catalog.json",
+      "type": "application/json",
+      "title": "Boundary comparison"
+    },
+    {
+      "rel": "child",
       "href": "./international/catalog.json",
       "type": "application/json",
       "title": "International build steps"
@@ -21,12 +27,6 @@
       "href": "./subnational/catalog.json",
       "type": "application/json",
       "title": "Subnational build steps (Tanzania)"
-    },
-    {
-      "rel": "child",
-      "href": "./compare/catalog.json",
-      "type": "application/json",
-      "title": "Boundary comparison"
     },
     {
       "rel": "agents",

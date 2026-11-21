@@ -3,10 +3,17 @@ export type View = "fade" | Slot;
 
 // Listed from highest to lowest quality.
 export const SOURCES = [
-  { id: "fieldmaps", label: "FieldMaps" },
+  {
+    id: "fieldmaps",
+    label: "FieldMaps",
+    path: "international/odbl/humanitarian/adm0-polygons/adm0_polygons.pmtiles",
+    layer: "adm0_polygons",
+  },
   {
     id: "wp",
     label: "US State Dept",
+    path: "site/compare/wp-polygons/wp_polygons.pmtiles",
+    layer: "wp_polygons",
     attribution: '<a href="https://geodata.state.gov">U.S. Department of State</a>',
   },
 ] as const;

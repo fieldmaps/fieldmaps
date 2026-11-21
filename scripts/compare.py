@@ -23,7 +23,6 @@ CLIP = (
     f"ST_Intersection(ST_MakeValid(geometry), {WORLD}), 3))"
 )
 OPTS = "FORMAT PARQUET, COMPRESSION ZSTD, COMPRESSION_LEVEL 15, GEOPARQUET_VERSION V2"
-FIELDMAPS_URL = "https://data.source.coop/fieldmaps/international/odbl/humanitarian/adm0-polygons/adm0_polygons.parquet"
 WP_URL = "https://data.geodata.state.gov/WorldPolygons.zip"
 
 
@@ -58,13 +57,6 @@ def refresh(url: str, dest: Path, cached: Path | None) -> bool:
         return False
 
 
-def fieldmaps(_: duckdb.DuckDBPyConnection) -> str:
-    """FieldMaps humanitarian ADM0 polygons."""
-    path = DOWNLOAD / "fieldmaps" / "adm0_polygons.parquet"
-    refresh(FIELDMAPS_URL, path, path if path.exists() else None)
-    return f"SELECT iso3, adm0_name AS name, geometry FROM read_parquet('{path}')"
-
-
 def wp(conn: duckdb.DuckDBPyConnection) -> str:
     """US State Department World Polygons, full-resolution layer."""
     out = DOWNLOAD / "wp"
@@ -96,7 +88,7 @@ def wp(conn: duckdb.DuckDBPyConnection) -> str:
     )
 
 
-SOURCES = {"fieldmaps": fieldmaps, "wp": wp}
+SOURCES = {"wp": wp}
 
 
 def prepare() -> None:

@@ -77,10 +77,7 @@
             ...Object.fromEntries(
               SOURCES.map((s) => [
                 s.id,
-                pmtiles(
-                  `site/compare/${s.id}-polygons/${s.id}_polygons.pmtiles`,
-                  "attribution" in s ? s.attribution : undefined,
-                ),
+                pmtiles(s.path, "attribution" in s ? s.attribution : undefined),
               ]),
             ),
           },
@@ -96,7 +93,7 @@
             ...SOURCES.flatMap((s): maplibregl.LayerSpecification[] => {
               const common = {
                 source: s.id,
-                "source-layer": `${s.id}_polygons`,
+                "source-layer": s.layer,
                 layout: { visibility: "none" as const },
               };
               return [
