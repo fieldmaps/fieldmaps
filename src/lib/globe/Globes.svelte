@@ -1,11 +1,8 @@
 <script lang="ts">
   import ScrollHint from "../ScrollHint.svelte";
-  import * as maplibregl from "maplibre-gl";
-  import "maplibre-gl/dist/maplibre-gl.css";
-  import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
-  import { Protocol } from "pmtiles";
   import { untrack } from "svelte";
   import { direction } from "../keys";
+  import { color, createMap, GLOBE, reduced } from "../map/map";
   import { byType, globeFitZoom, pmtiles } from "../map/style";
 
   const START = -85;
@@ -29,9 +26,6 @@
     const r = Math.min((h * 1.1) / 2, (w - start - EDGE) / 2);
     return { left: Math.max(0, 2 * (start + r) - w), top: 0, fit: (2 * r) / Math.min(w, h) };
   };
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const css = getComputedStyle(document.documentElement);
-  const color = (name: string) => css.getPropertyValue(name).trim();
 
   let container: HTMLDivElement;
   let text: HTMLDivElement;
@@ -63,10 +57,7 @@
 
   $effect(() => {
     onScroll();
-    maplibregl.setWorkerUrl(workerUrl);
-    const protocol = new Protocol();
-    maplibregl.addProtocol("pmtiles", protocol.tile);
-    const map = new maplibregl.Map({
+    const { map, destroy } = createMap({
       container,
       interactive: false,
       center: [START + DEGREES * untrack(() => progress), LAT],
@@ -76,8 +67,7 @@
       style: {
         version: 8,
         glyphs: `${location.origin}/fonts/{fontstack}/{range}.pbf`,
-        projection: { type: "globe" },
-        sky: { "atmosphere-blend": 0 },
+        ...GLOBE,
         sources: {
           adm0: pmtiles("international/odbl/humanitarian/adm0-polygons/adm0_polygons.pmtiles"),
           adm0Lines: pmtiles("international/odbl/humanitarian/adm0-lines/adm0_lines.pmtiles"),
@@ -159,21 +149,19 @@
     addEventListener("scroll", onScroll, { passive: true });
     addEventListener("keydown", onKey);
     map.once("load", () => (frame = requestAnimationFrame(tick)));
-    const resize = new ResizeObserver(() => {
-      map.resize();
+    const relayout = new ResizeObserver(() => {
       const { left, top, fit } = layout();
       map.setPadding({ left, top, right: 0, bottom: 0 });
       map.setZoom(globeFitZoom(container, fit));
     });
-    resize.observe(container);
-    resize.observe(text);
+    relayout.observe(container);
+    relayout.observe(text);
     return () => {
       removeEventListener("scroll", onScroll);
       removeEventListener("keydown", onKey);
       cancelAnimationFrame(frame);
-      resize.disconnect();
-      map.remove();
-      maplibregl.removeProtocol("pmtiles");
+      relayout.disconnect();
+      destroy();
     };
   });
 </script>
@@ -272,20 +260,11 @@
     z-index: 1;
   }
   .button {
-    padding: 0.6rem 1rem;
-    border: 1px solid var(--ink);
-    background: var(--ink);
-    color: var(--white);
-    font-weight: 600;
     text-align: center;
-    text-decoration: none;
     transition:
       background-color 0.2s,
       opacity 0.2s,
       visibility 0.2s;
-  }
-  .button:hover {
-    background: var(--ink-soft);
   }
   .slot {
     display: none;
