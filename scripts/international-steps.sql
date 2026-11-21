@@ -5,7 +5,7 @@ SET geometry_always_xy = true;
 SET threads = 5;
 SET VARIABLE build = getenv('FIELDMAPS_BUILD');
 
-CREATE MACRO clip(g) AS ST_SetCRS(ST_Intersection(g, ST_MakeEnvelope(-180, -90, 180, 90)), 'OGC:CRS84');
+CREATE MACRO clip(g) AS ST_SetCRS(ST_ReducePrecision(ST_Intersection(g, ST_MakeEnvelope(-180, -90, 180, 90)), 1e-9), 'OGC:CRS84');
 
 COPY (
   SELECT * FROM (SELECT clip(ST_LineMerge(geom)) AS geom FROM read_parquet(getvariable('build') || '/tmp/debug/_03_build/lsib_00.parquet'))
@@ -22,3 +22,7 @@ COPY (
   SELECT * FROM (SELECT id, clip(geom) AS geom FROM read_parquet(getvariable('build') || '/tmp/debug/osm/_03_build/voronoi_00.parquet'))
   WHERE NOT ST_IsEmpty(geom)
 ) TO 'catalog/international/areas/areas.parquet' (COMPRESSION ZSTD, COMPRESSION_LEVEL 15, GEOPARQUET_VERSION V2);
+
+-- Fail the build on any invalid output geometry.
+SELECT CASE WHEN NOT bool_and(ST_IsValid(geom)) THEN error('invalid geometry in ' || filename) END
+FROM read_parquet('catalog/international/*/*.parquet', filename = true) GROUP BY filename;

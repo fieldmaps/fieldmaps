@@ -7,7 +7,7 @@ SET VARIABLE root = getenv('FIELDMAPS');
 SET VARIABLE debug = getenv('TZA_DEBUG');
 SET VARIABLE delta = ST_MakeEnvelope(39.2, -7.95, 39.35, -7.8);
 
-CREATE MACRO crs(g) AS ST_SetCRS(g, 'OGC:CRS84');
+CREATE MACRO crs(g) AS ST_SetCRS(ST_ReducePrecision(ST_Intersection(g, ST_MakeEnvelope(-180, -90, 180, 90)), 1e-9), 'OGC:CRS84');
 CREATE MACRO delta(g) AS crs(ST_Intersection(g, getvariable('delta')));
 
 COPY (SELECT crs(geometry) AS geom FROM read_parquet(getvariable('root') || '/subnational/catalog/source/tza/tza_original.parquet'))
@@ -30,3 +30,7 @@ COPY (SELECT crs(geometry) AS geom FROM read_parquet(getvariable('root') || '/su
 COPY (SELECT crs(geometry) AS geom FROM read_parquet(getvariable('root') || '/international/catalog/odbl/humanitarian/adm0-polygons/adm0_polygons.parquet')
   WHERE iso3 = 'TZA')
   TO 'catalog/subnational/adm0/adm0.parquet' (COMPRESSION ZSTD, COMPRESSION_LEVEL 15, GEOPARQUET_VERSION V2);
+
+-- Fail the build on any invalid output geometry.
+SELECT CASE WHEN NOT bool_and(ST_IsValid(geom)) THEN error('invalid geometry in ' || filename) END
+FROM read_parquet('catalog/subnational/*/*.parquet', filename = true) GROUP BY filename;
