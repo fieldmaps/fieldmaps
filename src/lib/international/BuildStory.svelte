@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ScrollHint from "../ScrollHint.svelte";
   import * as maplibregl from "maplibre-gl";
   import "maplibre-gl/dist/maplibre-gl.css";
   import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
@@ -12,31 +13,31 @@
     {
       title: "LSIB lines",
       text: "Political boundaries are delineated with an extension of the U.S. Department of State Large Scale International Boundaries (LSIB) layer.",
-      center: [-30, 20],
+      center: [15, 15],
       layers: ["lsib"],
     },
     {
       title: "Extensions",
       text: "Manual edits to polygons introduce the possibility of topology errors from gaps and overlaps, something much less likely to occur when editing divisions as a single line. Small manual adjustments are commonly made around coastal islands and inlets.",
-      center: [10, 20],
+      center: [35, 15],
       layers: ["lsib", "template"],
     },
     {
       title: "Points",
       text: "A companion point layer provides the ISO3 code for the area represented by lines.",
-      center: [40, 15],
+      center: [55, 15],
       layers: ["lsib", "template", "points"],
     },
     {
       title: "Polygons",
       text: "Lines are polygonized into an ADM0 layer suitable for intersecting with land. Points are joined by location to add attribute information.",
-      center: [70, 15],
+      center: [80, 10],
       layers: ["land", "areas-line", "points"],
     },
     {
       title: "Outputs",
-      text: "Polygons are clipped to OpenStreetMap coastlines. Only land polygons with internal boundary divisions are intersected, for efficiency, and islands wholly inside an ADM0 polygon are added afterwards. Output lines cover only boundaries across land, so they can be styled separately from coastlines. Points are generated at the center of each polygon using a pole of inaccessibility algorithm, ideal for placing labels at.",
-      center: [130, 10],
+      text: "Polygons are clipped to OpenStreetMap coastlines. Lines follow only boundaries over land, and points mark each polygon's visual center, for placing labels.",
+      center: [105, 10],
       layers: ["land", "outlines", "labels"],
     },
   ];
@@ -213,16 +214,23 @@
   });
 </script>
 
+<ScrollHint />
 <section class="story" data-snap>
   <div class="globe">
     <div class="map" bind:this={container}></div>
   </div>
   <div class="steps">
-    <h1>International Boundaries</h1>
+    <div class="intro">
+      <h1>International Boundaries</h1>
+      <a class="button" href="https://source.coop/fieldmaps/international">Download</a>
+    </div>
     {#each STEPS as step, i (step.title)}
       <article class="step" class:active={i === active} bind:this={steps[i]}>
         <h2>{step.title}</h2>
         <p>{step.text}</p>
+        {#if i === STEPS.length - 1}
+          <a class="button" href="https://source.coop/fieldmaps/international">Download</a>
+        {/if}
       </article>
     {/each}
   </div>
@@ -249,10 +257,14 @@
     grid-area: steps;
     padding: 0 2rem 0 var(--inset);
   }
-  h1 {
+  .intro {
     scroll-snap-align: start;
-    margin: 0;
+    display: flex;
+    flex-direction: column;
     padding-block: 30vh;
+  }
+  h1 {
+    margin: 0;
     font-size: 2.5rem;
   }
   .step {
@@ -281,6 +293,20 @@
     line-height: 1.55;
     color: var(--ink-soft);
   }
+  .button {
+    align-self: flex-start;
+    margin-top: 1rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--white);
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s;
+  }
+  .button:hover {
+    background: var(--ink-soft);
+  }
   @media (max-width: 900px) {
     .story {
       grid-template-columns: 1fr;
@@ -295,7 +321,7 @@
       z-index: 1;
       padding: 0 1rem;
     }
-    h1 {
+    .intro {
       padding-top: 72dvh;
       padding-bottom: 0;
     }

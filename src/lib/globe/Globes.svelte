@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ScrollHint from "../ScrollHint.svelte";
   import * as maplibregl from "maplibre-gl";
   import "maplibre-gl/dist/maplibre-gl.css";
   import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
@@ -177,6 +178,7 @@
   });
 </script>
 
+<ScrollHint />
 <div class="track" data-snap>
   <div class="snap"></div>
   <section class="stage">
