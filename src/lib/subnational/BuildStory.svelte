@@ -15,6 +15,7 @@
     | "delta-line"
     | "points"
     | "cells"
+    | "cells-line"
     | "extended"
     | "extended-line"
     | "clipped"
@@ -50,7 +51,7 @@
       title: "Point to Voronoi",
       text: "For country sized inputs, there may be hundreds of thousands, if not millions of individual voronoi polygons created in this step. Because each individual section retains attribute information of what polygon it originated from, they can be dissolved together to a simplified output.",
       bounds: DELTA,
-      layers: ["cells", "delta", "delta-line", "points"],
+      layers: ["cells", "cells-line", "delta", "delta-line", "points"],
     },
     {
       title: "Polygon-Voronoi merge",
@@ -103,7 +104,7 @@
       container,
       interactive: false,
       bounds: TANZANIA,
-      attributionControl: { compact: true, customAttribution: "FieldMaps" },
+      attributionControl: { compact: true },
       style: {
         version: 8,
         projection: { type: "globe" },
@@ -139,7 +140,7 @@
           fill("original", "original", "--white"),
           fill("delta", "delta", "--white"),
           fill("clipped", "clipped", "--white"),
-          line("cells-line" as Layer, "cells", "--fold-deep", 0.4),
+          line("cells-line", "cells", "--fold-deep", 0.4),
           line("extended-line", "extended", "--fold-deep", 0.4),
           line("original-line", "original", "--fold-deep", 0.4),
           line("delta-line", "delta", "--fold-deep", 0.8),
@@ -172,8 +173,7 @@
       const layers = i < 0 ? STEPS[STEPS.length - 1].layers : step.layers;
       for (const layer of map.getStyle().layers) {
         if (layer.type === "background") continue;
-        const id = layer.id === "cells-line" ? "cells" : layer.id;
-        const on = layers.includes(id as Layer) ? 1 : 0;
+        const on = layers.includes(layer.id as Layer) ? 1 : 0;
         for (const prop of opacity[layer.type]) {
           map.setPaintProperty(
             layer.id,

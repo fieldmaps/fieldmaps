@@ -158,7 +158,6 @@
     const opacity: Record<string, string[]> = {
       fill: ["fill-opacity"],
       line: ["line-opacity"],
-      circle: ["circle-opacity", "circle-stroke-opacity"],
       symbol: ["text-opacity"],
     };
     const show = (i: number, animate: boolean) => {
