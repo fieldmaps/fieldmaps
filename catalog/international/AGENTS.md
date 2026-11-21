@@ -1,19 +1,18 @@
-# AGENTS.md — International
+# International build steps
 
-Guidance for AI agents and LLMs working with this catalog. This file supplements the README with practical, agent-oriented notes. Replace the prompts below with real content; delete anything that does not apply.
-
-## Overview
-
-<!-- What this catalog publishes and how it is organized. -->
+Intermediate layers from the FieldMaps international boundaries build, shown in the International story. The finished boundaries are in `fieldmaps/international`.
 
 ## Collections
 
-<!-- Brief description of each collection, with pointers to their AGENTS.md. -->
+- `lsib/`: LSIB lines, merged into continuous lines.
+- `template/`: extension lines around coastal islands and inlets.
+- `areas/`: lines polygonized into ADM0 areas, before clipping to land.
+- `points/`: ISO3 points for each area.
 
-## Data access patterns
+## Data access
 
-<!-- Base URLs / object-store paths, CRS conventions, and code examples. -->
+Base URL `https://data.source.coop/fieldmaps/site/international/`. Each collection holds `<name>.parquet` (GeoParquet V2, CRS `OGC:CRS84`) and `<name>.pmtiles` (layer `<name>`).
 
 ## License
 
-<!-- License information for the catalog's data. -->
+ODbL-1.0. Attribution: © OpenStreetMap contributors, U.S. Department of State, FieldMaps.

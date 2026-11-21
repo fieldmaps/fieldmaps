@@ -1,27 +1,18 @@
-# AGENTS.md — Lsib
+# LSIB lines
 
-Guidance for AI agents and LLMs working with this collection. This file supplements the README with practical, agent-oriented notes. Replace the prompts below with real content; delete anything that does not apply.
+U.S. Department of State Large Scale International Boundaries lines, merged into continuous lines. Shown in the International story on fieldmaps.io.
 
-## Overview
+## Data access
 
-<!-- What this collection contains and when to use it. -->
+- GeoParquet: `https://data.source.coop/fieldmaps/site/international/lsib/lsib.parquet`
+- PMTiles: `https://data.source.coop/fieldmaps/site/international/lsib/lsib.pmtiles`, layer `lsib`
+- Columns: `geom` (geometry, `OGC:CRS84`)
 
-## Accessing the data
+```sql
+LOAD spatial;
+SELECT * FROM 'https://data.source.coop/fieldmaps/site/international/lsib/lsib.parquet' LIMIT 10;
+```
 
-<!-- Working code to load the data (e.g. DuckDB SQL, Python). -->
+## License
 
-## Schema & field notes
-
-<!-- Field names, types, meanings, and any coded or sentinel values. -->
-
-## Data quality & usage notes
-
-<!-- Privacy suppressions, known quirks, CRS/units, and other caveats. -->
-
-## Example queries
-
-<!-- Practical, working analysis examples. -->
-
-## Related collections
-
-<!-- Cross-references and join keys to complementary collections. -->
+ODbL-1.0. Attribution: © OpenStreetMap contributors, U.S. Department of State, FieldMaps.

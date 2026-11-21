@@ -1,19 +1,19 @@
-# AGENTS.md — FieldMaps site demo data
+# FieldMaps site demo data
 
-Guidance for AI agents and LLMs working with this catalog. This file supplements the README with practical, agent-oriented notes. Replace the prompts below with real content; delete anything that does not apply.
+Layers behind the build-step stories on fieldmaps.io, as GeoParquet with PMTiles alongside. Each catalog holds intermediate layers from one FieldMaps pipeline.
 
-## Overview
+## Catalogs
 
-<!-- What this catalog publishes and how it is organized. -->
+- `international/`: steps from the international boundaries build (ODbL-1.0).
+- `subnational/`: steps from the subnational edge-extension build for Tanzania (CC-BY-3.0-IGO).
 
-## Collections
+Each collection's AGENTS.md lists its files, columns and license.
 
-<!-- Brief description of each collection, with pointers to their AGENTS.md. -->
+## Data access
 
-## Data access patterns
-
-<!-- Base URLs / object-store paths, CRS conventions, and code examples. -->
+- Base URL: `https://data.source.coop/fieldmaps/site/`
+- Each collection `<catalog>/<name>/` holds `<name>.parquet` (GeoParquet V2, CRS `OGC:CRS84`) and `<name>.pmtiles` (layer `<name>`).
 
 ## License
 
-<!-- License information for the catalog's data. -->
+Catalog metadata is CC0-1.0. Data licenses are set per collection.

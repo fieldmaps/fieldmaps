@@ -1,27 +1,18 @@
-# AGENTS.md — Adm0
+# ADM0 boundary
 
-Guidance for AI agents and LLMs working with this collection. This file supplements the README with practical, agent-oriented notes. Replace the prompts below with real content; delete anything that does not apply.
+FieldMaps ADM0 polygon for Tanzania, from the OpenStreetMap-based humanitarian view. Shown in the Subnational story on fieldmaps.io.
 
-## Overview
+## Data access
 
-<!-- What this collection contains and when to use it. -->
+- GeoParquet: `https://data.source.coop/fieldmaps/site/subnational/adm0/adm0.parquet`
+- PMTiles: `https://data.source.coop/fieldmaps/site/subnational/adm0/adm0.pmtiles`, layer `adm0`
+- Columns: `geom` (geometry, `OGC:CRS84`)
 
-## Accessing the data
+```sql
+LOAD spatial;
+SELECT * FROM 'https://data.source.coop/fieldmaps/site/subnational/adm0/adm0.parquet' LIMIT 10;
+```
 
-<!-- Working code to load the data (e.g. DuckDB SQL, Python). -->
+## License
 
-## Schema & field notes
-
-<!-- Field names, types, meanings, and any coded or sentinel values. -->
-
-## Data quality & usage notes
-
-<!-- Privacy suppressions, known quirks, CRS/units, and other caveats. -->
-
-## Example queries
-
-<!-- Practical, working analysis examples. -->
-
-## Related collections
-
-<!-- Cross-references and join keys to complementary collections. -->
+ODbL-1.0. Attribution: © OpenStreetMap contributors, U.S. Department of State, FieldMaps.

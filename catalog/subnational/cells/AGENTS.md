@@ -1,27 +1,18 @@
-# AGENTS.md — Cells
+# Voronoi cells (Rufiji delta)
 
-Guidance for AI agents and LLMs working with this collection. This file supplements the README with practical, agent-oriented notes. Replace the prompts below with real content; delete anything that does not apply.
+Voronoi polygons from the outline points in the Rufiji delta, each carrying its source polygon's attributes. Shown in the Subnational story on fieldmaps.io.
 
-## Overview
+## Data access
 
-<!-- What this collection contains and when to use it. -->
+- GeoParquet: `https://data.source.coop/fieldmaps/site/subnational/cells/cells.parquet`
+- PMTiles: `https://data.source.coop/fieldmaps/site/subnational/cells/cells.pmtiles`, layer `cells`
+- Columns: `fid` (BIGINT), `geom` (geometry, `OGC:CRS84`)
 
-## Accessing the data
+```sql
+LOAD spatial;
+SELECT * FROM 'https://data.source.coop/fieldmaps/site/subnational/cells/cells.parquet' LIMIT 10;
+```
 
-<!-- Working code to load the data (e.g. DuckDB SQL, Python). -->
+## License
 
-## Schema & field notes
-
-<!-- Field names, types, meanings, and any coded or sentinel values. -->
-
-## Data quality & usage notes
-
-<!-- Privacy suppressions, known quirks, CRS/units, and other caveats. -->
-
-## Example queries
-
-<!-- Practical, working analysis examples. -->
-
-## Related collections
-
-<!-- Cross-references and join keys to complementary collections. -->
+CC-BY-3.0-IGO. Attribution: Tanzania National Bureau of Statistics, UN OCHA ROSA, FieldMaps.
