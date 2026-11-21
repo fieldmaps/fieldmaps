@@ -9,10 +9,10 @@ const tileUrl = (path: string) =>
   SITE_DATA && path.startsWith("site/")
     ? `${location.origin}${SITE_DATA}/${path.slice("site/".length)}`
     : `${DATA}/${path}`;
-export const pmtiles = (path: string) => ({
+export const pmtiles = (path: string, attribution = ATTRIBUTION) => ({
   type: "vector" as const,
   url: `pmtiles://${tileUrl(path)}`,
-  attribution: ATTRIBUTION,
+  attribution,
 });
 
 // UN map-publication line types from the line_type tile property; dashes are in line widths.

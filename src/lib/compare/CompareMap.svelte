@@ -77,7 +77,10 @@
             ...Object.fromEntries(
               SOURCES.map((s) => [
                 s.id,
-                pmtiles(`site/compare/${s.id}-polygons/${s.id}_polygons.pmtiles`),
+                pmtiles(
+                  `site/compare/${s.id}-polygons/${s.id}_polygons.pmtiles`,
+                  "attribution" in s ? s.attribution : undefined,
+                ),
               ]),
             ),
           },

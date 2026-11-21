@@ -4,7 +4,11 @@ export type View = "fade" | Slot;
 // Listed from highest to lowest quality.
 export const SOURCES = [
   { id: "fieldmaps", label: "FieldMaps" },
-  { id: "wp", label: "US State Dept" },
+  {
+    id: "wp",
+    label: "US State Dept",
+    attribution: '<a href="https://geodata.state.gov">U.S. Department of State</a>',
+  },
 ] as const;
 export type SourceId = (typeof SOURCES)[number]["id"];
 
