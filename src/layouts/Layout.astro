@@ -125,4 +125,14 @@ const path = Astro.url.pathname;
     font-size: 1.2rem;
     font-weight: 700;
   }
+  @media (max-width: 480px) {
+    .brand span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
 </style>
