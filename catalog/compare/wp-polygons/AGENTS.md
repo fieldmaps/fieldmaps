@@ -1,27 +1,18 @@
-# AGENTS.md — US State Department World Polygons
+# US State Department World Polygons
 
-Guidance for AI agents and LLMs working with this collection. This file supplements the README with practical, agent-oriented notes. Replace the prompts below with real content; delete anything that does not apply.
+U.S. Department of State World Polygons, full-resolution layer. Shown on the boundary comparison page on fieldmaps.io.
 
-## Overview
+## Data access
 
-<!-- What this collection contains and when to use it. -->
+- GeoParquet: `https://data.source.coop/fieldmaps/site/compare/wp-polygons/wp_polygons.parquet`
+- PMTiles: `https://data.source.coop/fieldmaps/site/compare/wp-polygons/wp_polygons.pmtiles`, layer `wp_polygons`
+- Columns: `iso3` (VARCHAR, GENC three-letter code, null for 2 rows), `name` (VARCHAR), `geometry` (geometry, `OGC:CRS84`)
 
-## Accessing the data
+```sql
+LOAD spatial;
+SELECT * FROM 'https://data.source.coop/fieldmaps/site/compare/wp-polygons/wp_polygons.parquet' LIMIT 10;
+```
 
-<!-- Working code to load the data (e.g. DuckDB SQL, Python). -->
+## License
 
-## Schema & field notes
-
-<!-- Field names, types, meanings, and any coded or sentinel values. -->
-
-## Data quality & usage notes
-
-<!-- Privacy suppressions, known quirks, CRS/units, and other caveats. -->
-
-## Example queries
-
-<!-- Practical, working analysis examples. -->
-
-## Related collections
-
-<!-- Cross-references and join keys to complementary collections. -->
+Terms set by the publisher at https://geodata.state.gov. Attribution: U.S. Department of State.
