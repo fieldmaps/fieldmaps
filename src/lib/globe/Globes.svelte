@@ -4,6 +4,7 @@
   import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
   import { Protocol } from "pmtiles";
   import { untrack } from "svelte";
+  import { direction } from "../keys";
   import { byType, globeFitZoom, pmtiles } from "../map/style";
 
   const START = -85;
@@ -27,8 +28,6 @@
     const r = Math.min((h * 1.1) / 2, (w - start - EDGE) / 2);
     return { left: Math.max(0, 2 * (start + r) - w), top: 0, fit: (2 * r) / Math.min(w, h) };
   };
-  // Pixels of wheel or swipe for the full turn.
-  const DISTANCE = 600;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const css = getComputedStyle(document.documentElement);
   const color = (name: string) => css.getPropertyValue(name).trim();
@@ -37,7 +36,7 @@
   let text: HTMLDivElement;
   let links: HTMLDivElement;
   let slot: HTMLDivElement;
-  let progress = $state(reduced ? 1 : 0);
+  let progress = $state(0);
   const name = $derived(progress < 0.5 ? "international" : "subnational");
 
   const clamp = (t: number) => Math.min(1, Math.max(0, t));
@@ -48,22 +47,13 @@
   ] as const;
   const tabs: HTMLButtonElement[] = $state([]);
 
-  let anim = 0;
-  const select = (to: number) => {
-    cancelAnimationFrame(anim);
-    if (reduced) return void (progress = to);
-    const from = progress;
-    const t0 = performance.now();
-    const run = (now: number) => {
-      const t = clamp((now - t0) / 800);
-      progress = from + (to - from) * (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2);
-      if (t < 1) anim = requestAnimationFrame(run);
-    };
-    anim = requestAnimationFrame(run);
-  };
+  const maxScroll = () => document.documentElement.scrollHeight - innerHeight;
+  const select = (to: number) =>
+    scrollTo({ top: to * maxScroll(), behavior: reduced ? "instant" : "smooth" });
+  const onScroll = () => (progress = clamp(scrollY / Math.max(1, maxScroll())));
   const onTabKey = (e: KeyboardEvent) => {
-    const i = TABS.findIndex((t) => t.id === name);
-    const next = { ArrowLeft: 1 - i, ArrowRight: 1 - i, Home: 0, End: 1 }[e.key];
+    const d = direction(e);
+    const next = d ? (d < 0 ? 0 : 1) : { Home: 0, End: 1 }[e.key];
     if (next === undefined) return;
     e.preventDefault();
     tabs[next].focus();
@@ -71,6 +61,7 @@
   };
 
   $effect(() => {
+    onScroll();
     maplibregl.setWorkerUrl(workerUrl);
     const protocol = new Protocol();
     maplibregl.addProtocol("pmtiles", protocol.tile);
@@ -157,36 +148,14 @@
       map.setPaintProperty("adm1", "line-opacity", clamp((progress - 0.2) / 0.5));
       map.setPaintProperty("labels", "text-opacity", 1 - clamp((progress - 0.2) / 0.3));
     };
-    const step = (px: number) => {
-      if (reduced) return;
-      cancelAnimationFrame(anim);
-      progress = clamp(progress + px / DISTANCE);
-    };
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      step(e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY);
-    };
-    let touchY = 0;
-    const onTouchStart = (e: TouchEvent) => (touchY = e.touches[0].clientY);
-    const onTouchMove = (e: TouchEvent) => {
-      e.preventDefault();
-      step(touchY - e.touches[0].clientY);
-      touchY = e.touches[0].clientY;
-    };
-    const KEYS: Record<string, number> = {
-      ArrowDown: 60,
-      ArrowUp: -60,
-      PageDown: 300,
-      PageUp: -300,
-      " ": 300,
-    };
     const onKey = (e: KeyboardEvent) => {
       if ((e.target as Element).closest?.("[role=tablist]")) return;
-      if (e.key in KEYS) step(KEYS[e.key]);
+      const d = direction(e);
+      if (!d) return;
+      e.preventDefault();
+      select(d < 0 ? 0 : 1);
     };
-    addEventListener("wheel", onWheel, { passive: false });
-    addEventListener("touchstart", onTouchStart, { passive: true });
-    addEventListener("touchmove", onTouchMove, { passive: false });
+    addEventListener("scroll", onScroll, { passive: true });
     addEventListener("keydown", onKey);
     map.once("load", () => (frame = requestAnimationFrame(tick)));
     const resize = new ResizeObserver(() => {
@@ -198,12 +167,9 @@
     resize.observe(container);
     resize.observe(text);
     return () => {
-      removeEventListener("wheel", onWheel);
-      removeEventListener("touchstart", onTouchStart);
-      removeEventListener("touchmove", onTouchMove);
+      removeEventListener("scroll", onScroll);
       removeEventListener("keydown", onKey);
       cancelAnimationFrame(frame);
-      cancelAnimationFrame(anim);
       resize.disconnect();
       map.remove();
       maplibregl.removeProtocol("pmtiles");
@@ -211,48 +177,66 @@
   });
 </script>
 
-<section class="stage">
-  <div class="text" bind:this={text}>
-    <h1>FieldMaps</h1>
-    <div class="tabs" role="tablist" aria-label="Boundary set">
-      {#each TABS as tab, i (tab.id)}
-        <button
-          bind:this={tabs[i]}
-          id="tab-{tab.id}"
-          role="tab"
-          aria-selected={name === tab.id}
-          aria-controls="globe-panel"
-          tabindex={name === tab.id ? 0 : -1}
-          onclick={() => select(tab.to)}
-          onkeydown={onTabKey}
-        >
-          {tab.label}
-        </button>
+<div class="track" data-snap>
+  <div class="snap"></div>
+  <section class="stage">
+    <div class="text" bind:this={text}>
+      <h1>FieldMaps</h1>
+      <div class="tabs" role="tablist" aria-label="Boundary set">
+        {#each TABS as tab, i (tab.id)}
+          <button
+            bind:this={tabs[i]}
+            id="tab-{tab.id}"
+            role="tab"
+            aria-selected={name === tab.id}
+            aria-controls="globe-panel"
+            tabindex={name === tab.id ? 0 : -1}
+            onclick={() => select(tab.to)}
+            onkeydown={onTabKey}
+          >
+            {tab.label}
+          </button>
+        {/each}
+      </div>
+    </div>
+    <div class="map" bind:this={container}></div>
+    <div class="slot" bind:this={slot}></div>
+    <div
+      class="links"
+      id="globe-panel"
+      role="tabpanel"
+      aria-labelledby="tab-{name}"
+      bind:this={links}
+    >
+      {#each TABS as tab (tab.id)}
+        <a class="button" class:off={name !== tab.id} href="/{tab.id}/">Methodology</a>
+      {/each}
+      {#each TABS as tab (tab.id)}
+        <a class="button" class:off={name !== tab.id} href="https://source.coop/fieldmaps/{tab.id}">
+          Download
+        </a>
       {/each}
     </div>
-  </div>
-  <div class="map" bind:this={container}></div>
-  <div class="slot" bind:this={slot}></div>
-  <div
-    class="links"
-    id="globe-panel"
-    role="tabpanel"
-    aria-labelledby="tab-{name}"
-    bind:this={links}
-  >
-    {#each TABS as tab (tab.id)}
-      <a class="button" class:off={name !== tab.id} href="/{tab.id}/">Methodology</a>
-    {/each}
-    {#each TABS as tab (tab.id)}
-      <a class="button" class:off={name !== tab.id} href="https://source.coop/fieldmaps/{tab.id}">
-        Download
-      </a>
-    {/each}
-  </div>
-</section>
+  </section>
+  <div class="spacer"></div>
+</div>
 
 <style>
+  .track {
+    position: relative;
+  }
+  .snap,
+  .spacer {
+    height: calc(100dvh - var(--header-h));
+    scroll-snap-align: end;
+  }
+  .snap {
+    position: absolute;
+    inset: 0 0 auto;
+  }
   .stage {
+    position: sticky;
+    top: var(--header-h);
     display: grid;
     grid-template-columns: minmax(18rem, 1fr) 2fr;
     grid-template-rows: 1fr auto auto 1fr;
@@ -262,7 +246,6 @@
     --inset: max(1.5rem, calc(50vw - 36rem));
     --w: 20rem;
     overflow: hidden;
-    overscroll-behavior: none;
   }
   .text {
     grid-area: text;

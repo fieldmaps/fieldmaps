@@ -3,6 +3,7 @@
   import "maplibre-gl/dist/maplibre-gl.css";
   import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
   import { Protocol } from "pmtiles";
+  import { stepKeys } from "../keys";
   import { globeFitZoom, pmtiles } from "../map/style";
 
   type Layer =
@@ -194,12 +195,14 @@
       { rootMargin: "-45% 0px -45% 0px" },
     );
     steps.forEach((s) => observer.observe(s));
+    const removeKeys = stepKeys(steps, () => active, reduced);
     const resize = new ResizeObserver(() => {
       map.resize();
       map.jumpTo(camera(STEPS[Math.max(active, 0)]));
     });
     resize.observe(container);
     return () => {
+      removeKeys();
       observer.disconnect();
       resize.disconnect();
       map.remove();
@@ -208,7 +211,7 @@
   });
 </script>
 
-<section class="story">
+<section class="story" data-snap>
   <div class="globe">
     <div class="map" bind:this={container}></div>
   </div>
@@ -245,11 +248,13 @@
     padding: 0 2rem 0 var(--inset);
   }
   h1 {
+    scroll-snap-align: start;
     margin: 0;
     padding-block: 30vh;
     font-size: 2.5rem;
   }
   .step {
+    scroll-snap-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -261,7 +266,7 @@
     opacity: 1;
   }
   .step:last-child {
-    min-height: 100vh;
+    min-height: calc(100dvh - var(--header-h));
   }
   h2 {
     margin: 0 0 0.5rem;

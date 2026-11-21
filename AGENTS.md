@@ -1,4 +1,4 @@
-# CLAUDE.md
+# AGENTS.md
 
 Astro 7 static site + Svelte 5 islands (runes), MapLibre GL + PMTiles. Deployed by Cloudflare Workers Builds from `wrangler.jsonc` (assets in `./dist`).
 

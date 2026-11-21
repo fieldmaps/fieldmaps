@@ -10,6 +10,11 @@
   box-sizing: border-box;
 }
 
+html:has([data-snap]) {
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: var(--header-h);
+}
+
 body {
   margin: 0;
   background: var(--white);
