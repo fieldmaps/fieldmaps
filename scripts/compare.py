@@ -3,11 +3,13 @@
 import os
 import re
 import shutil
+import sys
 import urllib.error
 import urllib.request
-from email.utils import formatdate
+from email.utils import formatdate, parsedate_to_datetime
 from http import HTTPStatus
 from pathlib import Path
+from subprocess import run
 from zipfile import ZipFile
 
 import duckdb
@@ -23,6 +25,7 @@ CLIP = (
     f"ST_Intersection(ST_MakeValid(geometry), {WORLD}), 3))"
 )
 OPTS = "FORMAT PARQUET, COMPRESSION ZSTD, COMPRESSION_LEVEL 15, GEOPARQUET_VERSION V2"
+TOPO_TOOLS = Path(sys.executable).parent / "topo-tools"
 WP_URL = "https://data.geodata.state.gov/WorldPolygons.zip"
 
 
@@ -38,11 +41,16 @@ def download(url: str, dest: Path) -> bool:
     try:
         with urllib.request.urlopen(request, timeout=60) as r, part.open("wb") as f:  # noqa: S310
             shutil.copyfileobj(r, f, 1 << 20)
+            modified = r.headers.get("Last-Modified")
     except urllib.error.HTTPError as e:
         if e.code == HTTPStatus.NOT_MODIFIED:
             return False
         raise
     part.replace(dest)
+    # If-Modified-Since then compares against the server's clock, not our download time.
+    if modified:
+        t = parsedate_to_datetime(modified).timestamp()
+        os.utime(dest, (t, t))
     return True
 
 
@@ -83,7 +91,7 @@ def wp(conn: duckdb.DuckDBPyConnection) -> str:
         if re.fullmatch(r"DoS_WP_\d+_\d+", name)
     )
     return (
-        "SELECT GENC_3 AS iso3, WP_Name AS name, geom AS geometry "
+        "SELECT * EXCLUDE geom, geom AS geometry "
         f"FROM ST_Read('{gpkg}', layer='{layer}')"
     )
 
@@ -97,18 +105,31 @@ def prepare() -> None:
     conn.execute(
         f"LOAD spatial; SET geometry_always_xy = true; SET threads = {THREADS}"
     )
+    work = ROOT / "tmp" / "compare"
     for source, query in SOURCES.items():
         out = CATALOG / f"{source}-polygons" / f"{source}_polygons.parquet"
         out.parent.mkdir(parents=True, exist_ok=True)
+        clipped = work / f"{source}_polygons.parquet"
         conn.execute(f"""
             COPY (
-                SELECT iso3, name, ST_SetCRS(CASE
+                SELECT * REPLACE (ST_SetCRS(CASE
                     WHEN ST_XMin(geometry) >= -180 AND ST_XMax(geometry) <= 180
                         AND ST_YMin(geometry) >= -90 AND ST_YMax(geometry) <= 90
                     THEN geometry
                     ELSE {CLIP}
-                END, 'OGC:CRS84') AS geometry
+                END, 'OGC:CRS84') AS geometry)
                 FROM ({query(conn)})
+            ) TO '{clipped}' ({OPTS})
+        """)
+        cleaned = work / f"{source}_polygons_cleaned.parquet"
+        issues = work / f"{source}_polygons_issues.parquet"
+        run(
+            [TOPO_TOOLS, "topo-clean", clipped, cleaned, "--issues-file", issues],
+            check=True,
+        )
+        conn.execute(f"""
+            COPY (
+                SELECT * FROM '{cleaned}'
                 ORDER BY ST_Hilbert(geometry, ST_Extent({WORLD}))
             ) TO '{out}' ({OPTS})
         """)
