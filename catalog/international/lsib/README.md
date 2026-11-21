@@ -1,6 +1,6 @@
-# Lsib
+# LSIB lines
 
-Lsib
+U.S. Department of State Large Scale International Boundaries lines, merged into continuous lines.
 
 ## Spatial Coverage
 
@@ -23,6 +23,8 @@ Lsib
 |------|------|----------|
 | ./lsib.parquet | 43.7 MB | 122050548f8a... |
 | ./lsib.pmtiles | 1.6 MB | 12200ab0aca1... |
+| ./styles/default.json | 428 B | 1220806deffa... |
+| ./lsib.thumb.jpg | 13.0 KB | 12203e319997... |
 
 ## Quick Start
 
@@ -38,9 +40,17 @@ print(gdf.head())
 - **root**: `../../catalog.json`
 - **parent**: `../catalog.json`
 
+## Attribution
+
+© OpenStreetMap contributors, U.S. Department of State, FieldMaps
+
 ## License
 
-CC0-1.0
+ODbL-1.0
+
+## Contact
+
+Maxym Malynowsky <fieldmaps@maxmalynowsky.com>
 
 ---
 

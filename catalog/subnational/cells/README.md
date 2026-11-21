@@ -1,6 +1,6 @@
-# Cells
+# Voronoi cells (Rufiji delta)
 
-Cells
+Voronoi polygons from the outline points in the Rufiji delta, each carrying its source polygon's attributes.
 
 ## Spatial Coverage
 
@@ -24,6 +24,8 @@ Cells
 |------|------|----------|
 | ./cells.parquet | 351.5 KB | 122042bee90a... |
 | ./cells.pmtiles | 536.9 KB | 12204407e06e... |
+| ./styles/default.json | 448 B | 12200fedceba... |
+| ./cells.thumb.jpg | 50.1 KB | 1220a41dfa6f... |
 
 ## Quick Start
 
@@ -39,9 +41,17 @@ print(gdf.head())
 - **root**: `../../catalog.json`
 - **parent**: `../catalog.json`
 
+## Attribution
+
+Tanzania National Bureau of Statistics, UN OCHA ROSA, FieldMaps
+
 ## License
 
-CC0-1.0
+CC-BY-3.0-IGO
+
+## Contact
+
+Maxym Malynowsky <fieldmaps@maxmalynowsky.com>
 
 ---
 

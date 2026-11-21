@@ -1,6 +1,18 @@
 # FieldMaps site demo data
 
-A Portolan-managed STAC catalog
+Layers behind the build-step stories on fieldmaps.io, as GeoParquet with PMTiles. Catalog metadata is CC0-1.0; data licenses are set per folder: international/ is ODbL-1.0, subnational/ is CC-BY-3.0-IGO.
+
+## Attribution
+
+FieldMaps
+
+## License
+
+CC0-1.0
+
+## Contact
+
+Maxym Malynowsky <fieldmaps@maxmalynowsky.com>
 
 ---
 

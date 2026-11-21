@@ -1,6 +1,6 @@
-# Template
+# Extension lines
 
-Template
+Manual line edits that extend LSIB around coastal islands and inlets.
 
 ## Spatial Coverage
 
@@ -23,6 +23,8 @@ Template
 |------|------|----------|
 | ./template.parquet | 311.2 KB | 12206500aa0c... |
 | ./template.pmtiles | 275.0 KB | 12200e2e100f... |
+| ./styles/default.json | 440 B | 122008193bb3... |
+| ./template.thumb.jpg | 32.6 KB | 1220c1116105... |
 
 ## Quick Start
 
@@ -38,9 +40,17 @@ print(gdf.head())
 - **root**: `../../catalog.json`
 - **parent**: `../catalog.json`
 
+## Attribution
+
+© OpenStreetMap contributors, U.S. Department of State, FieldMaps
+
 ## License
 
-CC0-1.0
+ODbL-1.0
+
+## Contact
+
+Maxym Malynowsky <fieldmaps@maxmalynowsky.com>
 
 ---
 

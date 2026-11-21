@@ -1,6 +1,6 @@
-# Delta
+# Original input (Rufiji delta)
 
-Delta
+Original polygons clipped to a small area of the Rufiji delta.
 
 ## Spatial Coverage
 
@@ -23,6 +23,8 @@ Delta
 |------|------|----------|
 | ./delta.parquet | 81.4 KB | 12206a53bf8d... |
 | ./delta.pmtiles | 35.5 KB | 12209d459637... |
+| ./styles/default.json | 448 B | 1220fbf5c607... |
+| ./delta.thumb.jpg | 23.9 KB | 12206c3dda19... |
 
 ## Quick Start
 
@@ -38,9 +40,17 @@ print(gdf.head())
 - **root**: `../../catalog.json`
 - **parent**: `../catalog.json`
 
+## Attribution
+
+Tanzania National Bureau of Statistics, UN OCHA ROSA, FieldMaps
+
 ## License
 
-CC0-1.0
+CC-BY-3.0-IGO
+
+## Contact
+
+Maxym Malynowsky <fieldmaps@maxmalynowsky.com>
 
 ---
 

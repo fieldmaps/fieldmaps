@@ -1,16 +1,30 @@
-# International
+# International build steps
 
-Catalog: international
+Intermediate layers from the FieldMaps international boundaries build, shown in the International story.
 
 ## Collections
 
 ### [international/areas](international/international/areas/)
+
+### [international/lsib](international/international/lsib/)
+
+### [international/points](international/international/points/)
+
+### [international/template](international/international/template/)
 
 ## Coverage
 
 **Spatial Extent**
 
 - West: -180.0000, South: -85.0511, East: 180.0000, North: 85.0511
+
+## Attribution
+
+© OpenStreetMap contributors, U.S. Department of State, FieldMaps
+
+## License
+
+ODbL-1.0
 
 ---
 

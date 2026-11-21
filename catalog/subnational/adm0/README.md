@@ -1,6 +1,6 @@
-# Adm0
+# ADM0 boundary
 
-Adm0
+FieldMaps ADM0 polygon for Tanzania, from the OpenStreetMap-based humanitarian view.
 
 ## Spatial Coverage
 
@@ -23,6 +23,8 @@ Adm0
 |------|------|----------|
 | ./adm0.parquet | 2.0 MB | 1220de0b3dac... |
 | ./adm0.pmtiles | 512.1 KB | 1220a2462360... |
+| ./styles/default.json | 445 B | 12207e080b16... |
+| ./adm0.thumb.jpg | 12.1 KB | 1220985a4056... |
 
 ## Quick Start
 
@@ -38,9 +40,17 @@ print(gdf.head())
 - **root**: `../../catalog.json`
 - **parent**: `../catalog.json`
 
+## Attribution
+
+© OpenStreetMap contributors, U.S. Department of State, FieldMaps
+
 ## License
 
-CC0-1.0
+ODbL-1.0
+
+## Contact
+
+Maxym Malynowsky <fieldmaps@maxmalynowsky.com>
 
 ---
 

@@ -1,6 +1,6 @@
-# Areas
+# Polygonized areas
 
-Areas
+Lines polygonized into ADM0 areas, before clipping to land.
 
 ## Spatial Coverage
 
@@ -24,6 +24,8 @@ Areas
 |------|------|----------|
 | ./areas.parquet | 85.0 MB | 122050c30496... |
 | ./areas.pmtiles | 2.2 MB | 12202fa98e87... |
+| ./styles/default.json | 447 B | 1220714df410... |
+| ./areas.thumb.jpg | 25.0 KB | 12209de84c26... |
 
 ## Quick Start
 
@@ -39,9 +41,17 @@ print(gdf.head())
 - **root**: `../../catalog.json`
 - **parent**: `../catalog.json`
 
+## Attribution
+
+© OpenStreetMap contributors, U.S. Department of State, FieldMaps
+
 ## License
 
-CC0-1.0
+ODbL-1.0
+
+## Contact
+
+Maxym Malynowsky <fieldmaps@maxmalynowsky.com>
 
 ---
 

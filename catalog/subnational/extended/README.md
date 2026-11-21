@@ -1,6 +1,6 @@
-# Extended
+# Extended polygons
 
-Extended
+Original polygons merged with the dissolved Voronoi cells, extending them outward.
 
 ## Spatial Coverage
 
@@ -23,6 +23,8 @@ Extended
 |------|------|----------|
 | ./extended.parquet | 10.1 MB | 12209b5f1907... |
 | ./extended.pmtiles | 9.8 MB | 12204e75b589... |
+| ./styles/default.json | 457 B | 12207a33ad63... |
+| ./extended.thumb.jpg | 24.4 KB | 1220ce63f8b6... |
 
 ## Quick Start
 
@@ -38,9 +40,17 @@ print(gdf.head())
 - **root**: `../../catalog.json`
 - **parent**: `../catalog.json`
 
+## Attribution
+
+Tanzania National Bureau of Statistics, UN OCHA ROSA, FieldMaps
+
 ## License
 
-CC0-1.0
+CC-BY-3.0-IGO
+
+## Contact
+
+Maxym Malynowsky <fieldmaps@maxmalynowsky.com>
 
 ---
 

@@ -1,6 +1,6 @@
-# Original
+# Original input
 
-Original
+Tanzania ADM3 polygons as published.
 
 ## Spatial Coverage
 
@@ -23,6 +23,8 @@ Original
 |------|------|----------|
 | ./original.parquet | 10.4 MB | 122035205d43... |
 | ./original.pmtiles | 7.7 MB | 12207afea858... |
+| ./styles/default.json | 457 B | 12207b481ab0... |
+| ./original.thumb.jpg | 39.6 KB | 122055eb93d5... |
 
 ## Quick Start
 
@@ -38,9 +40,17 @@ print(gdf.head())
 - **root**: `../../catalog.json`
 - **parent**: `../catalog.json`
 
+## Attribution
+
+Tanzania National Bureau of Statistics, UN OCHA ROSA, FieldMaps
+
 ## License
 
-CC0-1.0
+CC-BY-3.0-IGO
+
+## Contact
+
+Maxym Malynowsky <fieldmaps@maxmalynowsky.com>
 
 ---
 

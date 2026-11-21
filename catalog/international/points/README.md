@@ -1,6 +1,6 @@
-# Points
+# ISO3 points
 
-Points
+Companion points giving the ISO3 code for each area enclosed by the lines.
 
 ## Spatial Coverage
 
@@ -24,6 +24,8 @@ Points
 |------|------|----------|
 | ./points.parquet | 9.2 KB | 1220abfc40da... |
 | ./points.pmtiles | 92.3 KB | 1220a41c3ed4... |
+| ./styles/default.json | 445 B | 12204cb0d209... |
+| ./points.thumb.jpg | 12.4 KB | 12204f126a93... |
 
 ## Quick Start
 
@@ -39,9 +41,17 @@ print(gdf.head())
 - **root**: `../../catalog.json`
 - **parent**: `../catalog.json`
 
+## Attribution
+
+© OpenStreetMap contributors, U.S. Department of State, FieldMaps
+
 ## License
 
-CC0-1.0
+ODbL-1.0
+
+## Contact
+
+Maxym Malynowsky <fieldmaps@maxmalynowsky.com>
 
 ---
 

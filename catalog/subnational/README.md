@@ -1,16 +1,38 @@
-# Subnational
+# Subnational build steps (Tanzania)
 
-Catalog: subnational
+Intermediate layers from the FieldMaps subnational edge-extension build for Tanzania, shown in the Subnational story.
 
 ## Collections
 
 ### [subnational/adm0](subnational/subnational/adm0/)
 
+### [subnational/cells](subnational/subnational/cells/)
+
+### [subnational/clipped](subnational/subnational/clipped/)
+
+### [subnational/delta](subnational/subnational/delta/)
+
+### [subnational/extended](subnational/subnational/extended/)
+
+### [subnational/original](subnational/subnational/original/)
+
+### [subnational/outlines](subnational/subnational/outlines/)
+
+### [subnational/points](subnational/subnational/points/)
+
 ## Coverage
 
 **Spatial Extent**
 
-- West: 29.3400, South: -11.7613, East: 40.4454, North: -0.9844
+- West: 18.7343, South: -22.6176, East: 51.2999, North: 9.8721
+
+## Attribution
+
+Tanzania National Bureau of Statistics, UN OCHA ROSA, FieldMaps
+
+## License
+
+CC-BY-3.0-IGO
 
 ---
 

@@ -1,6 +1,6 @@
-# Outlines
+# Polygon outlines
 
-Outlines
+Outer edges of the original polygons, keeping the attributes of the polygon each segment came from.
 
 ## Spatial Coverage
 
@@ -24,6 +24,8 @@ Outlines
 |------|------|----------|
 | ./outlines.parquet | 2.4 MB | 1220ee707aa0... |
 | ./outlines.pmtiles | 901.3 KB | 1220248c3f29... |
+| ./styles/default.json | 441 B | 1220e65bf604... |
+| ./outlines.thumb.jpg | 15.5 KB | 12207883acfd... |
 
 ## Quick Start
 
@@ -39,9 +41,17 @@ print(gdf.head())
 - **root**: `../../catalog.json`
 - **parent**: `../catalog.json`
 
+## Attribution
+
+Tanzania National Bureau of Statistics, UN OCHA ROSA, FieldMaps
+
 ## License
 
-CC0-1.0
+CC-BY-3.0-IGO
+
+## Contact
+
+Maxym Malynowsky <fieldmaps@maxmalynowsky.com>
 
 ---
 

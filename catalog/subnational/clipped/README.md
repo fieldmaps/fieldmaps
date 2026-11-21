@@ -1,6 +1,6 @@
-# Clipped
+# Clipped to ADM0
 
-Clipped
+Extended polygons clipped to the FieldMaps ADM0 boundary.
 
 ## Spatial Coverage
 
@@ -23,6 +23,8 @@ Clipped
 |------|------|----------|
 | ./clipped.parquet | 11.0 MB | 122091c120d2... |
 | ./clipped.pmtiles | 7.8 MB | 1220fe014a37... |
+| ./styles/default.json | 454 B | 122083c3ca9d... |
+| ./clipped.thumb.jpg | 38.6 KB | 12200e87c882... |
 
 ## Quick Start
 
@@ -38,9 +40,17 @@ print(gdf.head())
 - **root**: `../../catalog.json`
 - **parent**: `../catalog.json`
 
+## Attribution
+
+Tanzania National Bureau of Statistics, UN OCHA ROSA, FieldMaps
+
 ## License
 
-CC0-1.0
+CC-BY-3.0-IGO
+
+## Contact
+
+Maxym Malynowsky <fieldmaps@maxmalynowsky.com>
 
 ---
 

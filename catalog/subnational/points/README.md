@@ -1,6 +1,6 @@
-# Points
+# Outline points (Rufiji delta)
 
-Points
+Points from outline vertices and segment breaks in the Rufiji delta.
 
 ## Spatial Coverage
 
@@ -23,6 +23,8 @@ Points
 |------|------|----------|
 | ./points.parquet | 99.7 KB | 12208e1acf85... |
 | ./points.pmtiles | 109.0 KB | 12205e92216c... |
+| ./styles/default.json | 446 B | 12201465b381... |
+| ./points.thumb.jpg | 28.2 KB | 122028875549... |
 
 ## Quick Start
 
@@ -38,9 +40,17 @@ print(gdf.head())
 - **root**: `../../catalog.json`
 - **parent**: `../catalog.json`
 
+## Attribution
+
+Tanzania National Bureau of Statistics, UN OCHA ROSA, FieldMaps
+
 ## License
 
-CC0-1.0
+CC-BY-3.0-IGO
+
+## Contact
+
+Maxym Malynowsky <fieldmaps@maxmalynowsky.com>
 
 ---
 
