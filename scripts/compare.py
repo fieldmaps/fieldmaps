@@ -3,7 +3,10 @@
 import os
 import re
 import shutil
+import urllib.error
 import urllib.request
+from email.utils import formatdate
+from http import HTTPStatus
 from pathlib import Path
 from zipfile import ZipFile
 
@@ -24,33 +27,55 @@ FIELDMAPS_URL = "https://data.source.coop/fieldmaps/international/odbl/humanitar
 WP_URL = "https://data.geodata.state.gov/WorldPolygons.zip"
 
 
-@retry(stop=stop_after_attempt(5), wait=wait_exponential(min=2, max=60), reraise=True)
-def fetch(url: str, dest: Path) -> Path:
-    """Download ``url`` to ``dest`` unless it is already there."""
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(min=2, max=30), reraise=True)
+def download(url: str, dest: Path) -> bool:
+    """Download ``url`` to ``dest`` if the server copy is newer; return if it did."""
+    headers = {"User-Agent": "Mozilla/5.0"}
     if dest.exists():
-        return dest
+        headers["If-Modified-Since"] = formatdate(dest.stat().st_mtime, usegmt=True)
     dest.parent.mkdir(parents=True, exist_ok=True)
     part = dest.with_suffix(dest.suffix + ".part")
-    request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})  # noqa: S310
-    with urllib.request.urlopen(request) as r, part.open("wb") as f:  # noqa: S310
-        shutil.copyfileobj(r, f, 1 << 20)
-    part.rename(dest)
-    return dest
+    request = urllib.request.Request(url, headers=headers)  # noqa: S310
+    try:
+        with urllib.request.urlopen(request, timeout=60) as r, part.open("wb") as f:  # noqa: S310
+            shutil.copyfileobj(r, f, 1 << 20)
+    except urllib.error.HTTPError as e:
+        if e.code == HTTPStatus.NOT_MODIFIED:
+            return False
+        raise
+    part.replace(dest)
+    return True
+
+
+def refresh(url: str, dest: Path, cached: Path | None) -> bool:
+    """Run ``download``, reusing ``cached`` when the host is unavailable."""
+    try:
+        return download(url, dest)
+    except OSError as e:
+        if cached is None:
+            raise
+        print(f"{url} unavailable ({e}), reusing {cached.relative_to(ROOT)}")  # noqa: T201
+        return False
 
 
 def fieldmaps(_: duckdb.DuckDBPyConnection) -> str:
     """FieldMaps humanitarian ADM0 polygons."""
-    path = fetch(FIELDMAPS_URL, DOWNLOAD / "fieldmaps" / "adm0_polygons.parquet")
+    path = DOWNLOAD / "fieldmaps" / "adm0_polygons.parquet"
+    refresh(FIELDMAPS_URL, path, path if path.exists() else None)
     return f"SELECT iso3, adm0_name AS name, geometry FROM read_parquet('{path}')"
 
 
 def wp(conn: duckdb.DuckDBPyConnection) -> str:
     """US State Department World Polygons, full-resolution layer."""
     out = DOWNLOAD / "wp"
+    archive = out / "WorldPolygons.zip"
     gpkg = next(out.rglob("WorldPolygons*.gpkg"), None)
-    if gpkg is None:
+    if refresh(WP_URL, archive, gpkg) or gpkg is None:
+        for p in out.iterdir():
+            if p != archive:
+                shutil.rmtree(p) if p.is_dir() else p.unlink()
         # The outer zip also holds a Deflate64 hash file that zipfile can't read.
-        with ZipFile(fetch(WP_URL, out / "WorldPolygons.zip")) as z:
+        with ZipFile(archive) as z:
             inner = next(
                 n for n in z.namelist() if re.search(r"WorldPolygon[^/]*\.zip$", n)
             )
