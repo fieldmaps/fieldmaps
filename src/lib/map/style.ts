@@ -19,7 +19,7 @@ const LINE_TYPES = {
   sovereign: { dash: [1, 0], width: 0.75 },
 };
 
-function byType(value: (t: (typeof LINE_TYPES)[keyof typeof LINE_TYPES]) => unknown) {
+export function byType(value: (t: (typeof LINE_TYPES)[keyof typeof LINE_TYPES]) => unknown) {
   return [
     "match",
     ["get", "line_type"],

@@ -4,7 +4,7 @@
   import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
   import { Protocol } from "pmtiles";
   import { untrack } from "svelte";
-  import { globeFitZoom, pmtiles } from "../map/style";
+  import { byType, globeFitZoom, pmtiles } from "../map/style";
 
   const START = -85;
   const DEGREES = 127;
@@ -38,12 +38,37 @@
   let links: HTMLDivElement;
   let slot: HTMLDivElement;
   let progress = $state(reduced ? 1 : 0);
-  const intl = $derived(1 - clamp((progress - 0.35) / 0.15));
-  const sub = $derived(clamp((progress - 0.45) / 0.15));
-  const swap = $derived(clamp((progress - 0.35) / 0.25));
-  const name = $derived(swap < 0.5 ? "international" : "subnational");
+  const name = $derived(progress < 0.5 ? "international" : "subnational");
 
   const clamp = (t: number) => Math.min(1, Math.max(0, t));
+
+  const TABS = [
+    { id: "international", label: "International", to: 0 },
+    { id: "subnational", label: "Subnational", to: 1 },
+  ] as const;
+  const tabs: HTMLButtonElement[] = $state([]);
+
+  let anim = 0;
+  const select = (to: number) => {
+    cancelAnimationFrame(anim);
+    if (reduced) return void (progress = to);
+    const from = progress;
+    const t0 = performance.now();
+    const run = (now: number) => {
+      const t = clamp((now - t0) / 800);
+      progress = from + (to - from) * (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2);
+      if (t < 1) anim = requestAnimationFrame(run);
+    };
+    anim = requestAnimationFrame(run);
+  };
+  const onTabKey = (e: KeyboardEvent) => {
+    const i = TABS.findIndex((t) => t.id === name);
+    const next = { ArrowLeft: 1 - i, ArrowRight: 1 - i, Home: 0, End: 1 }[e.key];
+    if (next === undefined) return;
+    e.preventDefault();
+    tabs[next].focus();
+    select(TABS[next].to);
+  };
 
   $effect(() => {
     maplibregl.setWorkerUrl(workerUrl);
@@ -55,13 +80,17 @@
       center: [START + DEGREES * untrack(() => progress), LAT],
       zoom: globeFitZoom(container, layout().fit),
       attributionControl: { compact: true },
+      fadeDuration: 0,
       style: {
         version: 8,
+        glyphs: `${location.origin}/fonts/{fontstack}/{range}.pbf`,
         projection: { type: "globe" },
         sky: { "atmosphere-blend": 0 },
         sources: {
           adm0: pmtiles("international/odbl/humanitarian/adm0-polygons/adm0_polygons.pmtiles"),
+          adm0Lines: pmtiles("international/odbl/humanitarian/adm0-lines/adm0_lines.pmtiles"),
           adm1: pmtiles("subnational/global/adm1-lines/adm1_lines.pmtiles"),
+          labels: pmtiles("international/odbl/humanitarian/adm0-points/adm0_points.pmtiles"),
         },
         layers: [
           { id: "sea", type: "background", paint: { "background-color": color("--sky") } },
@@ -87,9 +116,32 @@
           {
             id: "adm0",
             type: "line",
-            source: "adm0",
-            "source-layer": "adm0_polygons",
-            paint: { "line-color": color("--ink"), "line-width": 0.8 },
+            source: "adm0Lines",
+            "source-layer": "adm0_lines",
+            paint: {
+              "line-color": color("--ink"),
+              "line-width": byType((t) => (t.width * 0.8) / 1.5),
+              "line-dasharray": byType((t) => ["literal", t.dash]),
+            },
+          },
+          {
+            id: "labels",
+            type: "symbol",
+            source: "labels",
+            "source-layer": "adm0_points",
+            filter: ["==", ["get", "status_nm"], "State"],
+            layout: {
+              "text-field": ["get", "adm0_name"],
+              "text-font": ["public-sans-semibold"],
+              "text-size": 11,
+              "text-max-width": 7,
+            },
+            paint: {
+              "text-color": color("--ink"),
+              "text-halo-color": color("--white"),
+              "text-halo-width": 1.2,
+              "text-opacity-transition": { duration: 0 },
+            },
           },
         ],
       },
@@ -103,9 +155,12 @@
       shown = progress;
       map.setCenter([START + DEGREES * progress, LAT]);
       map.setPaintProperty("adm1", "line-opacity", clamp((progress - 0.2) / 0.5));
+      map.setPaintProperty("labels", "text-opacity", 1 - clamp((progress - 0.2) / 0.3));
     };
     const step = (px: number) => {
-      if (!reduced) progress = clamp(progress + px / DISTANCE);
+      if (reduced) return;
+      cancelAnimationFrame(anim);
+      progress = clamp(progress + px / DISTANCE);
     };
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
@@ -126,6 +181,7 @@
       " ": 300,
     };
     const onKey = (e: KeyboardEvent) => {
+      if ((e.target as Element).closest?.("[role=tablist]")) return;
       if (e.key in KEYS) step(KEYS[e.key]);
     };
     addEventListener("wheel", onWheel, { passive: false });
@@ -147,6 +203,7 @@
       removeEventListener("touchmove", onTouchMove);
       removeEventListener("keydown", onKey);
       cancelAnimationFrame(frame);
+      cancelAnimationFrame(anim);
       resize.disconnect();
       map.remove();
       maplibregl.removeProtocol("pmtiles");
@@ -157,18 +214,40 @@
 <section class="stage">
   <div class="text" bind:this={text}>
     <h1>FieldMaps</h1>
-    <p class="caption">
-      <span style:opacity={intl}>International Boundaries</span>
-      <span style:opacity={sub}>Subnational Boundaries</span>
-    </p>
+    <div class="tabs" role="tablist" aria-label="Boundary set">
+      {#each TABS as tab, i (tab.id)}
+        <button
+          bind:this={tabs[i]}
+          id="tab-{tab.id}"
+          role="tab"
+          aria-selected={name === tab.id}
+          aria-controls="globe-panel"
+          tabindex={name === tab.id ? 0 : -1}
+          onclick={() => select(tab.to)}
+          onkeydown={onTabKey}
+        >
+          {tab.label}
+        </button>
+      {/each}
+    </div>
   </div>
   <div class="map" bind:this={container}></div>
   <div class="slot" bind:this={slot}></div>
-  <div class="links" bind:this={links}>
-    <a class="button slide-0" href="/{name}/" style:--t={swap}>Methodology</a>
-    <a class="button slide-1" href="https://source.coop/fieldmaps/{name}" style:--t={swap}>
-      Download
-    </a>
+  <div
+    class="links"
+    id="globe-panel"
+    role="tabpanel"
+    aria-labelledby="tab-{name}"
+    bind:this={links}
+  >
+    {#each TABS as tab (tab.id)}
+      <a class="button" class:off={name !== tab.id} href="/{tab.id}/">Methodology</a>
+    {/each}
+    {#each TABS as tab (tab.id)}
+      <a class="button" class:off={name !== tab.id} href="https://source.coop/fieldmaps/{tab.id}">
+        Download
+      </a>
+    {/each}
   </div>
 </section>
 
@@ -181,6 +260,7 @@
     column-gap: 2rem;
     height: calc(100dvh - var(--header-h));
     --inset: max(1.5rem, calc(50vw - 36rem));
+    --w: 20rem;
     overflow: hidden;
     overscroll-behavior: none;
   }
@@ -200,26 +280,24 @@
     justify-self: start;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-    margin: 2rem 0 0 var(--inset);
+    row-gap: 0.75rem;
+    width: var(--w);
+    max-width: 100%;
+    margin: 0.75rem 0 0 var(--inset);
     z-index: 1;
   }
   .button {
-    padding: 0.75rem 1.5rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--ink);
     background: var(--ink);
     color: var(--white);
     font-weight: 600;
     text-align: center;
     text-decoration: none;
-    transition: background-color 0.2s;
-  }
-  .slide-0 {
-    grid-area: 1 / 1;
-    transform: translateY(calc(var(--t) * (100% + 0.75rem)));
-  }
-  .slide-1 {
-    grid-area: 2 / 2;
-    transform: translateY(calc(var(--t) * -1 * (100% + 0.75rem)));
+    transition:
+      background-color 0.2s,
+      opacity 0.2s,
+      visibility 0.2s;
   }
   .button:hover {
     background: var(--ink-soft);
@@ -227,18 +305,35 @@
   .slot {
     display: none;
   }
+  .tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: var(--w);
+    max-width: 100%;
+    margin-top: 1rem;
+    border: 1px solid var(--ink);
+  }
+  .tabs button {
+    padding: 0.6rem 1rem;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-weight: 600;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .tabs button[aria-selected="true"] {
+    background: var(--ink);
+    color: var(--white);
+  }
+  .button.off {
+    visibility: hidden;
+    opacity: 0;
+  }
   h1 {
     margin: 0 0 0.5rem;
     font-size: 3rem;
-  }
-  .caption {
-    display: grid;
-    margin: 0;
-    font-size: 1.25rem;
-    color: var(--ink-soft);
-  }
-  .caption span {
-    grid-area: 1 / 1;
   }
   @media (max-width: 900px) {
     .stage {
@@ -252,6 +347,9 @@
     .text {
       justify-self: center;
     }
+    .tabs {
+      margin-inline: auto;
+    }
     .slot {
       display: block;
       grid-area: slot;
@@ -259,12 +357,9 @@
     h1 {
       font-size: 2rem;
     }
-    .caption {
-      font-size: 1.05rem;
-    }
     .stage .links {
       justify-self: center;
-      margin: 1.5rem 0 0;
+      margin: 0.75rem 0 0;
     }
   }
 </style>
