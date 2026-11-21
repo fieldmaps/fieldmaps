@@ -67,7 +67,8 @@ export class CompareState {
   }
 
   keydown(e: KeyboardEvent) {
-    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    // Option and AltGr stay allowed, since some layouts need them to type [ and ].
+    if (e.metaKey || (e.ctrlKey && !e.altKey)) return;
     if ((e.target as Element).closest?.("input:not([type=radio]), select, textarea")) return;
     const by = KEY_STEP[e.key];
     if (by === undefined) return;
