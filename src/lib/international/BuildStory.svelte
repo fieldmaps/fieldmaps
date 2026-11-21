@@ -5,7 +5,7 @@
   import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
   import { Protocol } from "pmtiles";
   import { stepKeys } from "../keys";
-  import { globeFitZoom, pmtiles } from "../map/style";
+  import { byType, globeFitZoom, pmtiles } from "../map/style";
 
   type Layer = "land" | "areas-line" | "lsib" | "template" | "points" | "outlines" | "labels";
 
@@ -111,7 +111,11 @@
             type: "line",
             source: "outlines",
             "source-layer": "adm0_lines",
-            paint: { "line-color": color("--ink"), "line-width": 0.8 },
+            paint: {
+              "line-color": color("--ink"),
+              "line-width": byType((t) => (t.width * 0.8) / 1.5),
+              "line-dasharray": byType((t) => ["literal", t.dash]),
+            },
           },
           {
             id: "points",
