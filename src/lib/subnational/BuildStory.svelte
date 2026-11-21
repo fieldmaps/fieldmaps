@@ -5,7 +5,7 @@
   import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
   import { Protocol } from "pmtiles";
   import { stepKeys } from "../keys";
-  import { globeFitZoom, pmtiles } from "../map/style";
+  import { byType, globeFitZoom, pmtiles } from "../map/style";
 
   type Layer =
     | "original"
@@ -118,13 +118,22 @@
           clipped: site("clipped"),
           adm0: site("adm0"),
           world: pmtiles("international/odbl/humanitarian/adm0-polygons/adm0_polygons.pmtiles"),
+          worldLines: pmtiles("international/odbl/humanitarian/adm0-lines/adm0_lines.pmtiles"),
           worldAdm1: pmtiles("subnational/global/adm1-lines/adm1_lines.pmtiles"),
         },
         layers: [
           { id: "sea", type: "background", paint: { "background-color": color("--sky") } },
           { ...fill("world", "world", "--white"), "source-layer": "adm0_polygons" },
           { ...line("world-adm1", "worldAdm1", "--fold", 0.6), "source-layer": "adm1_lines" },
-          { ...line("world-adm0", "world", "--ink", 0.8), "source-layer": "adm0_polygons" },
+          {
+            ...line("world-adm0", "worldLines", "--ink", 0.8),
+            "source-layer": "adm0_lines",
+            paint: {
+              "line-color": color("--ink"),
+              "line-width": byType((t) => (t.width * 0.8) / 1.5),
+              "line-dasharray": byType((t) => ["literal", t.dash]),
+            },
+          },
           fill("cells", "cells", "--paper"),
           fill("extended", "extended", "--paper"),
           fill("original", "original", "--white"),
