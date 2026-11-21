@@ -305,7 +305,7 @@ def lines(source: str) -> None:
                     WHEN 'Other Line of International Separation' THEN 'armistice'
                     WHEN 'Special Line' THEN 'special'
                 END AS line_type,
-                ST_ReducePrecision(ST_SetCRS(geom, 'OGC:CRS84'), 1e-9) AS geometry
+                ST_SetCRS(geom, 'OGC:CRS84') AS geometry
             FROM ST_Read('{DOWNLOAD}/lsib/LSIB.gpkg')
             """,
             out,
@@ -318,7 +318,7 @@ def lines(source: str) -> None:
             SELECT * EXCLUDE geometry,
                 CASE WHEN is_disputed THEN 'armistice' ELSE 'international' END
                     AS line_type,
-                ST_ReducePrecision(geometry, 1e-9) AS geometry
+                geometry
             FROM '{DOWNLOAD}/overture/division_boundary_country_{OVERTURE}.parquet'
             WHERE class = 'land'
             """,
