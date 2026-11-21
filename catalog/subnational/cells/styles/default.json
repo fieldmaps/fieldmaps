@@ -1,0 +1,25 @@
+{
+  "version": 8,
+  "name": "Default",
+  "sources": {
+    "data": {
+      "type": "vector",
+      "url": "pmtiles://../cells.pmtiles",
+      "minzoom": 5,
+      "maxzoom": 12
+    }
+  },
+  "layers": [
+    {
+      "id": "cells-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "cells",
+      "paint": {
+        "fill-color": "#3388ff",
+        "fill-opacity": 0.6,
+        "fill-outline-color": "#2266cc"
+      }
+    }
+  ]
+}

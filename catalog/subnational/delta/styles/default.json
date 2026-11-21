@@ -1,0 +1,25 @@
+{
+  "version": 8,
+  "name": "Default",
+  "sources": {
+    "data": {
+      "type": "vector",
+      "url": "pmtiles://../delta.pmtiles",
+      "minzoom": 4,
+      "maxzoom": 12
+    }
+  },
+  "layers": [
+    {
+      "id": "delta-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "delta",
+      "paint": {
+        "fill-color": "#3388ff",
+        "fill-opacity": 0.6,
+        "fill-outline-color": "#2266cc"
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+title: "FieldMaps site demo data"
+description: "Layers behind the build-step stories on fieldmaps.io, as GeoParquet with PMTiles. Catalog metadata is CC0-1.0; data licenses are set per folder: international/ is ODbL-1.0, subnational/ is CC-BY-3.0-IGO."
+contact:
+  name: "Maxym Malynowsky"
+  email: "fieldmaps@maxmalynowsky.com"
+license: "CC0-1.0"
+providers:
+  - name: "FieldMaps"
+    roles: ["producer", "processor", "host"]
+    url: "https://fieldmaps.io"
+attribution: "FieldMaps"

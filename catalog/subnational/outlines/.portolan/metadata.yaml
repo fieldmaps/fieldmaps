@@ -1,0 +1,2 @@
+title: "Polygon outlines"
+description: "Outer edges of the original polygons, keeping the attributes of the polygon each segment came from."

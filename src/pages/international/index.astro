@@ -1,10 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import BuildStory from "../../lib/international/BuildStory.svelte";
 ---
 
 <Layout title="International">
-  <h1>International boundaries</h1>
-  <p>
-    <a href="/international/methodology/">Methodology</a>
-  </p>
+  <BuildStory client:only="svelte" />
 </Layout>

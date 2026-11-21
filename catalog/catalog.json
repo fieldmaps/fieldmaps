@@ -1,0 +1,48 @@
+{
+  "type": "Catalog",
+  "id": "catalog",
+  "stac_version": "1.1.0",
+  "description": "Layers behind the build-step stories on fieldmaps.io, as GeoParquet with PMTiles. Catalog metadata is CC0-1.0; data licenses are set per folder: international/ is ODbL-1.0, subnational/ is CC-BY-3.0-IGO.",
+  "links": [
+    {
+      "rel": "root",
+      "href": "./catalog.json",
+      "type": "application/json",
+      "title": "FieldMaps site demo data"
+    },
+    {
+      "rel": "child",
+      "href": "./international/catalog.json",
+      "type": "application/json",
+      "title": "International build steps"
+    },
+    {
+      "rel": "child",
+      "href": "./subnational/catalog.json",
+      "type": "application/json",
+      "title": "Subnational build steps (Tanzania)"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Agent/LLM usage guide"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Human-readable documentation"
+    },
+    {
+      "rel": "icon",
+      "href": "./_assets/logo-512.png",
+      "type": "image/png",
+      "title": "FieldMaps logo"
+    }
+  ],
+  "title": "FieldMaps site demo data",
+  "stac_extensions": [
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json"
+  ]
+}

@@ -1,41 +1,54 @@
 ---
-import "../styles/global.css";
+import Logo from "../components/Logo.astro";
+import Base from "./Base.astro";
 
 interface Props {
   title: string;
   description?: string;
   canonical?: boolean;
 }
-
-const {
-  title,
-  description = "Global administrative boundaries for humanitarian use.",
-  canonical = true,
-} = Astro.props;
-const pageTitle = title === "FieldMaps" ? title : `${title} | FieldMaps`;
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
-    {canonical && <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />}
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="icon" href="/img/logo-192.png" />
-    <title>{pageTitle}</title>
-  </head>
-  <body>
-    <header>
-      <nav>
-        <a href="/">FieldMaps</a>
-        <a href="/international/">International</a>
-        <a href="/subnational/">Subnational</a>
-      </nav>
-    </header>
-    <main>
-      <slot />
-    </main>
-  </body>
-</html>
+<Base {...Astro.props}>
+  <header class="site-header">
+    <nav class="wrap">
+      <a class="brand" href="/">
+        <Logo size={36} />
+        <span>FieldMaps</span>
+      </a>
+      <a href="/international/">International</a>
+      <a href="/subnational/">Subnational</a>
+    </nav>
+  </header>
+  <main>
+    <slot />
+  </main>
+</Base>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--white);
+    border-bottom: 3px solid var(--paper);
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 4rem;
+  }
+  nav a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-right: auto;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+</style>

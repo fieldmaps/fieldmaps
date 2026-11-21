@@ -1,8 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Globes from "../lib/globe/Globes.svelte";
 ---
 
 <Layout title="FieldMaps">
-  <h1>FieldMaps</h1>
-  <p>Global international and subnational administrative boundaries.</p>
+  <Globes client:only="svelte" />
 </Layout>

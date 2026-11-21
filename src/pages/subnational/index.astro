@@ -1,10 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import BuildStory from "../../lib/subnational/BuildStory.svelte";
 ---
 
 <Layout title="Subnational">
-  <h1>Subnational boundaries</h1>
-  <p>
-    <a href="/subnational/methodology/">Methodology</a>
-  </p>
+  <BuildStory client:only="svelte" />
 </Layout>
