@@ -1,7 +1,8 @@
+import { reduced } from "../map/map";
+
 export type Slot = "a" | "b";
 export type View = "fade" | Slot;
 
-// Listed from highest to lowest quality.
 export const SOURCES = [
   {
     id: "fieldmaps",
@@ -36,7 +37,7 @@ const KEY_STEP: Record<string, number> = { "[": -1, "]": 1 };
 
 export class CompareState {
   pair = $state<Record<Slot, SourceId>>({ a: "fieldmaps", b: "wp" });
-  view = $state<View>(matchMedia("(prefers-reduced-motion: reduce)").matches ? "a" : "fade");
+  view = $state<View>(reduced ? "a" : "fade");
   basemap = $state<Basemap>("map");
   sweep = $state(0);
   #frame = 0;

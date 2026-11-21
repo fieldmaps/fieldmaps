@@ -57,7 +57,7 @@
       style: BASEMAP,
       transformStyle: (_, next) => {
         const base = next!.layers.filter((l) => !hidden(l));
-        positronIds = base.map((l) => l.id);
+        positronIds = base.filter((l) => l.layout?.visibility !== "none").map((l) => l.id);
         return {
           ...next!,
           ...GLOBE,
