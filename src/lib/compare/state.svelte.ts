@@ -47,6 +47,13 @@ export class CompareState {
     this.#frame = requestAnimationFrame(tick);
   }
 
+  // Picking the other slot's source swaps the two, so A and B always differ.
+  pick(slot: Slot, id: SourceId) {
+    const other = slot === "a" ? "b" : "a";
+    if (this.pair[other] === id) this.pair[other] = this.pair[slot];
+    this.pair[slot] = id;
+  }
+
   keydown(e: KeyboardEvent) {
     if ((e.target as Element).closest?.("input:not([type=radio]), select, textarea")) return;
     const by = KEY_STEP[e.key];

@@ -51,8 +51,7 @@
                 name="source-{slot}"
                 style:accent-color="var(--compare-{slot})"
                 checked={compare.pair[slot] === s.id}
-                disabled={compare.pair[slot === "a" ? "b" : "a"] === s.id}
-                onchange={() => (compare.pair[slot] = s.id)}
+                onchange={() => compare.pick(slot, s.id)}
                 aria-label="{slot.toUpperCase()}: {s.label}"
               />
             </td>
