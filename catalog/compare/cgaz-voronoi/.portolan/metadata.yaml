@@ -1,0 +1,10 @@
+title: "geoBoundaries CGAZ Voronoi"
+description: "Polygons extended over water from geoBoundaries Comprehensive Global Administrative Zones (CGAZ), ADM0."
+license: "CC-BY-4.0"
+license_url: "https://creativecommons.org/licenses/by/4.0/"
+providers:
+  - name: "geoBoundaries, William & Mary geoLab"
+    roles: ["producer", "licensor"]
+    url: "https://www.geoboundaries.org"
+attribution: "geoBoundaries"
+source_url: "https://www.geoboundaries.org"

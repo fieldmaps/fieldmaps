@@ -1,16 +1,55 @@
 # Boundary comparison
 
-Global ADM0 boundary datasets, each trimmed to an ISO3 code and a name, shown side by side on the boundary comparison page. Licenses are set per collection.
+Global ADM0 boundary datasets (polygons, lines and polygons extended over water), with every source column kept, shown side by side on the boundary comparison page. Licenses are set per collection.
 
 ## Collections
 
+<details>
+<summary>📁 18 collections (click to expand)</summary>
+
+### [compare/cgaz-lines](compare/compare/cgaz-lines/)
+
+### [compare/cgaz-polygons](compare/compare/cgaz-polygons/)
+
+### [compare/cgaz-voronoi](compare/compare/cgaz-voronoi/)
+
+### [compare/gaul-lines](compare/compare/gaul-lines/)
+
+### [compare/gaul-polygons](compare/compare/gaul-polygons/)
+
+### [compare/gaul-voronoi](compare/compare/gaul-voronoi/)
+
+### [compare/ne-lines](compare/compare/ne-lines/)
+
+### [compare/ne-polygons](compare/compare/ne-polygons/)
+
+### [compare/ne-voronoi](compare/compare/ne-voronoi/)
+
+### [compare/overture-lines](compare/compare/overture-lines/)
+
+### [compare/overture-polygons](compare/compare/overture-polygons/)
+
+### [compare/overture-voronoi](compare/compare/overture-voronoi/)
+
+### [compare/wb-lines](compare/compare/wb-lines/)
+
+### [compare/wb-polygons](compare/compare/wb-polygons/)
+
+### [compare/wb-voronoi](compare/compare/wb-voronoi/)
+
+### [compare/wp-lines](compare/compare/wp-lines/)
+
 ### [compare/wp-polygons](compare/compare/wp-polygons/)
+
+### [compare/wp-voronoi](compare/compare/wp-voronoi/)
+
+</details>
 
 ## Coverage
 
 **Spatial Extent**
 
-- West: -180.0000, South: -85.0511, East: 180.0000, North: 83.6663
+- West: -180.0000, South: -85.0511, East: 180.0000, North: 85.0511
 
 ## Attribution
 

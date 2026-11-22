@@ -1,0 +1,10 @@
+title: "US State Department lines"
+description: "International boundary lines from U.S. Department of State Large Scale International Boundaries (LSIB)."
+license: "other"
+license_url: "https://geodata.state.gov"
+providers:
+  - name: "U.S. Department of State, Office of the Geographer and Global Issues"
+    roles: ["producer", "licensor"]
+    url: "https://geodata.state.gov"
+attribution: "U.S. Department of State"
+source_url: "https://geodata.state.gov"
