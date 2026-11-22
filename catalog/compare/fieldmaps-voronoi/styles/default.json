@@ -1,0 +1,25 @@
+{
+  "version": 8,
+  "name": "Default",
+  "sources": {
+    "data": {
+      "type": "vector",
+      "url": "pmtiles://../fieldmaps_voronoi.pmtiles",
+      "minzoom": 0,
+      "maxzoom": 12
+    }
+  },
+  "layers": [
+    {
+      "id": "fieldmaps_voronoi-fill",
+      "type": "fill",
+      "source": "data",
+      "source-layer": "fieldmaps_voronoi",
+      "paint": {
+        "fill-color": "#3388ff",
+        "fill-opacity": 0.3,
+        "fill-outline-color": "#2266cc"
+      }
+    }
+  ]
+}

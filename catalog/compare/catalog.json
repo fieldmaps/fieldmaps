@@ -142,6 +142,12 @@
       "title": "GADM 4.1 Voronoi"
     },
     {
+      "rel": "child",
+      "href": "./fieldmaps-voronoi/collection.json",
+      "type": "application/json",
+      "title": "FieldMaps Voronoi"
+    },
+    {
       "rel": "agents",
       "href": "./AGENTS.md",
       "type": "text/markdown",
