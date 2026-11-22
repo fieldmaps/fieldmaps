@@ -141,6 +141,11 @@
     padding: 0.75rem 1rem;
     border-bottom: 1px solid var(--paper);
   }
+  @media (max-width: 36rem) {
+    .controls {
+      padding-top: 3.25rem;
+    }
+  }
   input[type="search"] {
     flex: 1 1 8rem;
     padding: 0.3rem 0.5rem;

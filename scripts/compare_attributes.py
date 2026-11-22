@@ -262,6 +262,8 @@ def attributes(conn: duckdb.DuckDBPyConnection) -> None:
 def build(*, force: bool = False) -> bool:
     """Rebuild ref.parquet and attributes when stale; return whether they changed."""
     downloads = [REF_DIR / "unterm.xlsx", REF_DIR / "m49.html"]
+    if not all(p.exists() for p in downloads):
+        download()
     local = [p for p in POLYGONS.values() if not isinstance(p, str)]
     out = OUT / "attributes.parquet"
     if not force and compare.fresh(out, [*downloads, *local]):

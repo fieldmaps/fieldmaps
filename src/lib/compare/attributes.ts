@@ -84,8 +84,9 @@ export function matches(row: AttributeRow, group: string, pair: string[], query:
   if (!q) return true;
   let text = haystacks.get(row);
   if (text === undefined) {
-    text = Object.values(row)
-      .map((v) => String(v ?? "").toLowerCase())
+    text = Object.entries(row)
+      .filter(([k]) => k === "iso3" || /^(map)?name_/.test(k))
+      .map(([, v]) => String(v ?? "").toLowerCase())
       .join("\n");
     haystacks.set(row, text);
   }

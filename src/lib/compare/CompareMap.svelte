@@ -67,6 +67,7 @@
   };
   const FOCUS_PAD = { top: 60, right: 40, bottom: 40, left: 320 };
   const FOCUS_MAX_ZOOM = 14;
+  const MIN_FIT_PX = 200;
   const SLIDE_MS = 300;
   const codeOf = (s: (typeof SOURCES)[number]): maplibregl.ExpressionSpecification => [
     "upcase",
@@ -281,7 +282,11 @@
     const focus = compare.focus;
     if (!map || !focus?.fly || !focus.bbox) return;
     const [m, bbox] = [map, focus.bbox as [number, number, number, number]];
-    requestAnimationFrame(() => m.fitBounds(bbox, { padding: FOCUS_PAD, maxZoom: FOCUS_MAX_ZOOM }));
+    // fitBounds adds this to the pane's padding, and does nothing when the sum is wider than the canvas.
+    const free = m.getContainer().clientWidth - inset - FOCUS_PAD.left - FOCUS_PAD.right;
+    const roomy = free >= MIN_FIT_PX;
+    const padding = roomy ? FOCUS_PAD : { ...FOCUS_PAD, left: FOCUS_PAD.right };
+    requestAnimationFrame(() => m.fitBounds(bbox, { padding, maxZoom: FOCUS_MAX_ZOOM }));
   });
 
   // A pane over the map's right edge pads the camera instead of resizing the canvas.

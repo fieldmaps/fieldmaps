@@ -20,7 +20,8 @@
   let rows = $state.raw<AttributeRow[]>([]);
   let failed = $state(false);
   let rem = $state(16);
-  const inset = $derived(tab === "map" ? 0 : PANE_REM * rem);
+  let width = $state(0);
+  const inset = $derived(tab === "map" ? 0 : Math.min(PANE_REM * rem, width));
 
   $effect(() => {
     rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
@@ -52,25 +53,15 @@
 
 <div
   class="compare"
+  bind:clientWidth={width}
   style:--inset="{inset}px"
   style:--pane="{PANE_REM}rem"
-  style:--shift={tab === "map" ? "100%" : `calc(100% - ${PANE_REM}rem)`}
+  style:--shift={tab === "map" ? "100%" : `max(0px, 100% - ${PANE_REM}rem)`}
 >
   <div class="map">
     <CompareMap {compare} {inset} onpick={pick} />
     <ComparePanel {compare} />
     <HitsPanel {compare} />
-    <nav class="tabs" aria-label="Views">
-      {#each TABS as t (t.id)}
-        <button
-          type="button"
-          aria-current={tab === t.id ? "page" : undefined}
-          onclick={() => (tab = t.id)}
-        >
-          {t.label}
-        </button>
-      {/each}
-    </nav>
     {#if compare.focus}
       <button
         type="button"
@@ -93,6 +84,17 @@
       />
     </div>
   </div>
+  <nav class="tabs" aria-label="Views">
+    {#each TABS as t (t.id)}
+      <button
+        type="button"
+        aria-current={tab === t.id ? "page" : undefined}
+        onclick={() => (tab = t.id)}
+      >
+        {t.label}
+      </button>
+    {/each}
+  </nav>
 </div>
 
 <style>
@@ -174,6 +176,12 @@
   .chip span {
     margin-left: 0.25rem;
     color: var(--ink-soft);
+  }
+  /* The pane covers the whole map here, so the tabs sit above it and the table makes room. */
+  @media (max-width: 36rem) {
+    .tabs {
+      left: 50%;
+    }
   }
   @media (prefers-reduced-motion: reduce) {
     .pane,
