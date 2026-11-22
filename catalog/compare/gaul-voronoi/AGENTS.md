@@ -6,7 +6,7 @@ Polygons extended over water from FAO Global Administrative Unit Layers 2025, le
 
 - GeoParquet: `https://data.source.coop/fieldmaps/site/compare/gaul-voronoi/gaul_voronoi.parquet`
 - PMTiles: `https://data.source.coop/fieldmaps/site/compare/gaul-voronoi/gaul_voronoi.pmtiles`, layer `gaul_voronoi`
-- Columns: the level 0 attributes of GAUL level 1 (`ISO3_CODE`, `MAP_CODE`, `GAUL0_CODE`, `GAUL0_NAME`, `CONTINENT`), dissolved on them, plus `geometry`. Country code: `ISO3_CODE` (ISO 3166-1 alpha-3). Name: `GAUL0_NAME`
+- Columns: the level 0 attributes of GAUL level 1 (`ISO3_CODE`, `MAP_CODE`, `GAUL0_CODE`, `GAUL0_NAME`, `CONTINENT`), dissolved on them, plus `geometry`. Country code: `ISO3_CODE` (ISO 3166-1 alpha-3, with x-prefixed codes such as `xAB` and `xxx` for disputed areas and bases. `GAUL0_CODE` 342 covers both Australia and Ashmore and Cartier Islands). Name: `GAUL0_NAME`
 - 272 polygons, the cleaned polygons extended over water and gaps (topo-tools edge-extend) to cover the whole globe
 
 ```sql

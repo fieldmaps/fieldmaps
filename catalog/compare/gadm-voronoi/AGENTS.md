@@ -6,7 +6,7 @@ Polygons extended over water from GADM 4.1, level 0, without the Caspian Sea. Pr
 
 - GeoParquet: `https://data.source.coop/fieldmaps/site/compare/gadm-voronoi/gadm_voronoi.parquet`
 - PMTiles: `https://data.source.coop/fieldmaps/site/compare/gadm-voronoi/gadm_voronoi.pmtiles`, layer `gadm_voronoi`
-- Columns: every source attribute as published, plus `geometry`. Country code: `iso3` (`GID_0` with Kosovo as XKX). Name: `COUNTRY`
+- Columns: every source attribute as published, plus `fid_orig` (BIGINT, the source feature id) and `geometry`. Country code: `iso3` (`GID_0` with Kosovo as XKX). Name: `COUNTRY`
 - 262 polygons, the cleaned polygons extended over water and gaps (topo-tools edge-extend) to cover the whole globe
 
 ```sql

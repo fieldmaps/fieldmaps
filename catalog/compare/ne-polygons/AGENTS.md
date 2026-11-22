@@ -6,7 +6,7 @@ Natural Earth 1:10m Admin 0 Countries. Prepared for the boundary comparison page
 
 - GeoParquet: `https://data.source.coop/fieldmaps/site/compare/ne-polygons/ne_polygons.parquet`
 - PMTiles: `https://data.source.coop/fieldmaps/site/compare/ne-polygons/ne_polygons.pmtiles`, layer `ne_polygons`
-- Columns: every source attribute as published, plus `geometry`. Country code: `ADM0_A3` (Natural Earth's three-letter code). Name: `NAME`
+- Columns: every source attribute as published, plus `OGC_FID_orig` (BIGINT, the source feature id) and `geometry`. Country code: `ADM0_A3` (Natural Earth's three-letter code). Name: `NAME`
 - 258 polygons forming a clean coverage (no gaps or overlaps up to 1e-8 degrees), with coordinates rounded to 1e-9 degrees
 
 ```sql

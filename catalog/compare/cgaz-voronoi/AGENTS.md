@@ -6,7 +6,7 @@ Polygons extended over water from geoBoundaries Comprehensive Global Administrat
 
 - GeoParquet: `https://data.source.coop/fieldmaps/site/compare/cgaz-voronoi/cgaz_voronoi.parquet`
 - PMTiles: `https://data.source.coop/fieldmaps/site/compare/cgaz-voronoi/cgaz_voronoi.pmtiles`, layer `cgaz_voronoi`
-- Columns: every source attribute as published, plus `geometry`. Country code: `shapeGroup` (ISO 3166-1 alpha-3). Name: `shapeName`
+- Columns: every source attribute as published, plus `fid_orig` (BIGINT, the source feature id) and `geometry`. Country code: `shapeGroup` (ISO 3166-1 alpha-3, with numeric codes such as `111` for disputed areas). Name: `shapeName`
 - 218 polygons, the cleaned polygons extended over water and gaps (topo-tools edge-extend) to cover the whole globe
 
 ```sql

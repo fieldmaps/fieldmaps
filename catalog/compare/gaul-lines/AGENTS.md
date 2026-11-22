@@ -6,7 +6,7 @@ International boundary lines from FAO Global Administrative Unit Layers 2025, le
 
 - GeoParquet: `https://data.source.coop/fieldmaps/site/compare/gaul-lines/gaul_lines.parquet`
 - PMTiles: `https://data.source.coop/fieldmaps/site/compare/gaul-lines/gaul_lines.pmtiles`, layer `gaul_lines`
-- Columns: `a_code`, `a_name`, `b_code`, `b_name` (the country code and name on each side, from the polygons), `line_type` (`international`) and `geometry`
+- Columns: `a_code`, `a_name`, `b_code`, `b_name` (the country code and name on each side, from the polygons, so a code is null where the polygon's code is null), `line_type` (`international`) and `geometry`
 - 428 lines, the shared edges of the cleaned polygons
 
 ```sql

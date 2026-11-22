@@ -6,7 +6,7 @@ GADM 4.1, level 0, without the Caspian Sea. Prepared for the boundary comparison
 
 - GeoParquet: `https://data.source.coop/fieldmaps/site/compare/gadm-polygons/gadm_polygons.parquet`
 - PMTiles: `https://data.source.coop/fieldmaps/site/compare/gadm-polygons/gadm_polygons.pmtiles`, layer `gadm_polygons`
-- Columns: every source attribute as published, plus `geometry`. Country code: `iso3` (`GID_0` with Kosovo as XKX). Name: `COUNTRY`
+- Columns: every source attribute as published, plus `fid_orig` (BIGINT, the source feature id) and `geometry`. Country code: `iso3` (`GID_0` with Kosovo as XKX). Name: `COUNTRY`
 - 262 polygons forming a clean coverage (no gaps or overlaps up to 1e-8 degrees), with coordinates rounded to 1e-9 degrees
 
 ```sql

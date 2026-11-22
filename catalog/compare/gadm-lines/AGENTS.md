@@ -6,7 +6,7 @@ International boundary lines from GADM 4.1, level 0, without the Caspian Sea. Pr
 
 - GeoParquet: `https://data.source.coop/fieldmaps/site/compare/gadm-lines/gadm_lines.parquet`
 - PMTiles: `https://data.source.coop/fieldmaps/site/compare/gadm-lines/gadm_lines.pmtiles`, layer `gadm_lines`
-- Columns: `a_code`, `a_name`, `b_code`, `b_name` (the country code and name on each side, from the polygons), `line_type` (`international`) and `geometry`
+- Columns: `a_code`, `a_name`, `b_code`, `b_name` (the country code and name on each side, from the polygons, so a code is null where the polygon's code is null), `line_type` (`international`) and `geometry`
 - 1647 lines, the shared edges of the cleaned polygons
 
 ```sql
