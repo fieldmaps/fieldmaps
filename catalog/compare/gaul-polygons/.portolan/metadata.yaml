@@ -1,0 +1,10 @@
+title: "FAO GAUL 2025"
+description: "FAO Global Administrative Unit Layers 2025, level 1 dissolved to level 0."
+license: "CC-BY-4.0"
+license_url: "https://creativecommons.org/licenses/by/4.0/"
+providers:
+  - name: "Food and Agriculture Organization of the United Nations (FAO)"
+    roles: ["producer", "licensor"]
+    url: "https://data.apps.fao.org/catalog/dataset/global-administrative-unit-layers-gaul"
+attribution: "FAO GAUL 2025"
+source_url: "https://data.apps.fao.org/catalog/dataset/global-administrative-unit-layers-gaul"

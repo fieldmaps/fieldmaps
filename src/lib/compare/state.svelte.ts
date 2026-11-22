@@ -17,6 +17,51 @@ export const SOURCES = [
     layer: "wp_polygons",
     attribution: '<a href="https://geodata.state.gov">U.S. Department of State</a>',
   },
+  {
+    id: "overture",
+    label: "Overture",
+    path: "site/compare/overture-polygons/overture_polygons.pmtiles",
+    layer: "overture_polygons",
+    attribution:
+      '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="https://overturemaps.org">Overture Maps Foundation</a>',
+  },
+  {
+    id: "wb",
+    label: "World Bank",
+    path: "site/compare/wb-polygons/wb_polygons.pmtiles",
+    layer: "wb_polygons",
+    attribution:
+      '<a href="https://datacatalog.worldbank.org/search/dataset/0038272">World Bank</a>',
+  },
+  {
+    id: "gaul",
+    label: "FAO GAUL",
+    path: "site/compare/gaul-polygons/gaul_polygons.pmtiles",
+    layer: "gaul_polygons",
+    attribution:
+      '<a href="https://data.apps.fao.org/catalog/dataset/global-administrative-unit-layers-gaul">FAO GAUL 2025</a>',
+  },
+  {
+    id: "gadm",
+    label: "GADM",
+    path: "site/compare/gadm-polygons/gadm_polygons.pmtiles",
+    layer: "gadm_polygons",
+    attribution: '<a href="https://gadm.org">GADM</a>',
+  },
+  {
+    id: "cgaz",
+    label: "geoBoundaries",
+    path: "site/compare/cgaz-polygons/cgaz_polygons.pmtiles",
+    layer: "cgaz_polygons",
+    attribution: '<a href="https://www.geoboundaries.org">geoBoundaries</a>',
+  },
+  {
+    id: "ne",
+    label: "Natural Earth",
+    path: "site/compare/ne-polygons/ne_polygons.pmtiles",
+    layer: "ne_polygons",
+    attribution: '<a href="https://www.naturalearthdata.com">Natural Earth</a>',
+  },
 ] as const;
 export type SourceId = (typeof SOURCES)[number]["id"];
 

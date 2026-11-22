@@ -3,6 +3,7 @@
 import argparse
 import os
 import subprocess
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -28,11 +29,13 @@ def main() -> None:
     args = parser.parse_args()
     now = datetime.now(UTC).replace(microsecond=0).isoformat()
     TMP.mkdir(parents=True, exist_ok=True)
+    failed = []
     for story, zoom in MAX_ZOOM.items():
         if args.only and story != args.only:
             continue
         if story == "compare":
-            compare.prepare()
+            if failed := compare.build():
+                print("\n".join(failed))  # noqa: T201
         else:
             subprocess.run(
                 ["duckdb", "-no-agent", "-c", f".read scripts/{story}-steps.sql"],
@@ -41,6 +44,9 @@ def main() -> None:
                 check=True,
             )
         for parquet in sorted(CATALOG.glob(f"{story}/*/*.parquet")):
+            pmtiles = parquet.with_suffix(".pmtiles")
+            if compare.fresh(pmtiles, [parquet]):
+                continue
             overview = TMP / f"{story}_{parquet.name}"
             try:
                 tylertoo.overview(
@@ -55,7 +61,7 @@ def main() -> None:
                 )
                 tylertoo.export_pmtiles(
                     str(overview),
-                    str(parquet.with_suffix(".pmtiles")),
+                    str(pmtiles),
                     layer_name=parquet.stem,
                     tile_size_limit=None,
                 )
@@ -65,6 +71,8 @@ def main() -> None:
             fieldmaps_publish.add(CATALOG, collection, "--datetime", now, "--force")
             print(collection)  # noqa: T201
     fieldmaps_publish.run(CATALOG, "check", "--data-scope", "local")
+    if args.push and failed:
+        sys.exit("Not pushing: a compare stage failed.")
     if args.push:
         fieldmaps_publish.push(CATALOG)
 

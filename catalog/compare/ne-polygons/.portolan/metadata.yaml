@@ -1,0 +1,10 @@
+title: "Natural Earth"
+description: "Natural Earth 1:10m Admin 0 Countries."
+license: "other"
+license_url: "https://www.naturalearthdata.com/about/terms-of-use/"
+providers:
+  - name: "Natural Earth"
+    roles: ["producer", "licensor"]
+    url: "https://www.naturalearthdata.com"
+attribution: "Natural Earth"
+source_url: "https://www.naturalearthdata.com"

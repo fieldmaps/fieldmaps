@@ -1,0 +1,85 @@
+{
+  "version": 8,
+  "name": "Default",
+  "sources": {
+    "data": {
+      "type": "vector",
+      "url": "pmtiles://../gadm_lines.pmtiles",
+      "minzoom": 0,
+      "maxzoom": 12
+    }
+  },
+  "layers": [
+    {
+      "id": "gadm_lines-international",
+      "type": "line",
+      "source": "data",
+      "source-layer": "gadm_lines",
+      "filter": [
+        "==",
+        [
+          "get",
+          "line_type"
+        ],
+        "international"
+      ],
+      "paint": {
+        "line-color": "#3388ff",
+        "line-opacity": 0.8,
+        "line-width": 1.5,
+        "line-dasharray": [
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "id": "gadm_lines-special",
+      "type": "line",
+      "source": "data",
+      "source-layer": "gadm_lines",
+      "filter": [
+        "==",
+        [
+          "get",
+          "line_type"
+        ],
+        "special"
+      ],
+      "paint": {
+        "line-color": "#3388ff",
+        "line-opacity": 0.8,
+        "line-width": 1.5,
+        "line-dasharray": [
+          4,
+          1.5,
+          1,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "gadm_lines-armistice",
+      "type": "line",
+      "source": "data",
+      "source-layer": "gadm_lines",
+      "filter": [
+        "==",
+        [
+          "get",
+          "line_type"
+        ],
+        "armistice"
+      ],
+      "paint": {
+        "line-color": "#3388ff",
+        "line-opacity": 0.8,
+        "line-width": 1.5,
+        "line-dasharray": [
+          3,
+          1.5
+        ]
+      }
+    }
+  ]
+}

@@ -95,7 +95,7 @@
                   type: "fill",
                   paint: { "fill-opacity": FILL_OPACITY },
                 },
-                { ...common, id: `${s.id}-line`, type: "line", paint: { "line-width": 1.5 } },
+                { ...common, id: `${s.id}-line`, type: "line", paint: { "line-width": 3 } },
               ];
             }),
           ],
