@@ -8,6 +8,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 import compare
+import compare_attributes
 import fieldmaps_publish
 import tylertoo
 
@@ -36,6 +37,10 @@ def main() -> None:
         if story == "compare":
             if failed := compare.build():
                 print("\n".join(failed))  # noqa: T201
+            if compare_attributes.build():
+                fieldmaps_publish.add(
+                    CATALOG, "compare/attributes", "--datetime", now, "--force"
+                )
         else:
             subprocess.run(
                 ["duckdb", "-no-agent", "-c", f".read scripts/{story}-steps.sql"],
@@ -44,6 +49,8 @@ def main() -> None:
                 check=True,
             )
         for parquet in sorted(CATALOG.glob(f"{story}/*/*.parquet")):
+            if parquet.parent == compare_attributes.OUT:
+                continue
             pmtiles = parquet.with_suffix(".pmtiles")
             if compare.fresh(pmtiles, [parquet]):
                 continue

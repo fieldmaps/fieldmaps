@@ -148,6 +148,12 @@
       "title": "FieldMaps Voronoi"
     },
     {
+      "rel": "child",
+      "href": "./attributes/collection.json",
+      "type": "application/json",
+      "title": "Boundary comparison attributes"
+    },
+    {
       "rel": "agents",
       "href": "./AGENTS.md",
       "type": "text/markdown",

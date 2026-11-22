@@ -13,6 +13,7 @@ __pycache__
 .ruff_cache
 catalog/**/*.parquet
 catalog/**/*.pmtiles
+catalog/compare/attributes/*.json
 catalog/**/*.thumb.*
 catalog/.portolan/.versions.lock
 catalog/**/versions.json
