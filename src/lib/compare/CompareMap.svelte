@@ -3,7 +3,7 @@
   import { color, createMap, GLOBE } from "../map/map";
   import { SATELLITE, SATELLITE_PROTOCOL, satelliteTile } from "../map/satellite";
   import { byType, globeFitZoom, pmtiles } from "../map/style";
-  import { SLOTS, SOURCES, type CompareState } from "./state.svelte";
+  import { SLOTS, SOURCES, type CompareState, type Hit } from "./state.svelte";
 
   let { compare }: { compare: CompareState } = $props();
 
@@ -49,6 +49,7 @@
     ["line", "line"],
     ["boundary", "line"],
   ] as const;
+  const CLICK_PAD = 3;
 
   let container: HTMLDivElement;
   let map = $state.raw<maplibregl.Map | null>(null);
@@ -105,6 +106,8 @@
                   paint: { "fill-opacity": FILL_OPACITY },
                 },
                 { ...common, id: `${s.id}-line`, type: "line", paint: { "line-width": 3 } },
+                // Transparent, so a click finds the country under it in Lines mode too.
+                { ...common, id: `${s.id}-pick`, type: "fill", paint: { "fill-opacity": 0 } },
                 {
                   ...common,
                   source: `${s.id}-lines`,
@@ -122,7 +125,7 @@
         };
       },
     });
-    m.addControl(new maplibregl.NavigationControl({ showCompass: false }));
+    m.on("click", (e) => (compare.hits = query(m, e.point)));
     m.once("load", () => (map = m));
     return () => {
       destroy();
@@ -131,10 +134,38 @@
     };
   });
 
+  // A first, each slot's line before its polygon; tiles split a feature, so repeats are dropped.
+  function query(m: maplibregl.Map, { x, y }: maplibregl.Point): Hit[] {
+    const lines = compare.mode === "lines";
+    const box: [maplibregl.PointLike, maplibregl.PointLike] = [
+      [x - CLICK_PAD, y - CLICK_PAD],
+      [x + CLICK_PAD, y + CLICK_PAD],
+    ];
+    const hits = SLOTS.flatMap((slot) => {
+      const s = SOURCES.find((s) => s.id === compare.pair[slot])!;
+      const found = [
+        ...(lines ? m.queryRenderedFeatures(box, { layers: [`${s.id}-boundary`] }) : []),
+        ...m.queryRenderedFeatures([x, y], { layers: [`${s.id}-pick`] }),
+      ];
+      return found.map((f) => {
+        const kind = f.layer.id.endsWith("-boundary") ? "line" : "polygon";
+        return { slot, label: lines ? `${s.label} ${kind}` : s.label, properties: f.properties };
+      });
+    });
+    const keys = hits.map((h) => JSON.stringify(h));
+    return hits.filter((_, i) => keys.indexOf(keys[i]) === i);
+  }
+
+  $effect(() => {
+    void [compare.mode, compare.view, compare.pair.a, compare.pair.b];
+    compare.hits = [];
+  });
+
   $effect(() => {
     if (!map) return;
     for (const s of SOURCES) {
       const slot = SLOTS.find((k) => compare.pair[k] === s.id);
+      map.setLayoutProperty(`${s.id}-pick`, "visibility", slot ? "visible" : "none");
       for (const [layer, type] of LAYERS) {
         const shown = slot && (layer === "boundary") === (compare.mode === "lines");
         map.setLayoutProperty(`${s.id}-${layer}`, "visibility", shown ? "visible" : "none");
@@ -177,5 +208,8 @@
   .map {
     position: absolute;
     inset: 0;
+  }
+  .map :global(.maplibregl-canvas) {
+    cursor: pointer;
   }
 </style>
