@@ -45,6 +45,8 @@ Polygons extended over water from FieldMaps international boundaries (humanitari
 |------|------|----------|
 | ./fieldmaps_voronoi.parquet | 60.8 MB | 1220ae34b742... |
 | ./fieldmaps_voronoi.pmtiles | 148.0 MB | 12202df3bb12... |
+| ./styles/default.json | 484 B | 1220fc147e92... |
+| ./fieldmaps_voronoi.thumb.jpg | 25.0 KB | 12201eedb834... |
 
 ## Quick Start
 
@@ -66,7 +68,7 @@ print(gdf.head())
 
 ## Attribution
 
-FieldMaps, LSIB, © OpenStreetMap contributors
+© OpenStreetMap contributors, U.S. Department of State, FieldMaps
 
 ## License
 

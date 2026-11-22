@@ -6,7 +6,7 @@ Polygons extended over water from FieldMaps international boundaries (humanitari
 
 - GeoParquet: `https://data.source.coop/fieldmaps/site/compare/fieldmaps-voronoi/fieldmaps_voronoi.parquet`
 - PMTiles: `https://data.source.coop/fieldmaps/site/compare/fieldmaps-voronoi/fieldmaps_voronoi.pmtiles`, layer `fieldmaps_voronoi`
-- Columns: the attributes of `international/odbl/humanitarian/adm0-polygons` (release 2026-11-20), plus `geometry`. Country code: `iso3`. Name: `adm0_name`
+- Columns: the attributes of `international/odbl/humanitarian/adm0-polygons` (release 2026-11-20), joined on the `adm0_id` code without its date suffix, plus `geometry`. Country code: `iso3`. Name: `adm0_name`
 - 323 polygons, the 2026-10-31 FieldMaps polygons extended over water and gaps (topo-tools edge-extend) to cover the whole globe
 
 ```sql
@@ -16,4 +16,4 @@ SELECT * FROM 'https://data.source.coop/fieldmaps/site/compare/fieldmaps-voronoi
 
 ## License
 
-Open Database License (ODbL) 1.0. Attribution: FieldMaps, LSIB, © OpenStreetMap contributors.
+Open Database License (ODbL) 1.0. Attribution: © OpenStreetMap contributors, U.S. Department of State, FieldMaps.

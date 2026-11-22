@@ -6,5 +6,5 @@ providers:
   - name: "FieldMaps"
     roles: ["producer", "licensor"]
     url: "https://fieldmaps.io"
-attribution: "FieldMaps, LSIB, © OpenStreetMap contributors"
+attribution: "© OpenStreetMap contributors, U.S. Department of State, FieldMaps"
 source_url: "https://source.coop/fieldmaps/international"
