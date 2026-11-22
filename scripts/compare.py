@@ -169,7 +169,7 @@ def wp_query(conn: duckdb.DuckDBPyConnection) -> str:
 
 
 def overture_query(_: duckdb.DuckDBPyConnection) -> str:
-    """Overture land country areas, with ISO3 from M49 and an English display name."""
+    """Overture land country areas, with ISO3 from the ISO2 `country` code."""
     return f"""
         SELECT a.* EXCLUDE geometry,
             CASE a.country WHEN 'TW' THEN 'TWN' WHEN 'XK' THEN 'XKX'
@@ -177,7 +177,7 @@ def overture_query(_: duckdb.DuckDBPyConnection) -> str:
             coalesce(a.names.common['en'], a.names.primary) AS name,
             a.geometry
         FROM '{DOWNLOAD}/overture/division_area_country_{OVERTURE}.parquet' AS a
-        LEFT JOIN read_csv('{DOWNLOAD}/ref/iso2_iso3.csv') AS r
+        LEFT JOIN read_csv('{ROOT}/scripts/iso2_iso3.csv') AS r
             ON r.iso2 = a.country
         WHERE a.class = 'land'
     """
@@ -400,7 +400,7 @@ def build(
                 continue
             try:
                 STAGES[stage](source)
-            except (CalledProcessError, duckdb.Error) as e:
+            except (CalledProcessError, duckdb.Error, StopIteration) as e:
                 failed.append(f"{stage} {source}: {e}")
                 print(f"failed: {stage} {source}: {e}")  # noqa: T201
                 continue

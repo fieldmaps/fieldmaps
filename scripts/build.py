@@ -3,6 +3,7 @@
 import argparse
 import os
 import subprocess
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -28,6 +29,7 @@ def main() -> None:
     args = parser.parse_args()
     now = datetime.now(UTC).replace(microsecond=0).isoformat()
     TMP.mkdir(parents=True, exist_ok=True)
+    failed = []
     for story, zoom in MAX_ZOOM.items():
         if args.only and story != args.only:
             continue
@@ -69,6 +71,8 @@ def main() -> None:
             fieldmaps_publish.add(CATALOG, collection, "--datetime", now, "--force")
             print(collection)  # noqa: T201
     fieldmaps_publish.run(CATALOG, "check", "--data-scope", "local")
+    if args.push and failed:
+        sys.exit("Not pushing: a compare stage failed.")
     if args.push:
         fieldmaps_publish.push(CATALOG)
 
