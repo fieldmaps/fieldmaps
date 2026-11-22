@@ -45,9 +45,11 @@
   ];
 
   const LAYERS = [
-    ["fill", "fill"],
-    ["line", "line"],
-    ["boundary", "line"],
+    ["fill", "fill", "polygons"],
+    ["line", "line", "polygons"],
+    ["boundary", "line", "lines"],
+    ["cell-fill", "fill", "voronoi"],
+    ["cell-line", "line", "voronoi"],
   ] as const;
   const CLICK_PAD = 3;
 
@@ -79,6 +81,7 @@
                 return [
                   [s.id, pmtiles(s.path, attribution)],
                   [`${s.id}-lines`, pmtiles(s.lines.path, attribution)],
+                  [`${s.id}-voronoi`, pmtiles(s.voronoi.path, attribution)],
                 ];
               }),
             ),
@@ -119,6 +122,14 @@
                     "line-dasharray": byType((t) => ["literal", t.dash]),
                   },
                 },
+                ...(["fill", "line"] as const).map((type): maplibregl.LayerSpecification => ({
+                  ...common,
+                  source: `${s.id}-voronoi`,
+                  "source-layer": s.voronoi.layer,
+                  id: `${s.id}-cell-${type}`,
+                  type,
+                  paint: type === "fill" ? { "fill-opacity": FILL_OPACITY } : { "line-width": 3 },
+                })),
               ];
             }),
           ],
@@ -137,6 +148,7 @@
   });
 
   // A first, each slot's line before its polygon; tiles split a feature, so repeats are dropped.
+  // Voronoi reports the cell, which also answers clicks on water.
   function query(m: maplibregl.Map, { x, y }: maplibregl.Point): Hit[] {
     const lines = compare.mode === "lines";
     const box: [maplibregl.PointLike, maplibregl.PointLike] = [
@@ -147,7 +159,9 @@
       const s = SOURCES.find((s) => s.id === compare.pair[slot])!;
       const found = [
         ...(lines ? m.queryRenderedFeatures(box, { layers: [`${s.id}-boundary`] }) : []),
-        ...m.queryRenderedFeatures([x, y], { layers: [`${s.id}-pick`] }),
+        ...m.queryRenderedFeatures([x, y], {
+          layers: [compare.mode === "voronoi" ? `${s.id}-cell-fill` : `${s.id}-pick`],
+        }),
       ];
       return found.map((f) => {
         const kind = f.layer.id.endsWith("-boundary") ? "line" : "polygon";
@@ -168,8 +182,8 @@
     for (const s of SOURCES) {
       const slot = SLOTS.find((k) => compare.pair[k] === s.id);
       map.setLayoutProperty(`${s.id}-pick`, "visibility", slot ? "visible" : "none");
-      for (const [layer, type] of LAYERS) {
-        const shown = slot && (layer === "boundary") === (compare.mode === "lines");
+      for (const [layer, type, mode] of LAYERS) {
+        const shown = slot && mode === compare.mode;
         map.setLayoutProperty(`${s.id}-${layer}`, "visibility", shown ? "visible" : "none");
         if (shown)
           map.setPaintProperty(`${s.id}-${layer}`, `${type}-color`, color(`--compare-${slot}`));
@@ -182,9 +196,12 @@
     for (const slot of SLOTS) {
       const id = compare.pair[slot];
       const o = compare.opacities[slot];
-      map.setPaintProperty(`${id}-fill`, "fill-opacity", FILL_OPACITY * o);
-      map.setPaintProperty(`${id}-line`, "line-opacity", o);
-      map.setPaintProperty(`${id}-boundary`, "line-opacity", o);
+      for (const [layer, type] of LAYERS)
+        map.setPaintProperty(
+          `${id}-${layer}`,
+          `${type}-opacity`,
+          type === "fill" ? FILL_OPACITY * o : o,
+        );
     }
   });
 

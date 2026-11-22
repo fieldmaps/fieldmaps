@@ -1,0 +1,10 @@
+title: "FieldMaps Voronoi"
+description: "Polygons extended over water from FieldMaps international boundaries (humanitarian, OSM land)."
+license: "ODbL-1.0"
+license_url: "https://opendatacommons.org/licenses/odbl/1-0/"
+providers:
+  - name: "FieldMaps"
+    roles: ["producer", "licensor"]
+    url: "https://fieldmaps.io"
+attribution: "© OpenStreetMap contributors, U.S. Department of State, FieldMaps"
+source_url: "https://source.coop/fieldmaps/international"
