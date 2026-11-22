@@ -13,9 +13,13 @@
     {#each compare.hits as hit, i (i)}
       <section>
         <h3>
-          <span class="badge" style:--color="var(--compare-{hit.slot})">
-            {hit.slot.toUpperCase()}
-          </span>
+          {#if hit.slot}
+            <span class="badge" style:--color="var(--compare-{hit.slot})">
+              {hit.slot.toUpperCase()}
+            </span>
+          {:else}
+            <span class="swatch" aria-hidden="true"></span>
+          {/if}
           {hit.label}
         </h3>
         <table>
@@ -82,6 +86,11 @@
     background: var(--color);
     font-size: 0.7rem;
     font-weight: 700;
+  }
+  .swatch {
+    width: 0.8rem;
+    height: 0.8rem;
+    background: #7b3fa0;
   }
   table {
     width: 100%;
