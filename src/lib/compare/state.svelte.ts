@@ -93,6 +93,12 @@ export const BASEMAPS: { id: Basemap; label: string }[] = [
   { id: "satellite", label: "Satellite" },
 ];
 
+export interface Hit {
+  slot: Slot;
+  label: string;
+  properties: Record<string, unknown>;
+}
+
 const FADE_CYCLE_MS = 3000;
 const KEY_STEP: Record<string, number> = { "[": -1, "]": 1 };
 
@@ -102,6 +108,7 @@ export class CompareState {
   view = $state<View>(reduced ? "a" : "fade");
   basemap = $state<Basemap>("map");
   sweep = $state(0);
+  hits = $state<Hit[]>([]);
   #frame = 0;
 
   opacities = $derived<Record<Slot, number>>(
@@ -131,6 +138,7 @@ export class CompareState {
   keydown(e: KeyboardEvent) {
     // Option and AltGr stay allowed, since some layouts need them to type [ and ].
     if (e.metaKey || (e.ctrlKey && !e.altKey)) return;
+    if (e.key === "Escape") this.hits = [];
     if ((e.target as Element).closest?.("input:not([type=radio]), select, textarea")) return;
     const by = KEY_STEP[e.key];
     if (by === undefined) return;
