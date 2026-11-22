@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { BASEMAPS, SLOTS, SOURCES, VIEWS, type CompareState } from "./state.svelte";
+  import { BASEMAPS, MODES, SLOTS, SOURCES, VIEWS, type CompareState } from "./state.svelte";
 
   let { compare }: { compare: CompareState } = $props();
 </script>
@@ -28,6 +28,8 @@
   </a>
   <h2>Basemap</h2>
   {@render segmented("Basemap", BASEMAPS, compare.basemap, (id) => (compare.basemap = id))}
+  <h2>Geometry</h2>
+  {@render segmented("Geometry", MODES, compare.mode, (id) => (compare.mode = id))}
   <h2>View</h2>
   {@render segmented("View", VIEWS, compare.view, (id) => (compare.view = id))}
   <h2>Compare</h2>

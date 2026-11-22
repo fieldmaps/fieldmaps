@@ -9,12 +9,17 @@ export const SOURCES = [
     label: "FieldMaps",
     path: "international/odbl/humanitarian/adm0-polygons/adm0_polygons.pmtiles",
     layer: "adm0_polygons",
+    lines: {
+      path: "international/odbl/humanitarian/adm0-lines/adm0_lines.pmtiles",
+      layer: "adm0_lines",
+    },
   },
   {
     id: "wp",
     label: "US State Dept",
     path: "site/compare/wp-polygons/wp_polygons.pmtiles",
     layer: "wp_polygons",
+    lines: { path: "site/compare/wp-lines/wp_lines.pmtiles", layer: "wp_lines" },
     attribution: '<a href="https://geodata.state.gov">U.S. Department of State</a>',
   },
   {
@@ -22,6 +27,7 @@ export const SOURCES = [
     label: "Overture",
     path: "site/compare/overture-polygons/overture_polygons.pmtiles",
     layer: "overture_polygons",
+    lines: { path: "site/compare/overture-lines/overture_lines.pmtiles", layer: "overture_lines" },
     attribution:
       '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="https://overturemaps.org">Overture Maps Foundation</a>',
   },
@@ -30,6 +36,7 @@ export const SOURCES = [
     label: "World Bank",
     path: "site/compare/wb-polygons/wb_polygons.pmtiles",
     layer: "wb_polygons",
+    lines: { path: "site/compare/wb-lines/wb_lines.pmtiles", layer: "wb_lines" },
     attribution:
       '<a href="https://datacatalog.worldbank.org/search/dataset/0038272">World Bank</a>',
   },
@@ -38,6 +45,7 @@ export const SOURCES = [
     label: "FAO GAUL",
     path: "site/compare/gaul-polygons/gaul_polygons.pmtiles",
     layer: "gaul_polygons",
+    lines: { path: "site/compare/gaul-lines/gaul_lines.pmtiles", layer: "gaul_lines" },
     attribution:
       '<a href="https://data.apps.fao.org/catalog/dataset/global-administrative-unit-layers-gaul">FAO GAUL 2025</a>',
   },
@@ -46,6 +54,7 @@ export const SOURCES = [
     label: "GADM",
     path: "site/compare/gadm-polygons/gadm_polygons.pmtiles",
     layer: "gadm_polygons",
+    lines: { path: "site/compare/gadm-lines/gadm_lines.pmtiles", layer: "gadm_lines" },
     attribution: '<a href="https://gadm.org">GADM</a>',
   },
   {
@@ -53,6 +62,7 @@ export const SOURCES = [
     label: "geoBoundaries",
     path: "site/compare/cgaz-polygons/cgaz_polygons.pmtiles",
     layer: "cgaz_polygons",
+    lines: { path: "site/compare/cgaz-lines/cgaz_lines.pmtiles", layer: "cgaz_lines" },
     attribution: '<a href="https://www.geoboundaries.org">geoBoundaries</a>',
   },
   {
@@ -60,6 +70,7 @@ export const SOURCES = [
     label: "Natural Earth",
     path: "site/compare/ne-polygons/ne_polygons.pmtiles",
     layer: "ne_polygons",
+    lines: { path: "site/compare/ne-lines/ne_lines.pmtiles", layer: "ne_lines" },
     attribution: '<a href="https://www.naturalearthdata.com">Natural Earth</a>',
   },
 ] as const;
@@ -71,6 +82,11 @@ export const VIEWS: { id: View; label: string }[] = [
   { id: "b", label: "B" },
 ];
 export const SLOTS: Slot[] = ["a", "b"];
+export type Mode = "lines" | "polygons";
+export const MODES: { id: Mode; label: string }[] = [
+  { id: "lines", label: "Lines" },
+  { id: "polygons", label: "Polygons" },
+];
 export type Basemap = "map" | "satellite";
 export const BASEMAPS: { id: Basemap; label: string }[] = [
   { id: "map", label: "Map" },
@@ -82,6 +98,7 @@ const KEY_STEP: Record<string, number> = { "[": -1, "]": 1 };
 
 export class CompareState {
   pair = $state<Record<Slot, SourceId>>({ a: "fieldmaps", b: "wp" });
+  mode = $state<Mode>("lines");
   view = $state<View>(reduced ? "a" : "fade");
   basemap = $state<Basemap>("map");
   sweep = $state(0);

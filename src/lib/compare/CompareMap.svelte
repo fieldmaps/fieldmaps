@@ -2,7 +2,7 @@
   import * as maplibregl from "maplibre-gl";
   import { color, createMap, GLOBE } from "../map/map";
   import { SATELLITE, SATELLITE_PROTOCOL, satelliteTile } from "../map/satellite";
-  import { globeFitZoom, pmtiles } from "../map/style";
+  import { byType, globeFitZoom, pmtiles } from "../map/style";
   import { SLOTS, SOURCES, type CompareState } from "./state.svelte";
 
   let { compare }: { compare: CompareState } = $props();
@@ -44,6 +44,12 @@
     })),
   ];
 
+  const LAYERS = [
+    ["fill", "fill"],
+    ["line", "line"],
+    ["boundary", "line"],
+  ] as const;
+
   let container: HTMLDivElement;
   let map = $state.raw<maplibregl.Map | null>(null);
 
@@ -67,10 +73,13 @@
             ...next!.sources,
             satellite: SATELLITE,
             ...Object.fromEntries(
-              SOURCES.map((s) => [
-                s.id,
-                pmtiles(s.path, "attribution" in s ? s.attribution : undefined),
-              ]),
+              SOURCES.flatMap((s) => {
+                const attribution = "attribution" in s ? s.attribution : undefined;
+                return [
+                  [s.id, pmtiles(s.path, attribution)],
+                  [`${s.id}-lines`, pmtiles(s.lines.path, attribution)],
+                ];
+              }),
             ),
           },
           layers: [
@@ -96,6 +105,17 @@
                   paint: { "fill-opacity": FILL_OPACITY },
                 },
                 { ...common, id: `${s.id}-line`, type: "line", paint: { "line-width": 3 } },
+                {
+                  ...common,
+                  source: `${s.id}-lines`,
+                  "source-layer": s.lines.layer,
+                  id: `${s.id}-boundary`,
+                  type: "line",
+                  paint: {
+                    "line-width": 3,
+                    "line-dasharray": byType((t) => ["literal", t.dash]),
+                  },
+                },
               ];
             }),
           ],
@@ -115,10 +135,11 @@
     if (!map) return;
     for (const s of SOURCES) {
       const slot = SLOTS.find((k) => compare.pair[k] === s.id);
-      for (const type of ["fill", "line"] as const) {
-        map.setLayoutProperty(`${s.id}-${type}`, "visibility", slot ? "visible" : "none");
-        if (slot)
-          map.setPaintProperty(`${s.id}-${type}`, `${type}-color`, color(`--compare-${slot}`));
+      for (const [layer, type] of LAYERS) {
+        const shown = slot && (layer === "boundary") === (compare.mode === "lines");
+        map.setLayoutProperty(`${s.id}-${layer}`, "visibility", shown ? "visible" : "none");
+        if (shown)
+          map.setPaintProperty(`${s.id}-${layer}`, `${type}-color`, color(`--compare-${slot}`));
       }
     }
   });
@@ -130,6 +151,7 @@
       const o = compare.opacities[slot];
       map.setPaintProperty(`${id}-fill`, "fill-opacity", FILL_OPACITY * o);
       map.setPaintProperty(`${id}-line`, "line-opacity", o);
+      map.setPaintProperty(`${id}-boundary`, "line-opacity", o);
     }
   });
 
