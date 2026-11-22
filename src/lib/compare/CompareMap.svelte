@@ -125,8 +125,10 @@
         };
       },
     });
-    m.on("click", (e) => (compare.hits = query(m, e.point)));
-    m.once("load", () => (map = m));
+    m.once("load", () => {
+      map = m;
+      m.on("click", (e) => (compare.hits = query(m, e.point)));
+    });
     return () => {
       destroy();
       map = null;

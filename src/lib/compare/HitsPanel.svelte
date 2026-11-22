@@ -33,6 +33,7 @@
 <style>
   .hits {
     position: absolute;
+    z-index: 3;
     top: 0.75rem;
     right: 0.75rem;
     width: 20rem;
@@ -93,7 +94,7 @@
     padding: 0.1rem 0.75rem 0.1rem 0;
     text-align: left;
     vertical-align: top;
-    word-break: break-word;
+    overflow-wrap: anywhere;
   }
   th {
     width: 40%;
