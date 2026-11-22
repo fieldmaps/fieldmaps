@@ -4,7 +4,7 @@ Global ADM0 boundaries from other publishers, tiled for the comparison page at h
 
 ## Collections
 
-Sources, in the page's order: `wp` (US State Department), `overture` (Overture Maps Divisions), `wb` (World Bank Official Boundaries), `gaul` (FAO GAUL 2025), `cgaz` (geoBoundaries CGAZ), `ne` (Natural Earth). Each source has up to three collections:
+Sources, in the page's order: `wp` (US State Department), `overture` (Overture Maps Divisions), `wb` (World Bank Official Boundaries), `gaul` (FAO GAUL 2025), `gadm` (GADM 4.1), `cgaz` (geoBoundaries CGAZ), `ne` (Natural Earth). Each source has up to three collections:
 
 - `<id>-polygons`: the source's ADM0 polygons, topology-cleaned.
 - `<id>-lines`: international boundary lines. `wp` uses LSIB and `overture` its `division_boundary` lines; the others are the shared edges of the cleaned polygons, with the country on each side.

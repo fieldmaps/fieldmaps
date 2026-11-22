@@ -124,6 +124,24 @@
       "title": "US State Department Voronoi"
     },
     {
+      "rel": "child",
+      "href": "./gadm-lines/collection.json",
+      "type": "application/json",
+      "title": "GADM 4.1 lines"
+    },
+    {
+      "rel": "child",
+      "href": "./gadm-polygons/collection.json",
+      "type": "application/json",
+      "title": "GADM 4.1"
+    },
+    {
+      "rel": "child",
+      "href": "./gadm-voronoi/collection.json",
+      "type": "application/json",
+      "title": "GADM 4.1 Voronoi"
+    },
+    {
       "rel": "agents",
       "href": "./AGENTS.md",
       "type": "text/markdown",

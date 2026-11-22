@@ -5,13 +5,19 @@ Global ADM0 boundary datasets (polygons, lines and polygons extended over water)
 ## Collections
 
 <details>
-<summary>📁 18 collections (click to expand)</summary>
+<summary>📁 21 collections (click to expand)</summary>
 
 ### [compare/cgaz-lines](compare/compare/cgaz-lines/)
 
 ### [compare/cgaz-polygons](compare/compare/cgaz-polygons/)
 
 ### [compare/cgaz-voronoi](compare/compare/cgaz-voronoi/)
+
+### [compare/gadm-lines](compare/compare/gadm-lines/)
+
+### [compare/gadm-polygons](compare/compare/gadm-polygons/)
+
+### [compare/gadm-voronoi](compare/compare/gadm-voronoi/)
 
 ### [compare/gaul-lines](compare/compare/gaul-lines/)
 

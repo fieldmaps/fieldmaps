@@ -42,6 +42,13 @@ export const SOURCES = [
       '<a href="https://data.apps.fao.org/catalog/dataset/global-administrative-unit-layers-gaul">FAO GAUL 2025</a>',
   },
   {
+    id: "gadm",
+    label: "GADM",
+    path: "site/compare/gadm-polygons/gadm_polygons.pmtiles",
+    layer: "gadm_polygons",
+    attribution: '<a href="https://gadm.org">GADM</a>',
+  },
+  {
     id: "cgaz",
     label: "geoBoundaries",
     path: "site/compare/cgaz-polygons/cgaz_polygons.pmtiles",
