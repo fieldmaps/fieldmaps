@@ -6,3 +6,5 @@ conversion:
 check:
   disabled:
     - PTL-BBX-001
+tabular:
+  enabled: true

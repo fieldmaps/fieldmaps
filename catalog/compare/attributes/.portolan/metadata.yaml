@@ -1,0 +1,10 @@
+title: "Boundary comparison attributes"
+description: "ADM0 names, labels, sovereigns, statuses and regions from every comparison source, M49 and UNTERM, one row per ISO3 code."
+license: "other"
+license_url: "https://source.coop/fieldmaps/site"
+providers:
+  - name: "FieldMaps"
+    roles: ["producer", "host"]
+    url: "https://fieldmaps.io"
+attribution: "FieldMaps, U.S. Department of State, Overture Maps Foundation, World Bank, FAO GAUL, GADM, geoBoundaries, Natural Earth, UN Statistics Division (M49), UNTERM"
+source_url: "https://fieldmaps.io/international/compare/"

@@ -1,4 +1,5 @@
 import { reduced } from "../map/map";
+import { unionBox, type Part } from "./attributes";
 
 export type Slot = "a" | "b";
 export type View = "fade" | Slot;
@@ -6,6 +7,8 @@ export type View = "fade" | Slot;
 export const SOURCES = [
   {
     id: "fieldmaps",
+    code: "iso3",
+    name: "adm0_name",
     label: "FieldMaps",
     path: "international/odbl/humanitarian/adm0-polygons/adm0_polygons.pmtiles",
     layer: "adm0_polygons",
@@ -20,6 +23,8 @@ export const SOURCES = [
   },
   {
     id: "wp",
+    code: "GENC_3",
+    name: "Map_Label",
     label: "US State Dept",
     path: "site/compare/wp-polygons/wp_polygons.pmtiles",
     layer: "wp_polygons",
@@ -32,6 +37,8 @@ export const SOURCES = [
   },
   {
     id: "overture",
+    code: "iso3",
+    name: "name",
     label: "Overture",
     path: "site/compare/overture-polygons/overture_polygons.pmtiles",
     layer: "overture_polygons",
@@ -45,6 +52,8 @@ export const SOURCES = [
   },
   {
     id: "wb",
+    code: "ISO_A3",
+    name: "NAM_0",
     label: "World Bank",
     path: "site/compare/wb-polygons/wb_polygons.pmtiles",
     layer: "wb_polygons",
@@ -58,6 +67,8 @@ export const SOURCES = [
   },
   {
     id: "gaul",
+    code: "ISO3_CODE",
+    name: "GAUL0_NAME",
     label: "FAO GAUL",
     path: "site/compare/gaul-polygons/gaul_polygons.pmtiles",
     layer: "gaul_polygons",
@@ -71,6 +82,8 @@ export const SOURCES = [
   },
   {
     id: "gadm",
+    code: "iso3",
+    name: "COUNTRY",
     label: "GADM",
     path: "site/compare/gadm-polygons/gadm_polygons.pmtiles",
     layer: "gadm_polygons",
@@ -83,6 +96,8 @@ export const SOURCES = [
   },
   {
     id: "cgaz",
+    code: "shapeGroup",
+    name: "shapeName",
     label: "geoBoundaries",
     path: "site/compare/cgaz-polygons/cgaz_polygons.pmtiles",
     layer: "cgaz_polygons",
@@ -95,6 +110,8 @@ export const SOURCES = [
   },
   {
     id: "ne",
+    code: "ADM0_A3",
+    name: "NAME",
     label: "Natural Earth",
     path: "site/compare/ne-polygons/ne_polygons.pmtiles",
     layer: "ne_polygons",
@@ -126,6 +143,14 @@ export const BASEMAPS: { id: Basemap; label: string }[] = [
   { id: "satellite", label: "Satellite" },
 ];
 
+// A code picked in the table or on the map, optionally narrowed to some features; fly frames it.
+export interface Focus {
+  iso3: string;
+  bbox: number[] | null;
+  parts: Part[];
+  fly: boolean;
+}
+
 export interface Hit {
   slot: Slot;
   label: string;
@@ -142,6 +167,7 @@ export class CompareState {
   basemap = $state<Basemap>("map");
   sweep = $state(0);
   hits = $state<Hit[]>([]);
+  focus = $state.raw<Focus | null>(null);
   #frame = 0;
 
   opacities = $derived<Record<Slot, number>>(
@@ -161,6 +187,15 @@ export class CompareState {
     this.#frame = requestAnimationFrame(tick);
   }
 
+  focusOn(iso3: string, bbox: number[] | null, parts: Part[], fly: boolean) {
+    this.focus = {
+      iso3,
+      bbox: parts.length ? unionBox(parts.map((p) => p.bbox)) : bbox,
+      parts,
+      fly,
+    };
+  }
+
   // Picking the other slot's source swaps the two, so A and B always differ.
   pick(slot: Slot, id: SourceId) {
     const other = slot === "a" ? "b" : "a";
@@ -171,7 +206,10 @@ export class CompareState {
   keydown(e: KeyboardEvent) {
     // Option and AltGr stay allowed, since some layouts need them to type [ and ].
     if (e.metaKey || (e.ctrlKey && !e.altKey)) return;
-    if (e.key === "Escape") this.hits = [];
+    if (e.key === "Escape") {
+      this.hits = [];
+      this.focus = null;
+    }
     if ((e.target as Element).closest?.("input:not([type=radio]), select, textarea")) return;
     const by = KEY_STEP[e.key];
     if (by === undefined) return;

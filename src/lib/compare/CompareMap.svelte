@@ -1,11 +1,19 @@
 <script lang="ts">
   import * as maplibregl from "maplibre-gl";
-  import { color, createMap, GLOBE } from "../map/map";
+  import { color, createMap, GLOBE, reduced } from "../map/map";
   import { SATELLITE, SATELLITE_PROTOCOL, satelliteTile } from "../map/satellite";
   import { byType, globeFitZoom, pmtiles } from "../map/style";
   import { SLOTS, SOURCES, type CompareState, type Hit } from "./state.svelte";
 
-  let { compare }: { compare: CompareState } = $props();
+  let {
+    compare,
+    inset,
+    onpick,
+  }: {
+    compare: CompareState;
+    inset: number;
+    onpick: (iso3: string, source: string, name: string) => void;
+  } = $props();
 
   const FILL_OPACITY = 0.15;
   const BASEMAP = "https://tiles.openfreemap.org/styles/positron";
@@ -52,6 +60,19 @@
     ["cell-line", "line", "voronoi"],
   ] as const;
   const CLICK_PAD = 3;
+  const FOCUS_WIDTH = 5;
+  const DIM = {
+    map: { color: "#ffffff", opacity: 0.7 },
+    satellite: { color: "#000000", opacity: 0.55 },
+  };
+  const FOCUS_PAD = { top: 60, right: 40, bottom: 40, left: 320 };
+  const FOCUS_MAX_ZOOM = 14;
+  const MIN_FIT_PX = 200;
+  const SLIDE_MS = 300;
+  const codeOf = (s: (typeof SOURCES)[number]): maplibregl.ExpressionSpecification => [
+    "upcase",
+    ["to-string", ["coalesce", ["get", s.code], ""]],
+  ];
 
   let container: HTMLDivElement;
   let map = $state.raw<maplibregl.Map | null>(null);
@@ -132,13 +153,38 @@
                 })),
               ];
             }),
+            // Every dim sits under every outline, so one source's dim never covers the other's outline.
+            ...(["fill", "line"] as const).flatMap((type) =>
+              SOURCES.map((s): maplibregl.LayerSpecification => ({
+                source: s.id,
+                "source-layer": s.layer,
+                layout: { visibility: "none" },
+                ...(type === "fill"
+                  ? { id: `${s.id}-dim`, type, paint: { "fill-color": DIM.map.color } }
+                  : { id: `${s.id}-focus`, type, paint: { "line-width": FOCUS_WIDTH } }),
+              })),
+            ),
           ],
         };
       },
     });
     m.once("load", () => {
       map = m;
-      m.on("click", (e) => (compare.hits = query(m, e.point)));
+      m.on("click", (e) => {
+        compare.hits = query(m, e.point);
+        // Rendered order puts later sources first; A's feature should win.
+        const ids = SLOTS.map((slot) => `${compare.pair[slot]}-pick`);
+        const hit = m
+          .queryRenderedFeatures(e.point, { layers: ids })
+          .sort((x, y) => ids.indexOf(x.layer.id) - ids.indexOf(y.layer.id))[0];
+        const s = hit && SOURCES.find((s) => `${s.id}-pick` === hit.layer.id);
+        if (s)
+          onpick(
+            String(hit.properties[s.code] ?? "").toUpperCase(),
+            s.id,
+            String(hit.properties[s.name] ?? ""),
+          );
+      });
     });
     return () => {
       destroy();
@@ -196,6 +242,8 @@
     for (const slot of SLOTS) {
       const id = compare.pair[slot];
       const o = compare.opacities[slot];
+      map.setPaintProperty(`${id}-focus`, "line-opacity", o);
+      map.setPaintProperty(`${id}-dim`, "fill-opacity", DIM[compare.basemap].opacity * o);
       for (const [layer, type] of LAYERS)
         map.setPaintProperty(
           `${id}-${layer}`,
@@ -203,6 +251,51 @@
           type === "fill" ? FILL_OPACITY * o : o,
         );
     }
+  });
+
+  // Fade outlines and dims both sources at their own opacity, so a code missing from one leaves no undimmed hole.
+  $effect(() => {
+    if (!map) return;
+    const focus = compare.focus;
+    const shown = compare.view === "fade" ? SLOTS : [compare.view];
+    const dim = DIM[compare.basemap];
+    for (const s of SOURCES) {
+      const slot = SLOTS.find((k) => compare.pair[k] === s.id);
+      const on = !!focus && !!slot && shown.includes(slot);
+      map.setLayoutProperty(`${s.id}-focus`, "visibility", on ? "visible" : "none");
+      map.setLayoutProperty(`${s.id}-dim`, "visibility", on ? "visible" : "none");
+      if (!on) continue;
+      const code: maplibregl.FilterSpecification = ["==", codeOf(s), focus.iso3];
+      const names = focus.parts.filter((p) => p.layer === s.id).map((p) => p.name);
+      map.setFilter(
+        `${s.id}-focus`,
+        names.length ? ["all", code, ["in", ["get", s.name], ["literal", names]]] : code,
+      );
+      map.setPaintProperty(`${s.id}-focus`, "line-color", color(`--compare-${slot}`));
+      map.setFilter(`${s.id}-dim`, ["!=", codeOf(s), focus.iso3]);
+      map.setPaintProperty(`${s.id}-dim`, "fill-color", dim.color);
+    }
+  });
+
+  // Each pick frames once, after the layout settles so a pane that just opened has its final size.
+  $effect(() => {
+    const focus = compare.focus;
+    if (!map || !focus?.fly || !focus.bbox) return;
+    const [m, bbox] = [map, focus.bbox as [number, number, number, number]];
+    // fitBounds adds this to the pane's padding, and does nothing when the sum is wider than the canvas.
+    const free = m.getContainer().clientWidth - inset - FOCUS_PAD.left - FOCUS_PAD.right;
+    const roomy = free >= MIN_FIT_PX;
+    const padding = roomy ? FOCUS_PAD : { ...FOCUS_PAD, left: FOCUS_PAD.right };
+    requestAnimationFrame(() => m.fitBounds(bbox, { padding, maxZoom: FOCUS_MAX_ZOOM }));
+  });
+
+  // A pane over the map's right edge pads the camera instead of resizing the canvas.
+  $effect(() => {
+    if (!map) return;
+    map.easeTo({
+      padding: { top: 0, bottom: 0, left: 0, right: inset },
+      duration: reduced ? 0 : SLIDE_MS,
+    });
   });
 
   $effect(() => {
@@ -230,5 +323,9 @@
   }
   .map :global(.maplibregl-canvas) {
     cursor: pointer;
+  }
+  .map :global(.maplibregl-ctrl-bottom-right) {
+    right: var(--inset);
+    transition: right 300ms cubic-bezier(0.2, 0, 0, 1);
   }
 </style>

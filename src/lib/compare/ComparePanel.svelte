@@ -1,24 +1,9 @@
 <script lang="ts">
+  import Segmented from "./Segmented.svelte";
   import { BASEMAPS, MODES, SLOTS, SOURCES, VIEWS, type CompareState } from "./state.svelte";
 
   let { compare }: { compare: CompareState } = $props();
 </script>
-
-{#snippet segmented<T extends string>(
-  label: string,
-  options: { id: T; label: string }[],
-  current: T,
-  pick: (id: T) => void,
-)}
-  <div class="segmented" role="radiogroup" aria-label={label}>
-    {#each options as o (o.id)}
-      <label>
-        <input type="radio" name={label} checked={current === o.id} onchange={() => pick(o.id)} />
-        {o.label}
-      </label>
-    {/each}
-  </div>
-{/snippet}
 
 <div class="panel">
   <h1 class="sr-only">Compare international boundaries</h1>
@@ -27,11 +12,26 @@
     Overview
   </a>
   <h2>Basemap</h2>
-  {@render segmented("Basemap", BASEMAPS, compare.basemap, (id) => (compare.basemap = id))}
+  <Segmented
+    label="Basemap"
+    options={BASEMAPS}
+    current={compare.basemap}
+    pick={(id) => (compare.basemap = id)}
+  />
   <h2>Geometry</h2>
-  {@render segmented("Geometry", MODES, compare.mode, (id) => (compare.mode = id))}
+  <Segmented
+    label="Geometry"
+    options={MODES}
+    current={compare.mode}
+    pick={(id) => (compare.mode = id)}
+  />
   <h2>View</h2>
-  {@render segmented("View", VIEWS, compare.view, (id) => (compare.view = id))}
+  <Segmented
+    label="View"
+    options={VIEWS}
+    current={compare.view}
+    pick={(id) => (compare.view = id)}
+  />
   <h2>Compare</h2>
   <table>
     <thead>
@@ -111,35 +111,6 @@
   h2:first-child {
     margin-top: 0;
   }
-  .segmented {
-    display: flex;
-    border: 1px solid var(--ink);
-  }
-  .segmented label {
-    flex: 1 1 0;
-    text-align: center;
-    padding: 0.3rem 0.6rem;
-    border: 0;
-    border-left: 1px solid var(--ink);
-    background: var(--white);
-    color: var(--ink);
-    cursor: pointer;
-  }
-  .segmented label:first-child {
-    border-left: 0;
-  }
-  .segmented label:hover:not(:has(:checked)) {
-    background: var(--paper-light);
-  }
-  .segmented label:has(:checked) {
-    background: var(--ink);
-    color: var(--white);
-  }
-  .segmented label:has(:focus-visible) {
-    outline: 2px solid var(--ink);
-    outline-offset: 2px;
-  }
-  .segmented input,
   .sr-only {
     position: absolute;
     width: 1px;

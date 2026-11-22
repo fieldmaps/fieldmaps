@@ -5,7 +5,7 @@ const ATTRIBUTION =
   '<a href="https://source.coop/fieldmaps">FieldMaps</a>, LSIB, © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
 // Dev can read the site catalog's own tiles from a local catalog/ (PUBLIC_SITE_DATA=/site-data).
 const SITE_DATA = import.meta.env.DEV && import.meta.env.PUBLIC_SITE_DATA;
-const tileUrl = (path: string) =>
+export const tileUrl = (path: string) =>
   SITE_DATA && path.startsWith("site/")
     ? `${location.origin}${SITE_DATA}/${path.slice("site/".length)}`
     : `${DATA}/${path}`;

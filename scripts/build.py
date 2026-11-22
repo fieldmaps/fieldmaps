@@ -8,6 +8,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 import compare
+import compare_attributes
+import duckdb
 import fieldmaps_publish
 import tylertoo
 
@@ -19,6 +21,19 @@ ENV = {
     "international": {"FIELDMAPS_BUILD": "../international"},
     "subnational": {"FIELDMAPS": "..", "TZA_DEBUG": "tmp/tza-debug/work"},
 }
+
+
+def attributes(now: str) -> list[str]:
+    """Rebuild and add the attributes table when stale; return what failed."""
+    try:
+        if compare_attributes.build():
+            fieldmaps_publish.add(
+                CATALOG, "compare/attributes", "--datetime", now, "--force"
+            )
+    except (duckdb.Error, ValueError, OSError) as e:
+        print(f"failed: attributes: {e}")  # noqa: T201
+        return [f"attributes: {e}"]
+    return []
 
 
 def main() -> None:
@@ -36,6 +51,7 @@ def main() -> None:
         if story == "compare":
             if failed := compare.build():
                 print("\n".join(failed))  # noqa: T201
+            failed += attributes(now)
         else:
             subprocess.run(
                 ["duckdb", "-no-agent", "-c", f".read scripts/{story}-steps.sql"],
@@ -44,6 +60,8 @@ def main() -> None:
                 check=True,
             )
         for parquet in sorted(CATALOG.glob(f"{story}/*/*.parquet")):
+            if parquet.parent == compare_attributes.OUT:
+                continue
             pmtiles = parquet.with_suffix(".pmtiles")
             if compare.fresh(pmtiles, [parquet]):
                 continue

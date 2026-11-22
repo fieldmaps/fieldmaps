@@ -35,8 +35,9 @@
     position: absolute;
     z-index: 3;
     top: 0.75rem;
-    right: 0.75rem;
+    right: calc(var(--inset, 0px) + 0.75rem);
     width: 20rem;
+    transition: right 300ms cubic-bezier(0.2, 0, 0, 1);
     max-height: calc(100% - 1.5rem);
     overflow-y: auto;
     padding: 0.75rem;
