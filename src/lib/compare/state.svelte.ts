@@ -13,6 +13,10 @@ export const SOURCES = [
       path: "international/odbl/humanitarian/adm0-lines/adm0_lines.pmtiles",
       layer: "adm0_lines",
     },
+    voronoi: {
+      path: "site/compare/fieldmaps-voronoi/fieldmaps_voronoi.pmtiles",
+      layer: "fieldmaps_voronoi",
+    },
   },
   {
     id: "wp",
@@ -20,6 +24,10 @@ export const SOURCES = [
     path: "site/compare/wp-polygons/wp_polygons.pmtiles",
     layer: "wp_polygons",
     lines: { path: "site/compare/wp-lines/wp_lines.pmtiles", layer: "wp_lines" },
+    voronoi: {
+      path: "site/compare/wp-voronoi/wp_voronoi.pmtiles",
+      layer: "wp_voronoi",
+    },
     attribution: '<a href="https://geodata.state.gov">U.S. Department of State</a>',
   },
   {
@@ -28,6 +36,10 @@ export const SOURCES = [
     path: "site/compare/overture-polygons/overture_polygons.pmtiles",
     layer: "overture_polygons",
     lines: { path: "site/compare/overture-lines/overture_lines.pmtiles", layer: "overture_lines" },
+    voronoi: {
+      path: "site/compare/overture-voronoi/overture_voronoi.pmtiles",
+      layer: "overture_voronoi",
+    },
     attribution:
       '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="https://overturemaps.org">Overture Maps Foundation</a>',
   },
@@ -37,6 +49,10 @@ export const SOURCES = [
     path: "site/compare/wb-polygons/wb_polygons.pmtiles",
     layer: "wb_polygons",
     lines: { path: "site/compare/wb-lines/wb_lines.pmtiles", layer: "wb_lines" },
+    voronoi: {
+      path: "site/compare/wb-voronoi/wb_voronoi.pmtiles",
+      layer: "wb_voronoi",
+    },
     attribution:
       '<a href="https://datacatalog.worldbank.org/search/dataset/0038272">World Bank</a>',
   },
@@ -46,6 +62,10 @@ export const SOURCES = [
     path: "site/compare/gaul-polygons/gaul_polygons.pmtiles",
     layer: "gaul_polygons",
     lines: { path: "site/compare/gaul-lines/gaul_lines.pmtiles", layer: "gaul_lines" },
+    voronoi: {
+      path: "site/compare/gaul-voronoi/gaul_voronoi.pmtiles",
+      layer: "gaul_voronoi",
+    },
     attribution:
       '<a href="https://data.apps.fao.org/catalog/dataset/global-administrative-unit-layers-gaul">FAO GAUL 2025</a>',
   },
@@ -55,6 +75,10 @@ export const SOURCES = [
     path: "site/compare/gadm-polygons/gadm_polygons.pmtiles",
     layer: "gadm_polygons",
     lines: { path: "site/compare/gadm-lines/gadm_lines.pmtiles", layer: "gadm_lines" },
+    voronoi: {
+      path: "site/compare/gadm-voronoi/gadm_voronoi.pmtiles",
+      layer: "gadm_voronoi",
+    },
     attribution: '<a href="https://gadm.org">GADM</a>',
   },
   {
@@ -63,6 +87,10 @@ export const SOURCES = [
     path: "site/compare/cgaz-polygons/cgaz_polygons.pmtiles",
     layer: "cgaz_polygons",
     lines: { path: "site/compare/cgaz-lines/cgaz_lines.pmtiles", layer: "cgaz_lines" },
+    voronoi: {
+      path: "site/compare/cgaz-voronoi/cgaz_voronoi.pmtiles",
+      layer: "cgaz_voronoi",
+    },
     attribution: '<a href="https://www.geoboundaries.org">geoBoundaries</a>',
   },
   {
@@ -71,6 +99,10 @@ export const SOURCES = [
     path: "site/compare/ne-polygons/ne_polygons.pmtiles",
     layer: "ne_polygons",
     lines: { path: "site/compare/ne-lines/ne_lines.pmtiles", layer: "ne_lines" },
+    voronoi: {
+      path: "site/compare/ne-voronoi/ne_voronoi.pmtiles",
+      layer: "ne_voronoi",
+    },
     attribution: '<a href="https://www.naturalearthdata.com">Natural Earth</a>',
   },
 ] as const;
@@ -82,10 +114,11 @@ export const VIEWS: { id: View; label: string }[] = [
   { id: "b", label: "B" },
 ];
 export const SLOTS: Slot[] = ["a", "b"];
-export type Mode = "lines" | "polygons";
+export type Mode = "lines" | "polygons" | "voronoi";
 export const MODES: { id: Mode; label: string }[] = [
   { id: "lines", label: "Lines" },
   { id: "polygons", label: "Polygons" },
+  { id: "voronoi", label: "Voronoi" },
 ];
 export type Basemap = "map" | "satellite";
 export const BASEMAPS: { id: Basemap; label: string }[] = [
