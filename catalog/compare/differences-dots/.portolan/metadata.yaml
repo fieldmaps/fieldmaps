@@ -1,0 +1,10 @@
+title: "Boundary comparison island dots"
+description: "One point per differing island in the boundary comparison, so small islands stay visible at every zoom."
+license: "ODbL-1.0"
+license_url: "https://opendatacommons.org/licenses/odbl/1-0/"
+providers:
+  - name: "FieldMaps"
+    roles: ["producer", "host"]
+    url: "https://fieldmaps.io"
+attribution: "FieldMaps, © OpenStreetMap contributors, U.S. Department of State, Overture Maps Foundation, World Bank, FAO GAUL, GADM, geoBoundaries, Natural Earth"
+source_url: "https://fieldmaps.io/international/compare/"

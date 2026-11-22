@@ -154,6 +154,18 @@
       "title": "Boundary comparison attributes"
     },
     {
+      "rel": "child",
+      "href": "./differences/collection.json",
+      "type": "application/json",
+      "title": "Boundary comparison differences"
+    },
+    {
+      "rel": "child",
+      "href": "./differences-dots/collection.json",
+      "type": "application/json",
+      "title": "Boundary comparison island dots"
+    },
+    {
       "rel": "agents",
       "href": "./AGENTS.md",
       "type": "text/markdown",
