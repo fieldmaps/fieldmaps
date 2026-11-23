@@ -7,4 +7,4 @@ providers:
     roles: ["producer", "host"]
     url: "https://fieldmaps.io"
 attribution: "FieldMaps, U.S. Department of State, Overture Maps Foundation, World Bank, FAO GAUL, GADM, geoBoundaries, Natural Earth, UN Statistics Division (M49), UNTERM"
-source_url: "https://fieldmaps.io/international/compare/"
+source_url: "https://fieldmaps.io/explore/"
