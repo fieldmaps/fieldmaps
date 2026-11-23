@@ -485,6 +485,12 @@
     }
   });
 
+  // An item merging several entities of one source joins their codes and names with "; ".
+  const oneOf = (key: string, value: unknown): Expr =>
+    value == null
+      ? ["==", ["get", key], null]
+      : ["in", ["get", key], ["literal", String(value).split("; ")]];
+
   // The cells to tint per source: a difference's entities, or a focused code narrowed to picked parts.
   function cellFilter(
     s: (typeof SOURCES)[number],
@@ -496,11 +502,7 @@
       if (!ents.length) return null;
       return [
         "any",
-        ...ents.map(([c, n]) => [
-          "all",
-          ["==", ["get", s.code], c ?? null],
-          ["==", ["get", s.name], n ?? null],
-        ]),
+        ...ents.map(([c, n]) => ["all", oneOf(s.code, c), oneOf(s.name, n)]),
       ] as maplibregl.FilterSpecification;
     }
     if (!focus) return null;
