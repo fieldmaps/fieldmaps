@@ -11,10 +11,10 @@ interface Props {
 const links = [
   { label: "International", href: "/international/" },
   { label: "Subnational", href: "/subnational/" },
-  { label: "Compare", href: "/international/compare/" },
+  { label: "Explore", href: "/international/compare/" },
 ];
 const path = Astro.url.pathname;
-// The longest matching link is current, so Compare wins over International on its own page.
+// The longest matching link is current, so Explore wins over International on its own page.
 const current = links
   .filter((link) => path.startsWith(link.href))
   .sort((a, b) => b.href.length - a.href.length)[0];
