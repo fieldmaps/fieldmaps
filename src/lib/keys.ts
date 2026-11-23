@@ -16,8 +16,7 @@ export const stepper = (steps: HTMLElement[], active: () => number, reduced: boo
   // Repeated presses build on the step still being scrolled to, not the stale active one.
   let pending = -1;
   let pendingAt = 0;
-  return (d: -1 | 1) => {
-    const next = (performance.now() - pendingAt < 1000 ? pending : active()) + d;
+  const to = (next: number) => {
     if (next < -1 || next >= steps.length) return false;
     pending = next;
     pendingAt = performance.now();
@@ -26,6 +25,8 @@ export const stepper = (steps: HTMLElement[], active: () => number, reduced: boo
     else steps[next].scrollIntoView({ block: "center", behavior });
     return true;
   };
+  const go = (d: -1 | 1) => to((performance.now() - pendingAt < 1000 ? pending : active()) + d);
+  return { go, to };
 };
 
 // Left and right go to `sideways` when given, else they step like up and down.

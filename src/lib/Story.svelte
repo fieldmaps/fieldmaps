@@ -51,6 +51,10 @@
   let active = $state(-1);
   let reshow: ((animate: boolean) => void) | undefined;
   let go: ((d: -1 | 1) => boolean) | undefined = $state();
+  let to: ((i: number) => boolean) | undefined = $state();
+  let story: HTMLElement;
+  // The clicked arrow is re-created in the next step, so focus follows it there.
+  let refocus: { button: string; until: number } | undefined;
 
   $effect(() => {
     const { map, destroy } = createMap(
@@ -97,10 +101,11 @@
       { rootMargin: "-45% 0px -45% 0px" },
     );
     articles.forEach((a) => observer.observe(a));
-    const step = stepper(articles, () => active, reduced);
-    go = step;
+    const steppers = stepper(articles, () => active, reduced);
+    go = steppers.go;
+    to = steppers.to;
     const removeKeys = stepKeys(
-      step,
+      steppers.go,
       untrack(() => sideways),
     );
     return () => {
@@ -111,6 +116,22 @@
     };
   });
 
+  $effect(() => {
+    void active;
+    if (!refocus || performance.now() > refocus.until) return;
+    if (document.activeElement && document.activeElement !== document.body) return;
+    const nav = story.querySelector(".arrows");
+    const button =
+      nav?.querySelector<HTMLButtonElement>(`[data-arrow="${refocus.button}"]:not(:disabled)`) ??
+      nav?.querySelector<HTMLButtonElement>("button:not(:disabled)");
+    button?.focus({ preventScroll: true });
+  });
+
+  const click = (button: string, run: () => void) => {
+    refocus = { button, until: performance.now() + 2000 };
+    run();
+  };
+
   // Re-show the active step when the caller's data changes, such as the selected country.
   $effect(() => {
     void refresh;
@@ -120,7 +141,13 @@
 
 {#snippet arrows()}
   <nav class="arrows" aria-label="Steps">
-    <button type="button" aria-label="Previous step" disabled={active < 0} onclick={() => go?.(-1)}>
+    <button
+      type="button"
+      aria-label="Previous step"
+      data-arrow="previous"
+      disabled={active < 0}
+      onclick={() => click("previous", () => go?.(-1))}
+    >
       <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
         <path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" />
       </svg>
@@ -128,8 +155,9 @@
     <button
       type="button"
       aria-label="Next step"
+      data-arrow="next"
       disabled={active >= steps.length - 1}
-      onclick={() => go?.(1)}
+      onclick={() => click("next", () => go?.(1))}
     >
       <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
         <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" />
@@ -139,7 +167,8 @@
       <button
         type="button"
         class="top"
-        onclick={() => scrollTo({ top: 0, behavior: reduced ? "instant" : "smooth" })}
+        data-arrow="top"
+        onclick={() => click("next", () => to?.(-1))}
       >
         Back to top
       </button>
@@ -148,7 +177,7 @@
 {/snippet}
 
 <ScrollHint />
-<section class="story" data-snap>
+<section class="story" data-snap bind:this={story}>
   <div class="globe">
     <div class="map" bind:this={container}></div>
   </div>
