@@ -40,7 +40,8 @@ VORONOI = {s: compare.output(s, "voronoi") for s in SOURCES}
 LINES = [FIELDMAPS_LINES, *(compare.output(s, "lines") for s in compare.SOURCES)]
 # Per source, a key unique per feature and shared by its polygon and Voronoi rows.
 ENTITY = {
-    "fieldmaps": "adm0_id",
+    # adm0_id ends in its release date; dropping it keeps keys stable across releases.
+    "fieldmaps": "regexp_replace(adm0_id, '-[0-9]{8}$', '')",
     "wp": "fid_orig",
     "overture": "id",
     "wb": "concat_ws('|', ISO_A3, WB_A3, NAM_0, SOV_ISO_A3, WB_STATUS)",
