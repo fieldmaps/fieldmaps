@@ -10,9 +10,7 @@ CATALOG = compare.ROOT / "catalog" / "international"
 DEBUG = BUILD / "tmp" / "debug"
 OPTS = "COMPRESSION ZSTD, COMPRESSION_LEVEL 15, GEOPARQUET_VERSION V2"
 WORLD = "ST_MakeEnvelope(-180, -90, 180, 90)"
-CLIP = (
-    f"ST_SetCRS(ST_ReducePrecision(ST_Intersection({{}}, {WORLD}), 1e-9), 'OGC:CRS84')"
-)
+CLIP = f"ST_SetCRS(ST_Intersection({{}}, {WORLD}), 'OGC:CRS84')"
 # Collection name, its source file, and the columns it keeps.
 STEPS = {
     "lsib": (
