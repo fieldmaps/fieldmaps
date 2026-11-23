@@ -698,16 +698,16 @@ def build(start: str = "land", *, force: bool = False) -> bool:
     fresh = all(compare.fresh(o, inputs()) for o in OUTPUTS)
     if complete and not force and fresh and not PARTIAL.exists():
         return False
+    # Until a full run succeeds, plain runs rebuild, since resumed state may be stale.
+    if not _bbox():
+        PARTIAL.touch()
     conn = connect(keep=start != names[0])
     for name in names[names.index(start) :]:
         _log(f"phase {name}")
         PHASES[name](conn)
     conn.close()
-    # A resumed run may reuse state from older inputs, so the next plain run rebuilds.
     if complete:
-        PARTIAL.unlink(missing_ok=True)
-    elif not _bbox():
-        PARTIAL.touch()
+        PARTIAL.unlink()
     return True
 
 
