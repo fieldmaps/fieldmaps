@@ -50,6 +50,7 @@ ENTITY = {
     "ne": "ADM0_A3 || '|' || NAME",
 }
 DB = compare.WORK / "differences.duckdb"
+PARTIAL = compare.WORK / "differences.partial"
 OUT = compare.CATALOG / "differences"
 DOTS = compare.CATALOG / "differences-dots"
 PILOT = compare.WORK / "pilot"
@@ -608,8 +609,16 @@ def _review(conn: duckdb.DuckDBPyConnection) -> None:
     """Group differences into items, then write patches, dots, areas and items."""
     compare_review.build(conn, SOURCES)
     _patches(conn)
-    _dots(conn)
     _areas(conn)
+    lost = conn.execute("""
+        SELECT count(*) FROM (
+            SELECT item FROM patches WHERE NOT (type = 'land' AND side = 'both')
+            UNION ALL SELECT item FROM areas)
+        WHERE item IS NULL OR item NOT IN (SELECT item FROM items)""").fetchall()[0][0]
+    if lost:
+        msg = f"{lost} differences belong to no item"
+        raise ValueError(msg)
+    _dots(conn)
     _write(
         conn,
         """SELECT * EXCLUDE (a_entity, b_entity) FROM patches
@@ -632,14 +641,6 @@ def _items(conn: duckdb.DuckDBPyConnection) -> None:
         GROUP BY n.item
     """)
     cols = ", ".join(f"{s}_code AS code_{s}, {s}_name AS name_{s}" for s in SOURCES)
-    lost = conn.execute("""
-        SELECT count(*) FROM (
-            SELECT item FROM patches WHERE NOT (type = 'land' AND side = 'both')
-            UNION ALL SELECT item FROM areas)
-        WHERE item IS NULL OR item NOT IN (SELECT item FROM items)""").fetchall()[0][0]
-    if lost:
-        msg = f"{lost} differences belong to no item"
-        raise ValueError(msg)
     out = _out("items.json")
     conn.execute(f"""
         COPY (SELECT item, t.title, type, drawn, same_code, missing, s.islands, s.km2,
@@ -670,6 +671,7 @@ def inputs() -> list[Path]:
     """Local files the differences derive from, code included."""
     local = [p for p in [*POLYGONS.values(), *LINES] if not isinstance(p, str)]
     code = [Path(__file__), Path(compare_review.__file__)]
+    code += [Path(compare.__file__), Path(compare_attributes.__file__)]
     return [*code, OSM_LAND, *VORONOI.values(), *local]
 
 
@@ -693,13 +695,19 @@ def build(start: str = "land", *, force: bool = False) -> bool:
         osm_land(compare.connect())
     names = list(PHASES)
     complete = start == names[0] and not _bbox()
-    if complete and not force and all(compare.fresh(o, inputs()) for o in OUTPUTS):
+    fresh = all(compare.fresh(o, inputs()) for o in OUTPUTS)
+    if complete and not force and fresh and not PARTIAL.exists():
         return False
     conn = connect(keep=start != names[0])
     for name in names[names.index(start) :]:
         _log(f"phase {name}")
         PHASES[name](conn)
     conn.close()
+    # A resumed run may reuse state from older inputs, so the next plain run rebuilds.
+    if complete:
+        PARTIAL.unlink(missing_ok=True)
+    elif not _bbox():
+        PARTIAL.touch()
     return True
 
 
