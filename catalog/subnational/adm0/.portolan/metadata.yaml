@@ -1,5 +1,5 @@
 title: "ADM0 boundary"
-description: "FieldMaps ADM0 polygon for Tanzania, from the OpenStreetMap-based humanitarian view."
+description: "FieldMaps ADM0 polygons for each country, from the OpenStreetMap-based humanitarian view."
 license: "ODbL-1.0"
 providers:
   - name: "FieldMaps"

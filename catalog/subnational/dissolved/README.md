@@ -1,10 +1,10 @@
-# Original input (Rufiji delta)
+# Dissolved cells
 
-Original polygons clipped to a small area of the Rufiji delta.
+Voronoi cells joined into one shape per source polygon on the outer edge.
 
 ## Spatial Coverage
 
-- **Bounding Box**: [39.1999999, -7.95, 39.35, -7.8]
+- **Bounding Box**: [-92.6397574, -22.6175196, 51.9970133, 19.9772074]
 
 ## Temporal Coverage
 
@@ -15,23 +15,22 @@ Original polygons clipped to a small area of the Rufiji delta.
 
 | Column | Type | Description |
 |--------|------|-------------|
+| iso3 | string |  |
 | geom | binary |  |
 
 ## Files
 
 | File | Size | Checksum |
 |------|------|----------|
-| ./delta.parquet | 81.4 KB | 12206a53bf8d... |
-| ./delta.pmtiles | 35.5 KB | 12209d459637... |
-| ./styles/default.json | 448 B | 1220fbf5c607... |
-| ./delta.thumb.jpg | 23.9 KB | 12206c3dda19... |
+| ./dissolved.parquet | 3.8 MB | 122040fa9617... |
+| ./dissolved.pmtiles | 6.6 MB | 1220f605042e... |
 
 ## Quick Start
 
 ```python
 import geopandas as gpd
 
-gdf = gpd.read_parquet("./delta.parquet")
+gdf = gpd.read_parquet("./dissolved.parquet")
 print(gdf.head())
 ```
 
@@ -42,7 +41,7 @@ print(gdf.head())
 
 ## Attribution
 
-Tanzania National Bureau of Statistics, UN OCHA ROSA, FieldMaps
+GADM, OCHA FISS, Tanzania NBS, OCHA ROSA, IEBC, OCHA ROSEA, FieldMaps
 
 ## License
 

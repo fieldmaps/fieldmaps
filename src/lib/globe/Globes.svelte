@@ -21,15 +21,13 @@
       return { left: 0, top: Math.max(0, 2 * cy - h), fit: (2 * r) / Math.min(w, h) };
     }
     const x0 = container.getBoundingClientRect().left;
-    const textRight = Math.max(...[text, links].map((e) => e.getBoundingClientRect().right));
-    const start = textRight - x0 + GAP;
+    const start = text.getBoundingClientRect().right - x0 + GAP;
     const r = Math.min((h * 1.1) / 2, (w - start - EDGE) / 2);
     return { left: Math.max(0, 2 * (start + r) - w), top: 0, fit: (2 * r) / Math.min(w, h) };
   };
 
   let container: HTMLDivElement;
   let text: HTMLDivElement;
-  let links: HTMLDivElement;
   let slot: HTMLDivElement;
   let progress = $state(0);
   const name = $derived(progress < 0.5 ? "international" : "subnational");
@@ -172,6 +170,9 @@
   <section class="stage">
     <div class="text" bind:this={text}>
       <h1>FieldMaps</h1>
+      <p class="tagline">
+        High-resolution international and subnational boundaries for humanitarian reference maps.
+      </p>
       <div class="tabs" role="tablist" aria-label="Boundary set">
         {#each TABS as tab, i (tab.id)}
           <button
@@ -189,19 +190,14 @@
         {/each}
       </div>
     </div>
-    <div class="map" bind:this={container}></div>
-    <div class="slot" bind:this={slot}></div>
     <div
-      class="links"
+      class="map"
       id="globe-panel"
       role="tabpanel"
       aria-labelledby="tab-{name}"
-      bind:this={links}
-    >
-      {#each TABS as tab (tab.id)}
-        <a class="button" class:off={name !== tab.id} href="/{tab.id}/">Overview</a>
-      {/each}
-    </div>
+      bind:this={container}
+    ></div>
+    <div class="slot" bind:this={slot}></div>
   </section>
   <div class="spacer"></div>
 </div>
@@ -224,8 +220,8 @@
     top: var(--header-h);
     display: grid;
     grid-template-columns: minmax(18rem, 1fr) 2fr;
-    grid-template-rows: 1fr auto auto 1fr;
-    grid-template-areas: ". ." "text ." "links ." ". .";
+    grid-template-rows: 1fr auto 1fr;
+    grid-template-areas: ". ." "text ." ". .";
     column-gap: 2rem;
     height: calc(100dvh - var(--header-h));
     --inset: max(1.5rem, calc(50vw - 36rem));
@@ -241,25 +237,6 @@
   .map {
     grid-area: 1 / 1 / -1 / -1;
     min-height: 0;
-  }
-  .links {
-    grid-area: links;
-    align-self: start;
-    justify-self: start;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    row-gap: 0.75rem;
-    width: var(--w);
-    max-width: 100%;
-    margin: 0.75rem 0 0 var(--inset);
-    z-index: 1;
-  }
-  .button {
-    text-align: center;
-    transition:
-      background-color 0.2s,
-      opacity 0.2s,
-      visibility 0.2s;
   }
   .slot {
     display: none;
@@ -286,19 +263,22 @@
     background: var(--ink);
     color: var(--white);
   }
-  .button.off {
-    visibility: hidden;
-    opacity: 0;
-  }
   h1 {
     margin: 0 0 0.5rem;
-    font-size: 3rem;
+    font-size: 4rem;
+  }
+  .tagline {
+    max-width: var(--w);
+    margin: 0 0 0.5rem;
+    font-size: 1.15rem;
+    line-height: 1.45;
+    color: var(--ink-soft);
   }
   @media (max-width: 900px) {
     .stage {
       grid-template-columns: 1fr;
-      grid-template-rows: 1fr auto auto 1fr min(calc(0.86 * (100vw - 2rem)), 50dvh) 1fr;
-      grid-template-areas: "." "text" "links" "." "slot" ".";
+      grid-template-rows: 1fr auto 1fr min(calc(0.86 * (100vw - 2rem)), 50dvh) 1fr;
+      grid-template-areas: "." "text" "." "slot" ".";
       padding: 1.5rem 1rem;
       text-align: center;
       --inset: 0px;
@@ -315,10 +295,6 @@
     }
     h1 {
       font-size: 2rem;
-    }
-    .stage .links {
-      justify-self: center;
-      margin: 0.75rem 0 0;
     }
   }
 </style>

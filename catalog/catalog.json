@@ -26,7 +26,7 @@
       "rel": "child",
       "href": "./subnational/catalog.json",
       "type": "application/json",
-      "title": "Subnational build steps (Tanzania)"
+      "title": "Subnational build steps"
     },
     {
       "rel": "agents",

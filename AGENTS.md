@@ -4,8 +4,8 @@ Astro 7 static site + Svelte 5 islands (runes), MapLibre GL + PMTiles. Deployed 
 
 ## Routes
 
-- `/`, `/international/`, `/international/methodology/`, `/international/compare/`, `/subnational/`, `/subnational/methodology/`
-- Legacy paths redirect to `/` via `public/_redirects`.
+- `/`, `/international/`, `/international/methodology/`, `/explore/`, `/subnational/`, `/subnational/methodology/`
+- Legacy paths redirect via `public/_redirects`.
 
 ## Data
 

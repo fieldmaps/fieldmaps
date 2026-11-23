@@ -1,8 +1,6 @@
 """Build the site catalog: sources, PMTiles, portolan add, check, push."""
 
 import argparse
-import os
-import subprocess
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -12,21 +10,25 @@ import compare_attributes
 import compare_differences
 import duckdb
 import fieldmaps_publish
+import international_steps
+import subnational_steps
 import tylertoo
 
 ROOT = Path(__file__).resolve().parent.parent
 CATALOG = ROOT / "catalog"
 TMP = ROOT / "tmp" / "catalog"
 MAX_ZOOM = {"international": 6, "subnational": 12, "compare": 12}
-ENV = {
-    "international": {"FIELDMAPS_BUILD": "../international"},
-    "subnational": {"FIELDMAPS": "..", "TZA_DEBUG": "tmp/tza-debug/work"},
+STEPS = {
+    "international": international_steps.build,
+    "subnational": subnational_steps.build,
 }
 
 
 # Island dots stay at every zoom; tiles skip border shifts, which the page never draws.
 EXTRA = {
     "differences_dots": {"point_thinning": 0},
+    "points": {"point_thinning": 0},
+    "outlines": {"coalesce_lines": False},
     "differences": {"filter": "NOT (type = 'land' AND side = 'both')"},
 }
 
@@ -66,12 +68,7 @@ def main() -> None:
                 print("\n".join(failed))  # noqa: T201
             failed += tables(now)
         else:
-            subprocess.run(
-                ["duckdb", "-no-agent", "-c", f".read scripts/{story}-steps.sql"],
-                cwd=ROOT,
-                env={**os.environ, **ENV[story]},
-                check=True,
-            )
+            STEPS[story]()
         for parquet in sorted(CATALOG.glob(f"{story}/*/*.parquet")):
             if parquet.parent == compare_attributes.OUT:
                 continue

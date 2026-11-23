@@ -1,6 +1,6 @@
 # Boundary comparison
 
-Global ADM0 boundaries from other publishers, tiled for the comparison page at https://fieldmaps.io/international/compare/. The FieldMaps polygons and lines shown on that page come from `fieldmaps/international` (`odbl/humanitarian/adm0-polygons`, `adm0-lines`); its Voronoi is `fieldmaps-voronoi` here.
+Global ADM0 boundaries from other publishers, tiled for the comparison page at https://fieldmaps.io/explore/. The FieldMaps polygons and lines shown on that page come from `fieldmaps/international` (`odbl/humanitarian/adm0-polygons`, `adm0-lines`); its Voronoi is `fieldmaps-voronoi` here.
 
 ## Collections
 

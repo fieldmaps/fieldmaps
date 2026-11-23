@@ -2,8 +2,8 @@
   "type": "Catalog",
   "id": "subnational",
   "stac_version": "1.1.0",
-  "title": "Subnational build steps (Tanzania)",
-  "description": "Intermediate layers from the FieldMaps subnational edge-extension build for Tanzania, shown in the Subnational story.",
+  "title": "Subnational build steps",
+  "description": "Intermediate layers from the FieldMaps subnational edge-extension build for Nicaragua (ADM2), Tanzania (ADM3) and Kenya (ADM2), shown in the Subnational story.",
   "links": [
     {
       "rel": "root",
@@ -25,19 +25,13 @@
       "rel": "child",
       "href": "./cells/collection.json",
       "type": "application/json",
-      "title": "Voronoi cells (Rufiji delta)"
+      "title": "Voronoi cells"
     },
     {
       "rel": "child",
       "href": "./clipped/collection.json",
       "type": "application/json",
       "title": "Clipped to ADM0"
-    },
-    {
-      "rel": "child",
-      "href": "./delta/collection.json",
-      "type": "application/json",
-      "title": "Original input (Rufiji delta)"
     },
     {
       "rel": "child",
@@ -61,7 +55,19 @@
       "rel": "child",
       "href": "./points/collection.json",
       "type": "application/json",
-      "title": "Outline points (Rufiji delta)"
+      "title": "Outline points"
+    },
+    {
+      "rel": "child",
+      "href": "./dissolved/collection.json",
+      "type": "application/json",
+      "title": "Dissolved cells"
+    },
+    {
+      "rel": "child",
+      "href": "./mismatch/collection.json",
+      "type": "application/json",
+      "title": "Mismatch with ADM0"
     },
     {
       "rel": "agents",

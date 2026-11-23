@@ -50,7 +50,7 @@ print(gdf.head())
 
 ## Source
 
-[https://fieldmaps.io/international/compare/](https://fieldmaps.io/international/compare/)
+[https://fieldmaps.io/explore/](https://fieldmaps.io/explore/)
 
 ## Attribution
 
