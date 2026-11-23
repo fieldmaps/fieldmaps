@@ -145,6 +145,7 @@ def build() -> None:
         extend(iso3)
     inputs = [Path(__file__), ADM0]
     inputs += [step(i, name) for i in COUNTRIES for name in STEPS.values()]
+    inputs += [published(i, level) for i, level in COUNTRIES.items()]
     if all(compare.fresh(output(c), inputs) for c in COLLECTIONS):
         return
     for collection in COLLECTIONS:
