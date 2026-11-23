@@ -1,17 +1,28 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { tileUrl } from "../map/style";
-  import { unionBox, type AttributeRow } from "./attributes";
+  import {
+    itemTitle,
+    mergeItems,
+    unionBox,
+    type AttributeRow,
+    type GeometryList,
+    type ItemRow,
+  } from "./attributes";
   import AttributesTable from "./AttributesTable.svelte";
   import CompareMap from "./CompareMap.svelte";
   import ComparePanel from "./ComparePanel.svelte";
+  import GeometryTable from "./GeometryTable.svelte";
   import HitsPanel from "./HitsPanel.svelte";
-  import { CompareState } from "./state.svelte";
+  import { CompareState, SOURCES, type View } from "./state.svelte";
 
-  type Tab = "map" | "attributes";
+  type Tab = "map" | "geometry" | "attributes";
   const TABS: { id: Tab; label: string }[] = [
     { id: "map", label: "Map" },
+    { id: "geometry", label: "Geometry" },
     { id: "attributes", label: "Attributes" },
   ];
+  const IDS = SOURCES.map((s) => s.id);
   // The table pane's width beside the map, which the map pads its camera by.
   const PANE_REM = 36;
 
@@ -19,6 +30,13 @@
   let tab = $state<Tab>("map");
   let rows = $state.raw<AttributeRow[]>([]);
   let failed = $state(false);
+  let items = $state.raw<ItemRow[]>([]);
+  const merged = $derived(mergeItems(items, compare.pair.a, compare.pair.b));
+  // The map draws only the differences the Geometry pane lists, and both kinds otherwise.
+  let list = $state<GeometryList>("land");
+  const listItems = $derived(
+    tab === "geometry" ? merged.filter((r) => r.list === list).flatMap((r) => r.items ?? []) : null,
+  );
   let rem = $state(16);
   let width = $state(0);
   const inset = $derived(tab === "map" ? 0 : Math.min(PANE_REM * rem, width));
@@ -29,13 +47,19 @@
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
       .then((data: AttributeRow[]) => (rows = data))
       .catch(() => (failed = true));
+    fetch(tileUrl("site/compare/differences/items.json"))
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then((data: ItemRow[]) => (items = data))
+      .catch(() => (items = []));
   });
 
   // Sources can share a code for different places, so frame only the shown sources' parts.
   function shownBox(row: AttributeRow): number[] | null {
     const ids =
       compare.view === "fade" ? [compare.pair.a, compare.pair.b] : [compare.pair[compare.view]];
-    const boxes = (row.parts ?? []).filter((p) => ids.includes(p.layer)).map((p) => p.bbox);
+    const boxes = (row.parts ?? [])
+      .filter((p) => (ids as string[]).includes(p.layer))
+      .map((p) => p.bbox);
     return boxes.length ? unionBox(boxes) : row.bbox;
   }
 
@@ -49,6 +73,49 @@
     if (!part && compare.focus?.iso3 === iso3) return;
     compare.focusOn(row.iso3, shownBox(row), part ? [part] : [], false);
   }
+
+  // A difference, or a code in Voronoi, shows in Fade; the view picked before returns once it clears.
+  let viewBefore: View | null = null;
+  function borrowView(next: View) {
+    viewBefore ??= compare.view;
+    compare.view = next;
+  }
+  $effect(() => {
+    if (compare.item || compare.focus || !viewBefore) return;
+    const back = viewBefore;
+    viewBefore = null;
+    untrack(() => (compare.view = back));
+  });
+
+  // A focused difference of the other kind clears when the list switches.
+  $effect(() => {
+    const kind = list;
+    untrack(() => {
+      const row = compare.item && merged.find((it) => it.item === compare.item!.ids[0]);
+      if (row && row.list !== kind) compare.item = null;
+    });
+  });
+
+  function focusRow(row: AttributeRow) {
+    if (compare.mode === "voronoi") borrowView("fade");
+    compare.focusOn(row.iso3, shownBox(row), [], true);
+  }
+
+  function focusItem(row: ItemRow, label: string) {
+    borrowView("fade");
+    compare.hits = [];
+    compare.focusItem(row, label);
+  }
+
+  function pickItem(id: string | null) {
+    const row = id ? merged.find((it) => it.items?.includes(id)) : null;
+    if (!row || row.list !== list) {
+      compare.item = null;
+      return;
+    }
+    borrowView("fade");
+    compare.focusItem(row, itemTitle(row, IDS), false);
+  }
 </script>
 
 <div
@@ -59,7 +126,14 @@
   style:--shift={tab === "map" ? "100%" : `max(0px, 100% - ${PANE_REM}rem)`}
 >
   <div class="map">
-    <CompareMap {compare} {inset} onpick={pick} />
+    <CompareMap
+      {compare}
+      {inset}
+      mapTab={tab === "map"}
+      {listItems}
+      onpick={pick}
+      onitempick={pickItem}
+    />
     <ComparePanel {compare} />
     <HitsPanel {compare} />
     {#if compare.focus}
@@ -71,17 +145,36 @@
       >
         {compare.focus.iso3} <span aria-hidden="true">×</span>
       </button>
+    {:else if compare.item}
+      <button
+        type="button"
+        class="chip"
+        aria-label="Clear highlight"
+        onclick={() => (compare.item = null)}
+      >
+        {compare.item.label} <span aria-hidden="true">×</span>
+      </button>
     {/if}
   </div>
   <div class="pane" class:open={tab !== "map"} inert={tab === "map"}>
     <div class="slide">
-      <AttributesTable
-        {rows}
-        {failed}
-        focus={compare.focus}
-        pair={compare.pair}
-        onfocus={(row) => compare.focusOn(row.iso3, shownBox(row), [], true)}
-      />
+      {#if tab === "geometry"}
+        <GeometryTable
+          items={merged}
+          item={compare.item}
+          pair={compare.pair}
+          bind:list
+          onitem={focusItem}
+        />
+      {:else}
+        <AttributesTable
+          {rows}
+          {failed}
+          focus={compare.focus}
+          pair={compare.pair}
+          onfocus={focusRow}
+        />
+      {/if}
     </div>
   </div>
   <nav class="tabs" aria-label="Views">

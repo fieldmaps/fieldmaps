@@ -1,0 +1,25 @@
+{
+  "version": 8,
+  "name": "Default",
+  "sources": {
+    "data": {
+      "type": "vector",
+      "url": "pmtiles://../differences_dots.pmtiles",
+      "minzoom": 0,
+      "maxzoom": 12
+    }
+  },
+  "layers": [
+    {
+      "id": "differences_dots-circle",
+      "type": "circle",
+      "source": "data",
+      "source-layer": "differences_dots",
+      "paint": {
+        "circle-color": "#3388ff",
+        "circle-radius": 4,
+        "circle-opacity": 0.8
+      }
+    }
+  ]
+}

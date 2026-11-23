@@ -18,3 +18,4 @@ catalog/**/*.thumb.*
 catalog/.portolan/.versions.lock
 catalog/**/versions.json
 catalog/**/collection.json
+catalog/compare/differences/*.json

@@ -10,7 +10,7 @@ Sources, in the page's order: `wp` (US State Department), `overture` (Overture M
 - `<id>-lines`: international boundary lines. `wp` uses LSIB and `overture` its `division_boundary` lines; the others are the shared edges of the cleaned polygons, with the country on each side.
 - `<id>-voronoi`: the polygons extended over water and gaps to cover the globe (topo-tools edge-extend).
 
-`attributes` holds one table, not a layer: each source's ADM0 names, labels, sovereigns, statuses and regions side by side, one row per ISO3 code, with UN M49 and UNTERM as references (`attributes.json` and `attributes.parquet`).
+`attributes` holds one table, not a layer: each source's ADM0 names, labels, sovereigns, statuses and regions side by side, one row per ISO3 code, with UN M49 and UNTERM as references (`attributes.json` and `attributes.parquet`). `differences` holds, for every pair of the eight sources including FieldMaps, the OpenStreetMap land they assign to different territories and the islands one draws in another's territory, with review items in `items.json`; `differences-dots` marks each differing island with a point. Both are ODbL, as derivatives of OpenStreetMap land.
 
 Each collection holds one GeoParquet (`<id>_<kind>.parquet`) and its PMTiles (`<id>_<kind>.pmtiles`, layer `<id>_<kind>`, zooms 0 to 12). Each collection's AGENTS.md lists its columns and license.
 

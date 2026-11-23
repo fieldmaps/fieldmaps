@@ -62,6 +62,12 @@
           {/each}
         </tr>
       {/each}
+      {#if compare.mode === "voronoi"}
+        <tr class="fixed">
+          <td>OpenStreetMap</td>
+          <td colspan={SLOTS.length}><span class="swatch" aria-hidden="true"></span></td>
+        </tr>
+      {/if}
     </tbody>
   </table>
   <p class="hint">Press [ or ] to switch views.</p>
@@ -145,6 +151,16 @@
     background: var(--color);
     font-size: 0.7rem;
     font-weight: 700;
+  }
+  tbody tr.fixed:hover {
+    background: none;
+  }
+  .swatch {
+    display: inline-block;
+    width: 0.8rem;
+    height: 0.8rem;
+    vertical-align: middle;
+    background: rgb(66 66 66 / 0.85);
   }
   .hint {
     margin: 0.75rem 0 0;

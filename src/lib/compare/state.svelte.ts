@@ -1,5 +1,5 @@
 import { reduced } from "../map/map";
-import { unionBox, type Part } from "./attributes";
+import { unionBox, type ItemRow, type Part } from "./attributes";
 
 export type Slot = "a" | "b";
 export type View = "fade" | Slot;
@@ -151,9 +151,21 @@ export interface Focus {
   fly: boolean;
 }
 
-export interface Hit {
-  slot: Slot;
+// A Geometry row's merged differences by id; the map tints each source's cells for their territories,
+// keyed by source as [code, name] lists, and frames their bbox.
+export interface ItemFocus {
+  ids: string[];
   label: string;
+  bbox: number[] | null;
+  entities: Record<string, [unknown, unknown][]>;
+  fly: boolean;
+}
+
+// A hit with no slot is a geometry difference.
+export interface Hit {
+  slot: Slot | null;
+  label: string;
+  color?: string;
   properties: Record<string, unknown>;
 }
 
@@ -168,7 +180,11 @@ export class CompareState {
   sweep = $state(0);
   hits = $state<Hit[]>([]);
   focus = $state.raw<Focus | null>(null);
+  item = $state.raw<ItemFocus | null>(null);
   #frame = 0;
+
+  // Difference tiles key each source pair as its sorted ids.
+  diffPair = $derived([this.pair.a, this.pair.b].sort().join("|"));
 
   opacities = $derived<Record<Slot, number>>(
     this.view === "fade"
@@ -194,6 +210,29 @@ export class CompareState {
       parts,
       fly,
     };
+    this.item = null;
+  }
+
+  // Shows the item in Voronoi, moving to a pair it differs in when the current pair has no patches for it.
+  focusItem(row: ItemRow, label: string, fly = true) {
+    this.mode = "voronoi";
+    const pairs = row.pairs ?? [];
+    const drawn = row.type === "island" ? (row.drawn as SourceId) : null;
+    if (pairs.length && !(pairs.includes(this.diffPair) && (!drawn || this.pair.a === drawn))) {
+      const [a, b] = (pairs.find((p) => !drawn || p.split("|").includes(drawn)) ?? pairs[0]).split(
+        "|",
+      ) as SourceId[];
+      // Island items show only with their drawing source in slot A.
+      this.pair = drawn ? { a: drawn, b: a === drawn ? b : a } : { a, b };
+    }
+    this.focus = null;
+    const entities = Object.fromEntries(
+      SOURCES.map((s) => [
+        s.id,
+        row.entities?.[s.id] ?? [[row[`code_${s.id}`], row[`name_${s.id}`]] as [unknown, unknown]],
+      ]),
+    );
+    this.item = { ids: row.items ?? [row.item], label, bbox: row.bbox, entities, fly };
   }
 
   // Picking the other slot's source swaps the two, so A and B always differ.
@@ -209,6 +248,7 @@ export class CompareState {
     if (e.key === "Escape") {
       this.hits = [];
       this.focus = null;
+      this.item = null;
     }
     if ((e.target as Element).closest?.("input:not([type=radio]), select, textarea")) return;
     const by = KEY_STEP[e.key];

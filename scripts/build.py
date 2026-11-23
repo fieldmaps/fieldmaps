@@ -9,6 +9,7 @@ from pathlib import Path
 
 import compare
 import compare_attributes
+import compare_differences
 import duckdb
 import fieldmaps_publish
 import tylertoo
@@ -23,17 +24,29 @@ ENV = {
 }
 
 
-def attributes(now: str) -> list[str]:
-    """Rebuild and add the attributes table when stale; return what failed."""
-    try:
-        if compare_attributes.build():
-            fieldmaps_publish.add(
-                CATALOG, "compare/attributes", "--datetime", now, "--force"
-            )
-    except (duckdb.Error, ValueError, OSError) as e:
-        print(f"failed: attributes: {e}")  # noqa: T201
-        return [f"attributes: {e}"]
-    return []
+# Island dots stay at every zoom; tiles skip border shifts, which the page never draws.
+EXTRA = {
+    "differences_dots": {"point_thinning": 0},
+    "differences": {"filter": "NOT (type = 'land' AND side = 'both')"},
+}
+
+
+def tables(now: str) -> list[str]:
+    """Rebuild the attributes and differences when stale; return what failed."""
+    failed = []
+    for name, build in (
+        ("attributes", compare_attributes.build),
+        ("differences", compare_differences.build),
+    ):
+        try:
+            if build() and name == "attributes":
+                fieldmaps_publish.add(
+                    CATALOG, "compare/attributes", "--datetime", now, "--force"
+                )
+        except (duckdb.Error, ValueError, OSError) as e:
+            print(f"failed: {name}: {e}")  # noqa: T201
+            failed.append(f"{name}: {e}")
+    return failed
 
 
 def main() -> None:
@@ -51,7 +64,7 @@ def main() -> None:
         if story == "compare":
             if failed := compare.build():
                 print("\n".join(failed))  # noqa: T201
-            failed += attributes(now)
+            failed += tables(now)
         else:
             subprocess.run(
                 ["duckdb", "-no-agent", "-c", f".read scripts/{story}-steps.sql"],
@@ -76,6 +89,7 @@ def main() -> None:
                     line_visibility=0,
                     polygon_thinning=0,
                     polygon_visibility=0,
+                    **EXTRA.get(parquet.stem, {}),
                 )
                 tylertoo.export_pmtiles(
                     str(overview),
