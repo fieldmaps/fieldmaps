@@ -103,6 +103,7 @@
 
   function focusItem(row: ItemRow, label: string) {
     borrowView("fade");
+    compare.hits = [];
     compare.focusItem(row, label);
   }
 
