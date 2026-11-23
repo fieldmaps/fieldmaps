@@ -143,14 +143,19 @@
   };
 </script>
 
-<Story title="International Boundaries" steps={STEPS} {options} {move}>
+<Story
+  title="International Boundaries"
+  tagline="Country boundaries from high-resolution international border lines, clipped to OpenStreetMap coastlines."
+  steps={STEPS}
+  {options}
+  {move}
+>
   {#snippet intro()}{@render actions()}{/snippet}
   {#snippet outro()}{@render actions()}{/snippet}
 </Story>
 
 {#snippet actions()}
   <div class="actions">
-    <a class="button" href="/international/compare/">Compare</a>
     <a class="button" href={DOWNLOAD}>Download</a>
   </div>
 {/snippet}

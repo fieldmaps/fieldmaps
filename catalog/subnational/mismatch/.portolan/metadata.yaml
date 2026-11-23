@@ -1,0 +1,32 @@
+title: "Mismatch with ADM0"
+description: "Where each country's dissolved original polygons differ from its FieldMaps ADM0 polygon."
+license: "ODbL-1.0"
+providers:
+  - name: "FieldMaps"
+    roles: ["producer", "processor", "host"]
+    url: "https://fieldmaps.io"
+  - name: "GADM"
+    roles: ["producer"]
+    url: "https://gadm.org"
+  - name: "OCHA Field Information Services Section (FISS)"
+    roles: ["processor", "licensor"]
+    url: "https://data.humdata.org/dataset/cod-ab-global"
+  - name: "Tanzania National Bureau of Statistics"
+    roles: ["producer"]
+    url: "https://www.nbs.go.tz"
+  - name: "OCHA Regional Office for Southern Africa (ROSA)"
+    roles: ["processor", "licensor"]
+    url: "https://data.humdata.org/dataset/cod-ab-tza"
+  - name: "Independent Electoral and Boundaries Commission (IEBC)"
+    roles: ["producer"]
+    url: "https://www.iebc.or.ke"
+  - name: "OCHA Regional Office for Southern and Eastern Africa (ROSEA)"
+    roles: ["processor", "licensor"]
+    url: "https://data.humdata.org/dataset/cod-ab-ken"
+  - name: "U.S. Department of State, Office of the Geographer and Global Issues"
+    roles: ["producer"]
+    url: "https://geodata.state.gov"
+  - name: "OpenStreetMap contributors"
+    roles: ["producer", "licensor"]
+    url: "https://www.openstreetmap.org/copyright"
+attribution: "© OpenStreetMap contributors, U.S. Department of State, GADM, OCHA FISS, Tanzania NBS, OCHA ROSA, IEBC, OCHA ROSEA, FieldMaps"

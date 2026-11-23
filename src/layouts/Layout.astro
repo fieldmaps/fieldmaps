@@ -8,24 +8,16 @@ interface Props {
   canonical?: boolean;
 }
 
-const menus = [
-  {
-    label: "International",
-    items: [
-      { label: "Overview", href: "/international/" },
-      { label: "Compare", href: "/international/compare/" },
-      { label: "Download", href: "https://source.coop/fieldmaps/international" },
-    ],
-  },
-  {
-    label: "Subnational",
-    items: [
-      { label: "Overview", href: "/subnational/" },
-      { label: "Download", href: "https://source.coop/fieldmaps/subnational" },
-    ],
-  },
+const links = [
+  { label: "International", href: "/international/" },
+  { label: "Subnational", href: "/subnational/" },
+  { label: "Compare", href: "/international/compare/" },
 ];
 const path = Astro.url.pathname;
+// The longest matching link is current, so Compare wins over International on its own page.
+const current = links
+  .filter((link) => path.startsWith(link.href))
+  .sort((a, b) => b.href.length - a.href.length)[0];
 ---
 
 <Base {...Astro.props}>
@@ -35,19 +27,10 @@ const path = Astro.url.pathname;
         <Logo size={36} />
         <span>FieldMaps</span>
       </a>
-      {menus.map((menu) => (
-        <details class="menu" name="site-menu">
-          <summary>{menu.label}</summary>
-          <ul>
-            {menu.items.map((item) => (
-              <li>
-                <a href={item.href} aria-current={item.href === path ? "page" : undefined}>
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </details>
+      {links.map((link) => (
+        <a href={link.href} aria-current={link === current ? "page" : undefined}>
+          {link.label}
+        </a>
       ))}
     </nav>
   </header>
@@ -55,15 +38,6 @@ const path = Astro.url.pathname;
     <slot />
   </main>
 </Base>
-
-<script>
-  const menus = [...document.querySelectorAll<HTMLDetailsElement>(".menu")];
-  const close = () => menus.forEach((m) => (m.open = false));
-  document.addEventListener("click", (e) => {
-    if (!menus.some((m) => m.contains(e.target as Node))) close();
-  });
-  document.addEventListener("keydown", (e) => e.key === "Escape" && close());
-</script>
 
 <style>
   .site-header {
@@ -75,7 +49,7 @@ const path = Astro.url.pathname;
   }
   nav {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     gap: 1.5rem;
     min-height: 4rem;
   }
@@ -83,39 +57,15 @@ const path = Astro.url.pathname;
     color: var(--ink);
     text-decoration: none;
   }
-  .menu {
-    position: relative;
+  nav a:not(.brand) {
+    display: flex;
+    align-items: center;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
   }
-  summary {
-    cursor: pointer;
-    list-style-position: outside;
-  }
-  summary::marker {
-    content: "";
-  }
-  summary::after {
-    content: "▾";
-    margin-left: 0.35rem;
-    font-size: 0.8em;
-  }
-  ul {
-    position: absolute;
-    top: calc(100% + 0.5rem);
-    right: 0;
-    min-width: 10rem;
-    margin: 0;
-    padding: 0.25rem 0;
-    list-style: none;
-    background: var(--white);
-    border: 1px solid var(--paper);
-  }
-  ul a {
-    display: block;
-    padding: 0.4rem 1rem;
-  }
-  ul a:hover,
-  ul a[aria-current="page"] {
-    background: var(--paper-light);
+  nav a[aria-current="page"] {
+    font-weight: 700;
+    border-bottom-color: var(--ink);
   }
   .brand {
     display: flex;

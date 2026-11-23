@@ -4,17 +4,17 @@
   "sources": {
     "data": {
       "type": "vector",
-      "url": "pmtiles://../delta.pmtiles",
-      "minzoom": 4,
+      "url": "pmtiles://../mismatch.pmtiles",
+      "minzoom": 5,
       "maxzoom": 12
     }
   },
   "layers": [
     {
-      "id": "delta-fill",
+      "id": "mismatch-fill",
       "type": "fill",
       "source": "data",
-      "source-layer": "delta",
+      "source-layer": "mismatch",
       "paint": {
         "fill-color": "#3388ff",
         "fill-opacity": 0.6,

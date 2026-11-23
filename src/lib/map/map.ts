@@ -4,6 +4,7 @@ import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { Protocol } from "pmtiles";
 
 export const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+export const FADE_MS = 600;
 export const color = (name: string) =>
   getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 export const GLOBE = {
