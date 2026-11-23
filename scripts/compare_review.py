@@ -72,7 +72,7 @@ def _components(cells: dict[tuple, list]) -> list[tuple[tuple, list]]:
     return out
 
 
-def _island_items(conn: duckdb.DuckDBPyConnection, label: dict) -> tuple[list, list]:
+def _island_items(conn: duckdb.DuckDBPyConnection) -> tuple[list, list]:
     """Group each source's islands that another source's cells give another cluster."""
     pivot = ", ".join(
         f"""max(p.entity) FILTER (p.source = '{s}') AS {s},
@@ -95,12 +95,7 @@ def _island_items(conn: duckdb.DuckDBPyConnection, label: dict) -> tuple[list, l
     members, entities = [], []
     for (drawn, ents), cells in groups.items():
         for start, pids in _components(cells):
-            item = _id(
-                "island",
-                drawn,
-                *(label.get(k) for k in zip(SOURCES, ents, strict=True)),
-                start,
-            )
+            item = _id("island", drawn, *ents, start)
             members += [(pid, item, drawn) for pid in pids]
             entities += [
                 (item, "island", *k, None) for k in zip(SOURCES, ents, strict=True)
@@ -108,7 +103,7 @@ def _island_items(conn: duckdb.DuckDBPyConnection, label: dict) -> tuple[list, l
     return members, entities
 
 
-def _entity_items(conn: duckdb.DuckDBPyConnection, label: dict) -> list:
+def _entity_items(conn: duckdb.DuckDBPyConnection) -> list:
     """Clusters missing from a source, with what that source has there instead."""
     clusters: dict[int, list] = defaultdict(list)
     for s, e, cl in conn.execute("SELECT * FROM clusters").fetchall():
@@ -135,7 +130,7 @@ def _entity_items(conn: duckdb.DuckDBPyConnection, label: dict) -> list:
         if complete or (not has_land and any(m in placed for m in members)):
             continue
         kind = "land" if has_land else "no_land"
-        item = _id(kind, *sorted(label.get(m) for m in members))
+        item = _id(kind, *sorted(f"{s}:{e}" for s, e in members))
         out += [(item, kind, *m, True) for m in members]
         for t in set(SOURCES) - own:
             near: dict[tuple, float] = defaultdict(float)
@@ -152,12 +147,8 @@ def build(conn: duckdb.DuckDBPyConnection, sources: list[str]) -> None:
     """Build the items table, and land_review mapping land patches to items."""
     SOURCES[:] = sorted(sources)
     _clusters(conn)
-    label = {
-        (s, e): f"{code or ''}:{name or ''}"
-        for s, e, code, name in conn.execute("SELECT * FROM entities").fetchall()
-    }
-    members, entities = _island_items(conn, label)
-    entities += _entity_items(conn, label)
+    members, entities = _island_items(conn)
+    entities += _entity_items(conn)
     conn.execute(
         "CREATE OR REPLACE TABLE item_parts (pid BIGINT, item VARCHAR, drawn VARCHAR)"
     )
@@ -209,21 +200,16 @@ def build(conn: duckdb.DuckDBPyConnection, sources: list[str]) -> None:
 def _borders(conn: duckdb.DuckDBPyConnection) -> None:
     """Map land patches to items, or to a border item per country pair."""
     conn.execute("""
-        CREATE OR REPLACE TABLE cluster_names AS
-        SELECT cluster, first(concat_ws(' ', e.code, e.name) ORDER BY source) AS label
-        FROM clusters JOIN entities e USING (source, entity) GROUP BY cluster;
         CREATE OR REPLACE TABLE land_items AS
         SELECT DISTINCT source, entity, item FROM item_entities
         WHERE own AND type = 'land';
         CREATE OR REPLACE TABLE land_review AS
-        SELECT d.*, least(na.label, nb.label) AS lo, greatest(na.label, nb.label) AS hi,
-            CASE d.side WHEN 'a' THEN la.item WHEN 'b' THEN lb.item
-                ELSE substr(md5(lo || '|' || hi), 1, 12) END AS item
+        SELECT d.*, CASE d.side WHEN 'a' THEN la.item WHEN 'b' THEN lb.item
+            ELSE substr(md5(least(ca.cluster, cb.cluster) || '|'
+                || greatest(ca.cluster, cb.cluster)), 1, 12) END AS item
         FROM land_diff d
         JOIN clusters ca ON ca.source = d.a AND ca.entity = d.a_entity
-        JOIN cluster_names na ON na.cluster = ca.cluster
         JOIN clusters cb ON cb.source = d.b AND cb.entity = d.b_entity
-        JOIN cluster_names nb ON nb.cluster = cb.cluster
         LEFT JOIN land_items la ON la.source = d.a AND la.entity = d.a_entity
         LEFT JOIN land_items lb ON lb.source = d.b AND lb.entity = d.b_entity;
     """)
