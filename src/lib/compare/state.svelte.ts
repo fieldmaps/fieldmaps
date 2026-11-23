@@ -165,6 +165,7 @@ export interface ItemFocus {
 export interface Hit {
   slot: Slot | null;
   label: string;
+  color?: string;
   properties: Record<string, unknown>;
 }
 

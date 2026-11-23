@@ -18,8 +18,7 @@
               {hit.slot.toUpperCase()}
             </span>
           {:else}
-            <span class="swatch" class:island={hit.properties.type === "island"} aria-hidden="true"
-            ></span>
+            <span class="swatch" style:background={hit.color} aria-hidden="true"></span>
           {/if}
           {hit.label}
         </h3>
@@ -91,10 +90,6 @@
   .swatch {
     width: 0.8rem;
     height: 0.8rem;
-    background: #7b3fa0;
-  }
-  .swatch.island {
-    background: #424242;
   }
   table {
     width: 100%;

@@ -274,7 +274,6 @@
     m.once("load", () => {
       map = m;
       m.on("click", (e) => {
-        compare.hits = query(m, e.point);
         // On a Geometry list, a Voronoi click picks the difference there, a patch before its area.
         if (!mapTab && compare.mode === "voronoi" && listItems) {
           const found = m
@@ -284,8 +283,10 @@
                 Number(x.properties.type === "voronoi") - Number(y.properties.type === "voronoi"),
             );
           onitempick(found[0]?.properties.item ?? null);
+          compare.hits = query(m, e.point);
           return;
         }
+        compare.hits = query(m, e.point);
         // Voronoi clicks on the Map tab only report each source's cell, so the patches stay unobscured.
         if (mapTab && compare.mode === "voronoi") return;
         // Rendered order puts later sources first; A's feature should win.
@@ -318,6 +319,17 @@
     ];
   }
 
+  // The fill a difference draws in, as the difference layers set it.
+  function diffColor(f: maplibregl.MapGeoJSONFeature): string {
+    const items = compare.item?.ids;
+    if (items && !items.includes(f.properties.item)) return OTHER_ITEM_COLOR;
+    if (f.properties.type === "island") return ISLAND_COLOR;
+    const k = f.layer.id.slice(DIFF.length + 1, -"-fill".length);
+    if (k === "all") return DIFF_COLOR;
+    const swapped = compare.pair.a > compare.pair.b;
+    return color(`--compare-${(k === "b") !== swapped ? "b" : "a"}`);
+  }
+
   // Voronoi also reports the differences under the click.
   function query(m: maplibregl.Map, point: maplibregl.Point): Hit[] {
     const { x, y } = point;
@@ -328,6 +340,7 @@
         ? m.queryRenderedFeatures(box, { layers: DIFF_FILLS }).map((f) => ({
             slot: null,
             label: "Difference",
+            color: diffColor(f),
             properties: { type: f.properties.type, km2: Number(f.properties.km2).toFixed(2) },
           }))
         : [];
