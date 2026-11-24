@@ -17,6 +17,7 @@
     compare,
     inset,
     insetLeft,
+    insetBottom,
     listItems,
     onpick,
     onitempick,
@@ -24,6 +25,7 @@
     compare: CompareState;
     inset: number;
     insetLeft: number;
+    insetBottom: number;
     listItems: string[] | null;
     onpick: (iso3: string, source: string, name: string) => void;
     onitempick: (item: string | null) => void;
@@ -554,11 +556,11 @@
   $effect(() => frame(compare.focus));
   $effect(() => frame(compare.item));
 
-  // A pane over the map's right edge pads the camera instead of resizing the canvas.
+  // Panels over the map pad the camera instead of resizing the canvas.
   $effect(() => {
     if (!map) return;
     map.easeTo({
-      padding: { top: 0, bottom: 0, left: insetLeft, right: inset },
+      padding: { top: 0, bottom: insetBottom, left: insetLeft, right: inset },
       duration: reduced ? 0 : SLIDE_MS,
     });
   });
@@ -591,6 +593,7 @@
   }
   .map :global(.maplibregl-ctrl-bottom-right) {
     right: var(--inset);
+    bottom: var(--inset-bottom);
     transition: right 300ms cubic-bezier(0.2, 0, 0, 1);
   }
 </style>

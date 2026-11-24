@@ -31,11 +31,12 @@
   const listItems = $derived(merged.filter((r) => r.list === list).flatMap((r) => r.items ?? []));
   let rem = $state(16);
   let width = $state(0);
-  // Below this width the sidebar sits under the map, so the camera needs no side padding.
+  // Below this width the sidebar covers the map's lower half, so the camera pads the bottom instead.
   const side = $derived(width >= SIDE_MIN_REM * rem);
-  let paneWidth = $state(0);
-  const inset = $derived(side ? paneWidth + GAP_REM * rem : 0);
+  let paneHeight = $state(0);
+  const inset = $derived(side ? (PANE_REM + GAP_REM) * rem : 0);
   const insetLeft = $derived(side ? PANEL_REM * rem : 0);
+  const insetBottom = $derived(side ? 0 : paneHeight + GAP_REM * rem);
 
   $effect(() => {
     rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
@@ -115,11 +116,20 @@
   class:side
   style:--inset="{inset}px"
   style:--inset-left="{insetLeft}px"
+  style:--inset-bottom="{insetBottom}px"
   style:--pane="{PANE_REM}rem"
   style:--gap="{GAP_REM}rem"
 >
   <div class="map">
-    <CompareMap {compare} {inset} {insetLeft} {listItems} onpick={pick} onitempick={pickItem} />
+    <CompareMap
+      {compare}
+      {inset}
+      {insetLeft}
+      {insetBottom}
+      {listItems}
+      onpick={pick}
+      onitempick={pickItem}
+    />
     <ComparePanel {compare} />
     <HitsPanel {compare} />
     {#if compare.focus}
@@ -142,7 +152,7 @@
       </button>
     {/if}
   </div>
-  <aside class="pane" aria-label="Differences" bind:offsetWidth={paneWidth}>
+  <aside class="pane" aria-label="Differences" bind:offsetHeight={paneHeight}>
     <GeometryTable
       items={merged}
       item={compare.item}
