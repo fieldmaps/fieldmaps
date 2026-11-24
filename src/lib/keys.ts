@@ -5,9 +5,16 @@ const DIRECTIONS: Record<string, -1 | 1> = {
   ArrowRight: 1,
 };
 
+const radio = (e: KeyboardEvent) => (e.target as Element).matches?.('input[type="radio"]');
+
 export const direction = (e: KeyboardEvent) => {
   if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return undefined;
-  if ((e.target as Element).closest?.("input, textarea, select, [contenteditable]"))
+  // Up and down step even from a radio group, where they would cycle its options.
+  const vertical = e.key === "ArrowUp" || e.key === "ArrowDown";
+  if (
+    (e.target as Element).closest?.("input, textarea, select, [contenteditable]") &&
+    !(vertical && radio(e))
+  )
     return undefined;
   return DIRECTIONS[e.key];
 };
@@ -37,7 +44,7 @@ export const stepKeys = (go: (d: -1 | 1) => boolean, sideways?: (d: -1 | 1) => v
     if (sideways && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
       e.preventDefault();
       sideways(d);
-    } else if (go(d)) e.preventDefault();
+    } else if (go(d) || radio(e)) e.preventDefault();
   };
   addEventListener("keydown", onKey);
   return () => removeEventListener("keydown", onKey);

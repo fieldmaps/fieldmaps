@@ -24,7 +24,7 @@
     | "clipped-line"
     | "adm0"
     | "world"
-    | "world-adm3"
+    | "world-adm2"
     | "world-adm0"
     | "world-adm0-top";
   type Bounds = [number, number, number, number];
@@ -61,7 +61,7 @@
         bounds: [30.7, -2.45, 30.95, -2.2],
         place: "Kagera River on the border with Rwanda",
       },
-      points: [32.7746, -2.9935],
+      points: [32.7755, -2.9945],
     },
     KEN: {
       name: "Kenya",
@@ -75,7 +75,7 @@
   };
 
   const SOURCE: Layer[] = ["neighbours", "original", "original-line"];
-  const WORLD: Layer[] = ["world", "world-adm3", "world-adm0"];
+  const WORLD: Layer[] = ["world", "world-adm2", "world-adm0"];
   const STEPS: Step[] = [
     {
       title: "Original input",
@@ -85,19 +85,19 @@
     },
     {
       title: "Gaps",
-      text: "Sources often leave water or border strips out. These holes are shown in red and fall in no area. A point inside one can't be assigned to anyone.",
+      text: "Sources often leave water or border strips out. These {gap:gaps} fall in no area. A point inside one can't be assigned to anyone.",
       camera: "gaps",
       layers: [...SOURCE, "gap", "adm0", "world-adm0-top"],
     },
     {
       title: "Overlaps",
-      text: "Elsewhere the source reaches past the national boundary. These overlaps are shown in orange. They cover a neighbour's land, the sea or a disputed area.",
+      text: "Elsewhere the source reaches past the national boundary. These {spill:overlaps} cover a neighbour's land, the sea or a disputed area.",
       camera: "spills",
       layers: [...SOURCE, "gap-soft", "spill", "adm0", "world-adm0-top"],
     },
     {
       title: "Edge-matching",
-      text: "One process fixes both problems. Areas on the outer edge grow out to fill the gaps. The result is then cut to the national boundary. That cut removes the overlaps.",
+      text: "One process fixes both problems. Areas on the outer edge grow out to fill the {gap:gaps}. The result is then cut to the national boundary. That cut removes the {spill:overlaps}.",
       camera: "country",
       layers: [...SOURCE, "gap", "spill", "adm0"],
     },
@@ -133,7 +133,7 @@
     },
     {
       title: "Clip",
-      text: "The extended areas are cut to the national boundary. Every gap is now filled. Every overlap is gone.",
+      text: "The extended areas are cut to the national boundary. Every {gap:gap} is now filled. Every {spill:overlap} is gone.",
       camera: "country",
       layers: ["neighbours", "clipped", "clipped-line", "world-adm0", "adm0"],
     },
@@ -250,13 +250,13 @@
         ...Object.fromEntries(SITE_SOURCES.map((s) => [s, site(s)])),
         world: pmtiles("international/odbl/humanitarian/adm0-polygons/adm0_polygons.pmtiles"),
         worldLines: pmtiles("international/odbl/humanitarian/adm0-lines/adm0_lines.pmtiles"),
-        worldAdm3: pmtiles("subnational/global/adm3-lines/adm3_lines.pmtiles"),
+        worldAdm2: pmtiles("subnational/global/adm2-lines/adm2_lines.pmtiles"),
       },
       layers: [
         { id: "sea", type: "background", paint: { "background-color": color("--sky") } },
         { ...fill("world", "world", "--white"), "source-layer": "adm0_polygons" },
         { ...fill("neighbours", "world", "--paper-light"), "source-layer": "adm0_polygons" },
-        { ...line("world-adm3", "worldAdm3", "--fold", 0.6), "source-layer": "adm3_lines" },
+        { ...line("world-adm2", "worldAdm2", "--fold", 0.6), "source-layer": "adm2_lines" },
         worldAdm0("world-adm0"),
         { ...fill("cells", "cells", "--paper"), paint: { "fill-color": areaColor(AREA_TINTS) } },
         fill("dissolved", "dissolved", "--paper"),

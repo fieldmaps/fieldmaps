@@ -69,7 +69,7 @@
         sources: {
           adm0: pmtiles("international/odbl/humanitarian/adm0-polygons/adm0_polygons.pmtiles"),
           adm0Lines: pmtiles("international/odbl/humanitarian/adm0-lines/adm0_lines.pmtiles"),
-          adm1: pmtiles("subnational/global/adm1-lines/adm1_lines.pmtiles"),
+          adm2: pmtiles("subnational/global/adm2-lines/adm2_lines.pmtiles"),
           labels: pmtiles("international/odbl/humanitarian/adm0-points/adm0_points.pmtiles"),
         },
         layers: [
@@ -82,10 +82,10 @@
             paint: { "fill-color": color("--white") },
           },
           {
-            id: "adm1",
+            id: "adm2",
             type: "line",
-            source: "adm1",
-            "source-layer": "adm1_lines",
+            source: "adm2",
+            "source-layer": "adm2_lines",
             paint: {
               "line-color": color("--fold"),
               "line-width": 0.6,
@@ -134,7 +134,7 @@
       if (Math.abs(progress - shown) < 0.0005) return;
       shown = progress;
       map.setCenter([START + DEGREES * progress, LAT]);
-      map.setPaintProperty("adm1", "line-opacity", clamp((progress - 0.2) / 0.5));
+      map.setPaintProperty("adm2", "line-opacity", clamp((progress - 0.2) / 0.5));
       map.setPaintProperty("labels", "text-opacity", 1 - clamp((progress - 0.2) / 0.3));
     };
     const onKey = (e: KeyboardEvent) => {
