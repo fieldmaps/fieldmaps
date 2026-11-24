@@ -7,7 +7,6 @@ from pathlib import Path
 
 import compare
 import compare_attributes
-import compare_differences
 import duckdb
 import explore_steps
 import fieldmaps_publish
@@ -26,31 +25,23 @@ STEPS = {
 }
 
 
-# Island dots stay at every zoom; tiles skip border shifts, which the page never draws.
 EXTRA = {
-    "differences_dots": {"point_thinning": 0},
     "points": {"point_thinning": 0},
     "outlines": {"coalesce_lines": False},
-    "differences": {"filter": "NOT (type = 'land' AND side = 'both')"},
 }
 
 
 def tables(now: str) -> list[str]:
-    """Rebuild the attributes and differences when stale; return what failed."""
-    failed = []
-    for name, build in (
-        ("attributes", compare_attributes.build),
-        ("differences", compare_differences.build),
-    ):
-        try:
-            if build() and name == "attributes":
-                fieldmaps_publish.add(
-                    CATALOG, "compare/attributes", "--datetime", now, "--force"
-                )
-        except (duckdb.Error, ValueError, OSError) as e:
-            print(f"failed: {name}: {e}")  # noqa: T201
-            failed.append(f"{name}: {e}")
-    return failed
+    """Rebuild the attributes when stale; return what failed."""
+    try:
+        if compare_attributes.build():
+            fieldmaps_publish.add(
+                CATALOG, "compare/attributes", "--datetime", now, "--force"
+            )
+    except (duckdb.Error, ValueError, OSError) as e:
+        print(f"failed: attributes: {e}")  # noqa: T201
+        return [f"attributes: {e}"]
+    return []
 
 
 def main() -> None:
