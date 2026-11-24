@@ -31,6 +31,40 @@
   const hidden = (l: maplibregl.LayerSpecification) =>
     ("source-layer" in l && l["source-layer"] === "boundary") ||
     /^label_(country|state)/.test(l.id);
+  // OSM maritime country borders only, which mark islands without biasing land borders.
+  const OSM_COLOR = "#9e7ba6";
+  const osmBorder = {
+    source: "openmaptiles",
+    "source-layer": "boundary",
+    filter: [
+      "all",
+      ["==", ["get", "admin_level"], 2],
+      ["==", ["get", "maritime"], 1],
+    ] as maplibregl.FilterSpecification,
+  };
+  const OSM_BORDERS: maplibregl.LayerSpecification[] = [
+    {
+      ...osmBorder,
+      id: "osm-borders",
+      type: "line",
+      paint: { "line-color": OSM_COLOR, "line-width": 1 },
+    },
+    ...(["adm0_l", "adm0_r"] as const).map((side, i): maplibregl.LayerSpecification => ({
+      ...osmBorder,
+      id: `osm-border-${side}`,
+      type: "symbol",
+      layout: {
+        "symbol-placement": "line",
+        "symbol-spacing": 300,
+        "text-field": ["get", side],
+        "text-font": ["Noto Sans Regular"],
+        "text-size": 11,
+        "text-offset": [0, i ? 0.8 : -0.8],
+      },
+      paint: { "text-color": OSM_COLOR, "text-halo-color": "#ffffff", "text-halo-width": 1 },
+    })),
+  ];
+
   const LAYERS = [
     ["fill", "fill", "polygons"],
     ["line", "line", "polygons"],
@@ -117,6 +151,7 @@
               source: "satellite",
               layout: { visibility: "none" },
             },
+            ...OSM_BORDERS,
             ...entityLayers("fill"),
             ...SOURCES.flatMap((s): maplibregl.LayerSpecification[] => {
               const common = {
