@@ -215,6 +215,7 @@ export class CompareState {
   hits = $state<Hit[]>([]);
   focus = $state.raw<Focus | null>(null);
   #frame = 0;
+  #swapped: Partial<Record<Slot, SourceId>> = {};
 
   available = $derived(SOURCES.filter((s) => hasLevel(s.id, this.level)));
   // Subnational levels draw polygons only; the adm0 pick returns with adm0.
@@ -247,24 +248,37 @@ export class CompareState {
   }
 
   // A slot whose source lacks the level takes the first one that has it and differs from the other slot.
+  // The swapped-out source returns at the next level that has it.
   setLevel(level: Level) {
     this.level = level;
     if (level) this.subLevel = level;
     this.hits = [];
     this.focus = null;
     for (const slot of SLOTS) {
-      if (hasLevel(this.pair[slot], level)) continue;
       const other = this.pair[slot === "a" ? "b" : "a"];
+      const back = this.#swapped[slot];
+      if (back && back !== other && hasLevel(back, level)) {
+        this.pair[slot] = back;
+        delete this.#swapped[slot];
+        continue;
+      }
+      if (hasLevel(this.pair[slot], level)) continue;
       const next = SOURCES.find((s) => s.id !== other && hasLevel(s.id, level));
-      if (next) this.pair[slot] = next.id;
+      if (!next) continue;
+      this.#swapped[slot] ??= this.pair[slot];
+      this.pair[slot] = next.id;
     }
   }
 
   // Picking the other slot's source swaps the two, so A and B always differ.
   pick(slot: Slot, id: SourceId) {
     const other = slot === "a" ? "b" : "a";
-    if (this.pair[other] === id) this.pair[other] = this.pair[slot];
+    if (this.pair[other] === id) {
+      this.pair[other] = this.pair[slot];
+      delete this.#swapped[other];
+    }
     this.pair[slot] = id;
+    delete this.#swapped[slot];
   }
 
   keydown(e: KeyboardEvent) {
