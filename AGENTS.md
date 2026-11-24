@@ -12,6 +12,7 @@ Astro 7 static site + Svelte 5 islands (runes), MapLibre GL + PMTiles. Deployed 
 Read directly from Source Cooperative (`https://data.source.coop/fieldmaps/{international,subnational,site}/...`), which serves CORS `*` and HTTP range requests.
 
 - `catalog/` is the Portolan catalog for `fieldmaps/site`, the story demo layers. `uv run python scripts/build.py` runs `scripts/*-steps.sql`, builds PMTiles, then `portolan add` and `check`; `--push` syncs it with `scripts/fieldmaps_publish.py` (byte-identical with `fieldmaps/international`). Pushing needs `.env` from `.env.example` and the AWS CLI.
+- `catalog/explore/` holds each source's subnational polygons for `/explore/`, built alone with `build.py --only explore`.
 
 ## Commands
 

@@ -9,6 +9,7 @@ import compare
 import compare_attributes
 import compare_differences
 import duckdb
+import explore_steps
 import fieldmaps_publish
 import international_steps
 import subnational_steps
@@ -17,10 +18,11 @@ import tylertoo
 ROOT = Path(__file__).resolve().parent.parent
 CATALOG = ROOT / "catalog"
 TMP = ROOT / "tmp" / "catalog"
-MAX_ZOOM = {"international": 6, "subnational": 12, "compare": 12}
+MAX_ZOOM = {"international": 6, "subnational": 12, "compare": 12, "explore": 12}
 STEPS = {
     "international": international_steps.build,
     "subnational": subnational_steps.build,
+    "explore": explore_steps.build,
 }
 
 

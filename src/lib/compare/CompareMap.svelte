@@ -4,31 +4,24 @@
   import { SATELLITE, SATELLITE_PROTOCOL, satelliteTile } from "../map/satellite";
   import { byType, globeFitZoom, pmtiles } from "../map/style";
   import {
+    layerKey,
     SLOTS,
     SOURCES,
+    SUBNATIONAL,
     type CompareState,
+    type Level,
     type Focus,
     type Hit,
-    type ItemFocus,
-    type Slot,
   } from "./state.svelte";
 
   let {
     compare,
-    inset,
     insetLeft,
-    insetBottom,
-    listItems,
     onpick,
-    onitempick,
   }: {
     compare: CompareState;
-    inset: number;
     insetLeft: number;
-    insetBottom: number;
-    listItems: string[];
     onpick: (iso3: string, source: string, name: string) => void;
-    onitempick: (item: string | null) => void;
   } = $props();
 
   const FILL_OPACITY = 0.15;
@@ -75,6 +68,10 @@
     ["cell-fill", "fill", "voronoi"],
     ["cell-line", "line", "voronoi"],
   ] as const;
+  // Subnational levels draw polygons only.
+  const SUB_LAYERS = LAYERS.filter(([, , mode]) => mode === "polygons");
+  const subLevels = (s: (typeof SOURCES)[number]) =>
+    Object.entries(SUBNATIONAL[s.id] ?? {}).map(([n, l]) => ({ level: Number(n) as Level, ...l! }));
   const CLICK_PAD = 3;
   const FOCUS_WIDTH = 5;
   const DIM = {
@@ -85,76 +82,8 @@
   const FOCUS_MAX_ZOOM = 14;
   const MIN_FIT_PX = 200;
   const SLIDE_MS = 300;
-  const DIFF = "differences";
-  const DIFF_DOTS = "differences_dots";
-  const DIFF_COLOR = "#7b3fa0";
-  const DIFF_FILL_OPACITY = 0.45;
-  // Islands draw in neutral grey, apart from both sources' colours; other items' patches in a lighter one.
-  const ISLAND_COLOR = "#424242";
-  const OTHER_ITEM_COLOR = "#9e9e9e";
   const ENTITY_FILL_OPACITY = 0.3;
-  // "all" draws islands always and land outside Fade; in Fade, "a" and "b" each draw land in one slot's colour.
-  const DIFF_SETS = ["all", "a", "b"] as const;
-  const DIFF_FILLS = DIFF_SETS.map((k) => `${DIFF}-${k}-fill`);
-  // Transparent, so a click finds the difference under it, Voronoi area rows included.
-  const DIFF_PICK = `${DIFF}-pick`;
-  type Expr = maplibregl.ExpressionSpecification;
-  const ISLAND: Expr = ["==", ["get", "type"], "island"];
-  // Voronoi area rows only take clicks; the sources' own Voronoi cells show the rest.
-  const PATCH: Expr = ["!=", ["get", "type"], "voronoi"];
-  // Land border shifts (land patches on side "both") never draw.
-  const NOT_BORDER: Expr = [
-    "!",
-    ["all", ["==", ["get", "type"], "land"], ["==", ["get", "side"], "both"]],
-  ];
-  // Tiles name sides by sorted source id, so swapped means slot A holds tile side "b".
-  const drawnByA = (swapped: boolean): Expr => ["==", ["get", "side"], swapped ? "b" : "a"];
-  // Island rows are slot A's own islands, so only those drawn by A's tile side show.
-  const ownIslands = (swapped: boolean): Expr => ["any", ["!", ISLAND], drawnByA(swapped)];
-  const inItems = (ids: string[]): Expr => ["in", ["get", "item"], ["literal", ids]];
-  // Focused land draws only through its entities' tint, so it never looks like a region of its own.
-  const focusedLandHidden = (ids: string[]): Expr => [
-    "!",
-    ["all", ["==", ["get", "type"], "land"], inItems(ids)],
-  ];
-  const diffCommon = {
-    source: DIFF,
-    "source-layer": DIFF,
-    layout: { visibility: "none" as const },
-  };
-  const DIFF_LAYERS: maplibregl.LayerSpecification[] = [
-    ...DIFF_SETS.flatMap((k): maplibregl.LayerSpecification[] => [
-      {
-        ...diffCommon,
-        id: `${DIFF}-${k}-fill`,
-        type: "fill",
-        paint: { "fill-color": DIFF_COLOR, "fill-opacity": ["case", ISLAND, 1, DIFF_FILL_OPACITY] },
-      },
-      // The white edge keeps a grey island apart from dark satellite water.
-      {
-        ...diffCommon,
-        id: `${DIFF}-${k}-line`,
-        type: "line",
-        paint: { "line-color": DIFF_COLOR, "line-width": ["case", ISLAND, 1, 0.5] },
-      },
-    ]),
-    { ...diffCommon, id: DIFF_PICK, type: "fill", paint: { "fill-opacity": 0 } },
-  ];
-  // One point per island difference, above source lines; its edge thins out by z12 into its island.
-  const DOTS_LAYER: maplibregl.LayerSpecification = {
-    id: DIFF_DOTS,
-    source: DIFF_DOTS,
-    "source-layer": DIFF_DOTS,
-    layout: { visibility: "none" },
-    type: "circle",
-    paint: {
-      "circle-color": ISLAND_COLOR,
-      "circle-radius": 4,
-      "circle-stroke-color": "#ffffff",
-      "circle-stroke-width": ["interpolate", ["linear"], ["zoom"], 8, 1, 12, 0],
-    },
-  };
-  // Each source's whole Voronoi cells for a focused difference or code, so islands joined to a mainland read as one.
+  // Each source's whole Voronoi cells for a focused code, so islands joined to a mainland read as one.
   const entityLayers = (type: "fill" | "line") =>
     SOURCES.map((s): maplibregl.LayerSpecification => ({
       source: `${s.id}-voronoi`,
@@ -202,11 +131,13 @@
                   [s.id, pmtiles(s.path, attribution)],
                   [`${s.id}-lines`, pmtiles(s.lines.path, attribution)],
                   [`${s.id}-voronoi`, pmtiles(s.voronoi.path, attribution)],
+                  ...subLevels(s).map((l) => [
+                    layerKey(s.id, l.level),
+                    pmtiles(l.path, attribution),
+                  ]),
                 ];
               }),
             ),
-            [DIFF]: pmtiles("site/compare/differences/differences.pmtiles"),
-            [DIFF_DOTS]: pmtiles("site/compare/differences-dots/differences_dots.pmtiles"),
           },
           layers: [
             ...base,
@@ -218,7 +149,6 @@
             },
             ...OSM_BORDERS,
             ...entityLayers("fill"),
-            ...DIFF_LAYERS,
             ...SOURCES.flatMap((s): maplibregl.LayerSpecification[] => {
               const common = {
                 source: s.id,
@@ -246,6 +176,20 @@
                     "line-dasharray": byType((t) => ["literal", t.dash]),
                   },
                 },
+                ...subLevels(s).flatMap((l): maplibregl.LayerSpecification[] => {
+                  const key = layerKey(s.id, l.level);
+                  const sub = { ...common, source: key, "source-layer": l.layer };
+                  return [
+                    {
+                      ...sub,
+                      id: `${key}-fill`,
+                      type: "fill",
+                      paint: { "fill-opacity": FILL_OPACITY },
+                    },
+                    { ...sub, id: `${key}-line`, type: "line", paint: { "line-width": 1.5 } },
+                    { ...sub, id: `${key}-pick`, type: "fill", paint: { "fill-opacity": 0 } },
+                  ];
+                }),
                 ...(["fill", "line"] as const).map((type): maplibregl.LayerSpecification => ({
                   ...common,
                   source: `${s.id}-voronoi`,
@@ -268,7 +212,6 @@
               })),
             ),
             ...entityLayers("line"),
-            DOTS_LAYER,
           ],
         };
       },
@@ -276,19 +219,9 @@
     m.once("load", () => {
       map = m;
       m.on("click", (e) => {
-        // A Voronoi click picks the listed difference there, a patch before its area.
-        if (compare.mode === "voronoi") {
-          const found = m
-            .queryRenderedFeatures(around(e.point), { layers: [DIFF_PICK] })
-            .sort(
-              (x, y) =>
-                Number(x.properties.type === "voronoi") - Number(y.properties.type === "voronoi"),
-            );
-          onitempick(found[0]?.properties.item ?? null);
-          compare.hits = query(m, e.point);
-          return;
-        }
         compare.hits = query(m, e.point);
+        // Voronoi and subnational clicks only report what is under them.
+        if (compare.level || compare.shownMode === "voronoi") return;
         // Rendered order puts later sources first; A's feature should win.
         const ids = SLOTS.map((slot) => `${compare.pair[slot]}-pick`);
         const hit = m
@@ -319,37 +252,20 @@
     ];
   }
 
-  // The fill a difference draws in, as the difference layers set it.
-  function diffColor(f: maplibregl.MapGeoJSONFeature): string {
-    const items = compare.item?.ids;
-    if (items && !items.includes(f.properties.item)) return OTHER_ITEM_COLOR;
-    if (f.properties.type === "island") return ISLAND_COLOR;
-    const k = f.layer.id.slice(DIFF.length + 1, -"-fill".length);
-    if (k === "all") return DIFF_COLOR;
-    const swapped = compare.pair.a > compare.pair.b;
-    return color(`--compare-${(k === "b") !== swapped ? "b" : "a"}`);
-  }
-
-  // Voronoi also reports the differences under the click.
   function query(m: maplibregl.Map, point: maplibregl.Point): Hit[] {
     const { x, y } = point;
-    const lines = compare.mode === "lines";
+    const lines = compare.shownMode === "lines";
     const box = around(point);
-    const diffs: Hit[] =
-      compare.mode === "voronoi"
-        ? m.queryRenderedFeatures(box, { layers: DIFF_FILLS }).map((f) => ({
-            slot: null,
-            label: "Difference",
-            color: diffColor(f),
-            properties: { type: f.properties.type, km2: Number(f.properties.km2).toFixed(2) },
-          }))
-        : [];
     const hits = SLOTS.flatMap((slot) => {
       const s = SOURCES.find((s) => s.id === compare.pair[slot])!;
       const found = [
         ...(lines ? m.queryRenderedFeatures(box, { layers: [`${s.id}-boundary`] }) : []),
         ...m.queryRenderedFeatures([x, y], {
-          layers: [compare.mode === "voronoi" ? `${s.id}-cell-fill` : `${s.id}-pick`],
+          layers: [
+            compare.shownMode === "voronoi"
+              ? `${s.id}-cell-fill`
+              : `${layerKey(s.id, compare.level)}-pick`,
+          ],
         }),
       ];
       return found.map((f) => {
@@ -357,13 +273,12 @@
         return { slot, label: lines ? `${s.label} ${kind}` : s.label, properties: f.properties };
       });
     });
-    const all = [...hits, ...diffs];
-    const keys = all.map((h) => JSON.stringify(h));
-    return all.filter((_, i) => keys.indexOf(keys[i]) === i);
+    const keys = hits.map((h) => JSON.stringify(h));
+    return hits.filter((_, i) => keys.indexOf(keys[i]) === i);
   }
 
   $effect(() => {
-    void [compare.mode, compare.view, compare.pair.a, compare.pair.b];
+    void [compare.shownMode, compare.level, compare.view, compare.pair.a, compare.pair.b];
     compare.hits = [];
   });
 
@@ -371,12 +286,16 @@
     if (!map) return;
     for (const s of SOURCES) {
       const slot = SLOTS.find((k) => compare.pair[k] === s.id);
-      map.setLayoutProperty(`${s.id}-pick`, "visibility", slot ? "visible" : "none");
-      for (const [layer, type, mode] of LAYERS) {
-        const shown = slot && mode === compare.mode;
-        map.setLayoutProperty(`${s.id}-${layer}`, "visibility", shown ? "visible" : "none");
-        if (shown)
-          map.setPaintProperty(`${s.id}-${layer}`, `${type}-color`, color(`--compare-${slot}`));
+      for (const level of [0 as Level, ...subLevels(s).map((l) => l.level)]) {
+        const key = layerKey(s.id, level);
+        const on = !!slot && level === compare.level;
+        map.setLayoutProperty(`${key}-pick`, "visibility", on ? "visible" : "none");
+        for (const [layer, type, mode] of level ? SUB_LAYERS : LAYERS) {
+          const shown = on && mode === compare.shownMode;
+          map.setLayoutProperty(`${key}-${layer}`, "visibility", shown ? "visible" : "none");
+          if (shown)
+            map.setPaintProperty(`${key}-${layer}`, `${type}-color`, color(`--compare-${slot}`));
+        }
       }
     }
   });
@@ -390,9 +309,10 @@
       map.setPaintProperty(`${id}-dim`, "fill-opacity", DIM[compare.basemap].opacity * o);
       map.setPaintProperty(`${id}-entity`, "line-opacity", o);
       map.setPaintProperty(`${id}-entity-fill`, "fill-opacity", ENTITY_FILL_OPACITY * o);
-      for (const [layer, type] of LAYERS)
+      const key = layerKey(id, compare.level);
+      for (const [layer, type] of compare.level ? SUB_LAYERS : LAYERS)
         map.setPaintProperty(
-          `${id}-${layer}`,
+          `${key}-${layer}`,
           `${type}-opacity`,
           type === "fill" ? FILL_OPACITY * o : o,
         );
@@ -403,7 +323,7 @@
   $effect(() => {
     if (!map) return;
     // Voronoi tints a focused code's cells instead of outlining its land.
-    const focus = compare.mode === "voronoi" ? null : compare.focus;
+    const focus = compare.shownMode === "voronoi" ? null : compare.focus;
     const shown = compare.view === "fade" ? SLOTS : [compare.view];
     const dim = DIM[compare.basemap];
     for (const s of SOURCES) {
@@ -424,112 +344,24 @@
     }
   });
 
-  // Shows the pair's patches in Voronoi, limited to listItems; Voronoi areas stay pickable.
-  $effect(() => {
-    if (!map) return;
-    const pair = compare.mode === "voronoi" ? compare.diffPair : null;
-    const swapped = compare.pair.a > compare.pair.b;
-    const items = compare.item?.ids ?? null;
-    const split = compare.view === "fade";
-    const byPair: Expr = ["==", ["get", "pair"], pair ?? ""];
-    const inList: Expr[] = [inItems(listItems)];
-    map.setLayoutProperty(DIFF_PICK, "visibility", pair ? "visible" : "none");
-    map.setFilter(DIFF_PICK, [
-      "all",
-      byPair,
-      NOT_BORDER,
-      ownIslands(swapped),
-      ["any", ["!", PATCH], ...inList],
-    ]);
-    // Every island dot of the pair shows until a difference is picked, then only its own.
-    map.setLayoutProperty(DIFF_DOTS, "visibility", pair ? "visible" : "none");
-    map.setFilter(DIFF_DOTS, [
-      "all",
-      byPair,
-      drawnByA(swapped),
-      ...inList,
-      ...(items ? [inItems(items)] : []),
-    ]);
-    for (const k of DIFF_SETS) {
-      const shown = !!pair && (k === "all" || split);
-      const kinds: Expr[] = k === "all" ? (split ? [ISLAND] : []) : [["!", ISLAND]];
-      const slot: Slot = (k === "b") !== swapped ? "b" : "a";
-      const land = k === "all" ? DIFF_COLOR : color(`--compare-${slot}`);
-      for (const type of ["fill", "line"] as const) {
-        const id = `${DIFF}-${k}-${type}`;
-        map.setLayoutProperty(id, "visibility", shown ? "visible" : "none");
-        if (!shown) continue;
-        map.setFilter(id, [
-          "all",
-          byPair,
-          NOT_BORDER,
-          PATCH,
-          ownIslands(swapped),
-          ...kinds,
-          ...inList,
-          ...(items ? [focusedLandHidden(items)] : []),
-        ]);
-        const edge = type === "line" ? "#ffffff" : ISLAND_COLOR;
-        const base: Expr = ["case", ISLAND, edge, land];
-        const other: Expr = [
-          "case",
-          ISLAND,
-          edge === "#ffffff" ? edge : OTHER_ITEM_COLOR,
-          OTHER_ITEM_COLOR,
-        ];
-        map.setPaintProperty(
-          id,
-          `${type}-color`,
-          items ? ["case", inItems(items), base, other] : base,
-        );
-      }
-    }
-  });
-
-  // Each slot's patches crossfade with its own layers; plain numbers only, since Fade sets this every frame.
-  $effect(() => {
-    if (!map || compare.mode !== "voronoi" || compare.view !== "fade") return;
-    const swapped = compare.pair.a > compare.pair.b;
-    for (const k of ["a", "b"] as const) {
-      const o = compare.opacities[(k === "b") !== swapped ? "b" : "a"];
-      map.setPaintProperty(`${DIFF}-${k}-fill`, "fill-opacity", DIFF_FILL_OPACITY * o);
-      map.setPaintProperty(`${DIFF}-${k}-line`, "line-opacity", o);
-    }
-  });
-
-  // An item merging several entities of one source joins their codes and names with "; ".
-  const oneOf = (key: string, value: unknown): Expr =>
-    value == null
-      ? ["==", ["get", key], null]
-      : ["in", ["get", key], ["literal", String(value).split("; ")]];
-
-  // The cells to tint per source: a difference's entities, or a focused code narrowed to picked parts.
+  // The cells to tint per source: a focused code narrowed to picked parts.
   function cellFilter(
     s: (typeof SOURCES)[number],
-    item: ItemFocus | null,
     focus: Focus | null,
   ): maplibregl.FilterSpecification | null {
-    if (item) {
-      const ents = (item.entities[s.id] ?? []).filter(([c, n]) => c != null || n != null);
-      if (!ents.length) return null;
-      return [
-        "any",
-        ...ents.map(([c, n]) => ["all", oneOf(s.code, c), oneOf(s.name, n)]),
-      ] as maplibregl.FilterSpecification;
-    }
     if (!focus) return null;
     const byCode: maplibregl.FilterSpecification = ["==", codeOf(s), focus.iso3];
     const names = focus.parts.filter((p) => p.layer === s.id).map((p) => p.name);
     return names.length ? ["all", byCode, ["in", ["get", s.name], ["literal", names]]] : byCode;
   }
 
-  // Voronoi tints each drawn source's cells for the focused difference or code.
+  // Voronoi tints each drawn source's cells for the focused code.
   $effect(() => {
     if (!map) return;
-    const voronoi = compare.mode === "voronoi";
+    const voronoi = compare.shownMode === "voronoi";
     for (const s of SOURCES) {
       const slot = SLOTS.find((k) => compare.pair[k] === s.id);
-      const filter = voronoi && slot ? cellFilter(s, compare.item, compare.focus) : null;
+      const filter = voronoi && slot ? cellFilter(s, compare.focus) : null;
       for (const [id, type] of [
         [`${s.id}-entity`, "line"],
         [`${s.id}-entity-fill`, "fill"],
@@ -542,24 +374,23 @@
     }
   });
 
-  function frame(target: Focus | ItemFocus | null) {
+  function frame(target: Focus | null) {
     if (!map || !target?.fly || !target.bbox) return;
     const [m, bbox] = [map, target.bbox as [number, number, number, number]];
-    // fitBounds adds this to the pane's padding, and does nothing when the sum is wider than the canvas.
+    // fitBounds adds this to the panel's padding, and does nothing when the sum is wider than the canvas.
     const left = Math.max(FOCUS_PAD.right, FOCUS_PAD.left - insetLeft);
-    const free = m.getContainer().clientWidth - inset - insetLeft - left - FOCUS_PAD.right;
+    const free = m.getContainer().clientWidth - insetLeft - left - FOCUS_PAD.right;
     const roomy = free >= MIN_FIT_PX;
     const padding = { ...FOCUS_PAD, left: roomy ? left : FOCUS_PAD.right };
     requestAnimationFrame(() => m.fitBounds(bbox, { padding, maxZoom: FOCUS_MAX_ZOOM }));
   }
   $effect(() => frame(compare.focus));
-  $effect(() => frame(compare.item));
 
   // Panels over the map pad the camera instead of resizing the canvas.
   $effect(() => {
     if (!map) return;
     map.easeTo({
-      padding: { top: 0, bottom: insetBottom, left: insetLeft, right: inset },
+      padding: { top: 0, bottom: 0, left: insetLeft, right: 0 },
       duration: reduced ? 0 : SLIDE_MS,
     });
   });
@@ -589,10 +420,5 @@
   }
   .map :global(.maplibregl-canvas) {
     cursor: pointer;
-  }
-  .map :global(.maplibregl-ctrl-bottom-right) {
-    right: var(--inset);
-    bottom: var(--inset-bottom);
-    transition: right 300ms cubic-bezier(0.2, 0, 0, 1);
   }
 </style>

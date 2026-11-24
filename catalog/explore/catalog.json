@@ -1,0 +1,118 @@
+{
+  "type": "Catalog",
+  "id": "explore",
+  "stac_version": "1.1.0",
+  "title": "Subnational boundary comparison",
+  "description": "Global admin 1 to 4 boundary datasets, with every source column kept, shown side by side on the boundary comparison page. Licenses are set per collection.",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "child",
+      "href": "./cgaz-adm1-polygons/collection.json",
+      "type": "application/json",
+      "title": "geoBoundaries CGAZ, admin 1"
+    },
+    {
+      "rel": "child",
+      "href": "./cgaz-adm2-polygons/collection.json",
+      "type": "application/json",
+      "title": "geoBoundaries CGAZ, admin 2"
+    },
+    {
+      "rel": "child",
+      "href": "./gadm-adm1-polygons/collection.json",
+      "type": "application/json",
+      "title": "GADM 4.1, admin 1"
+    },
+    {
+      "rel": "child",
+      "href": "./gadm-adm2-polygons/collection.json",
+      "type": "application/json",
+      "title": "GADM 4.1, admin 2"
+    },
+    {
+      "rel": "child",
+      "href": "./gadm-adm3-polygons/collection.json",
+      "type": "application/json",
+      "title": "GADM 4.1, admin 3"
+    },
+    {
+      "rel": "child",
+      "href": "./gadm-adm4-polygons/collection.json",
+      "type": "application/json",
+      "title": "GADM 4.1, admin 4"
+    },
+    {
+      "rel": "child",
+      "href": "./gaul-adm1-polygons/collection.json",
+      "type": "application/json",
+      "title": "FAO GAUL 2025, admin 1"
+    },
+    {
+      "rel": "child",
+      "href": "./gaul-adm2-polygons/collection.json",
+      "type": "application/json",
+      "title": "FAO GAUL 2025, admin 2"
+    },
+    {
+      "rel": "child",
+      "href": "./ne-adm1-polygons/collection.json",
+      "type": "application/json",
+      "title": "Natural Earth, admin 1"
+    },
+    {
+      "rel": "child",
+      "href": "./overture-adm1-polygons/collection.json",
+      "type": "application/json",
+      "title": "Overture Maps Divisions, admin 1"
+    },
+    {
+      "rel": "child",
+      "href": "./overture-adm2-polygons/collection.json",
+      "type": "application/json",
+      "title": "Overture Maps Divisions, admin 2"
+    },
+    {
+      "rel": "child",
+      "href": "./overture-adm3-polygons/collection.json",
+      "type": "application/json",
+      "title": "Overture Maps Divisions, admin 3"
+    },
+    {
+      "rel": "child",
+      "href": "./wb-adm1-polygons/collection.json",
+      "type": "application/json",
+      "title": "World Bank Official Boundaries, admin 1"
+    },
+    {
+      "rel": "child",
+      "href": "./wb-adm2-polygons/collection.json",
+      "type": "application/json",
+      "title": "World Bank Official Boundaries, admin 2"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Agent/LLM usage guide"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Human-readable documentation"
+    }
+  ],
+  "stac_extensions": [
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json"
+  ]
+}

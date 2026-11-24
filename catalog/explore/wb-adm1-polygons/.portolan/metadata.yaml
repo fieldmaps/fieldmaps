@@ -1,0 +1,10 @@
+title: "World Bank Official Boundaries, admin 1"
+description: "World Bank Official Boundaries, Admin 1 (dataset 0038272)."
+license: "CC-BY-4.0"
+license_url: "https://creativecommons.org/licenses/by/4.0/"
+providers:
+  - name: "World Bank"
+    roles: ["producer", "licensor"]
+    url: "https://datacatalog.worldbank.org/search/dataset/0038272"
+attribution: "World Bank"
+source_url: "https://datacatalog.worldbank.org/search/dataset/0038272"

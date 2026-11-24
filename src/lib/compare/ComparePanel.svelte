@@ -1,12 +1,12 @@
 <script lang="ts">
   import Segmented from "./Segmented.svelte";
-  import { BASEMAPS, MODES, SLOTS, SOURCES, VIEWS, type CompareState } from "./state.svelte";
+  import { BASEMAPS, LEVELS, MODES, SCOPES, SLOTS, VIEWS, type CompareState } from "./state.svelte";
 
   let { compare }: { compare: CompareState } = $props();
 </script>
 
 <div class="panel">
-  <h1 class="sr-only">Compare international boundaries</h1>
+  <h1 class="sr-only">Compare boundaries</h1>
   <a class="back" href="/international/">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
     Overview
@@ -18,13 +18,30 @@
     current={compare.basemap}
     pick={(id) => (compare.basemap = id)}
   />
-  <h2>Geometry</h2>
+  <h2>Boundaries</h2>
   <Segmented
-    label="Geometry"
-    options={MODES}
-    current={compare.mode}
-    pick={(id) => (compare.mode = id)}
+    label="Boundaries"
+    options={SCOPES}
+    current={compare.level ? "subnational" : "international"}
+    pick={(id) => compare.setLevel(id === "subnational" ? compare.subLevel : 0)}
   />
+  {#if compare.level}
+    <h2>Level</h2>
+    <Segmented
+      label="Level"
+      options={LEVELS}
+      current={compare.level}
+      pick={(id) => compare.setLevel(id)}
+    />
+  {:else}
+    <h2>Geometry</h2>
+    <Segmented
+      label="Geometry"
+      options={MODES}
+      current={compare.mode}
+      pick={(id) => (compare.mode = id)}
+    />
+  {/if}
   <h2>View</h2>
   <Segmented
     label="View"
@@ -45,7 +62,7 @@
       </tr>
     </thead>
     <tbody>
-      {#each SOURCES as s (s.id)}
+      {#each compare.available as s (s.id)}
         <tr>
           <td>{s.label}</td>
           {#each SLOTS as slot (slot)}
@@ -62,7 +79,7 @@
           {/each}
         </tr>
       {/each}
-      {#if compare.mode === "voronoi"}
+      {#if compare.shownMode === "voronoi"}
         <tr class="fixed">
           <td>OpenStreetMap</td>
           <td colspan={SLOTS.length}><span class="swatch" aria-hidden="true"></span></td>
