@@ -186,7 +186,8 @@ def overture_query(_: duckdb.DuckDBPyConnection) -> str:
         SELECT coalesce(a.names.common['en'], a.names.primary) AS name,
             CASE a.country WHEN 'TW' THEN 'TWN' WHEN 'XK' THEN 'XKX'
                 WHEN 'CP' THEN 'CPT' WHEN 'XE' THEN 'BES' WHEN 'XS' THEN 'BES'
-                WHEN 'XJ' THEN 'SJM' ELSE r.iso3 END AS iso3,
+                WHEN 'XJ' THEN 'SJM' WHEN 'XW' THEN 'PSE' WHEN 'XG' THEN 'PSE'
+                ELSE r.iso3 END AS iso3,
             a.country, a.region, a.subtype, a.class, a.admin_level, a.is_land,
             a.is_territorial, a.id, a.division_id, a.version, a.theme, a.type,
             a.geometry
