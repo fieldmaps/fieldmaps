@@ -177,7 +177,7 @@ def wp_query(conn: duckdb.DuckDBPyConnection) -> str:
 def overture_query(_: duckdb.DuckDBPyConnection) -> str:
     """Overture land country and dependency areas, ISO3 from the ISO2 `country`."""
     return f"""
-        SELECT a.* EXCLUDE geometry,
+        SELECT a.* EXCLUDE (geometry, names, sources, bbox),
             CASE a.country WHEN 'TW' THEN 'TWN' WHEN 'XK' THEN 'XKX'
                 WHEN 'CP' THEN 'CPT' WHEN 'XE' THEN 'BES' WHEN 'XS' THEN 'BES'
                 WHEN 'XJ' THEN 'SJM' ELSE r.iso3 END AS iso3,
