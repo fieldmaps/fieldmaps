@@ -16,14 +16,14 @@
   let {
     compare,
     inset,
-    mapTab,
+    insetLeft,
     listItems,
     onpick,
     onitempick,
   }: {
     compare: CompareState;
     inset: number;
-    mapTab: boolean;
+    insetLeft: number;
     listItems: string[] | null;
     onpick: (iso3: string, source: string, name: string) => void;
     onitempick: (item: string | null) => void;
@@ -275,7 +275,7 @@
       map = m;
       m.on("click", (e) => {
         // On a Geometry list, a Voronoi click picks the difference there, a patch before its area.
-        if (!mapTab && compare.mode === "voronoi" && listItems) {
+        if (compare.mode === "voronoi" && listItems) {
           const found = m
             .queryRenderedFeatures(around(e.point), { layers: [DIFF_PICK] })
             .sort(
@@ -287,8 +287,6 @@
           return;
         }
         compare.hits = query(m, e.point);
-        // Voronoi clicks on the Map tab only report each source's cell, so the patches stay unobscured.
-        if (mapTab && compare.mode === "voronoi") return;
         // Rendered order puts later sources first; A's feature should win.
         const ids = SLOTS.map((slot) => `${compare.pair[slot]}-pick`);
         const hit = m
@@ -547,9 +545,10 @@
     if (!map || !target?.fly || !target.bbox) return;
     const [m, bbox] = [map, target.bbox as [number, number, number, number]];
     // fitBounds adds this to the pane's padding, and does nothing when the sum is wider than the canvas.
-    const free = m.getContainer().clientWidth - inset - FOCUS_PAD.left - FOCUS_PAD.right;
+    const left = Math.max(FOCUS_PAD.right, FOCUS_PAD.left - insetLeft);
+    const free = m.getContainer().clientWidth - inset - insetLeft - left - FOCUS_PAD.right;
     const roomy = free >= MIN_FIT_PX;
-    const padding = roomy ? FOCUS_PAD : { ...FOCUS_PAD, left: FOCUS_PAD.right };
+    const padding = { ...FOCUS_PAD, left: roomy ? left : FOCUS_PAD.right };
     requestAnimationFrame(() => m.fitBounds(bbox, { padding, maxZoom: FOCUS_MAX_ZOOM }));
   }
   $effect(() => frame(compare.focus));
@@ -559,7 +558,7 @@
   $effect(() => {
     if (!map) return;
     map.easeTo({
-      padding: { top: 0, bottom: 0, left: 0, right: inset },
+      padding: { top: 0, bottom: 0, left: insetLeft, right: inset },
       duration: reduced ? 0 : SLIDE_MS,
     });
   });

@@ -48,6 +48,7 @@
     background: var(--white);
     border: 1px solid var(--paper);
     font-size: 0.85rem;
+    box-shadow: var(--float-shadow);
   }
   header {
     display: flex;
