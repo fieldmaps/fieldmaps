@@ -1,6 +1,6 @@
 # Original input
 
-Tanzania ADM3 polygons as published.
+Subnational source polygons for Nicaragua, Tanzania and Kenya at ADM2. Tanzania's ADM3 source is dissolved to ADM2.
 
 ## Spatial Coverage
 

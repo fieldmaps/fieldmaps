@@ -203,7 +203,10 @@
         <h2>{step.title}</h2>
         <p>
           {#each parts(step.text) as part, j (j)}
-            {#if part?.key}<strong class="key" style:color="var(--{part.key})">
+            {#if part?.key}<strong
+                class="key"
+                style:color="var(--{part.key}-text, var(--{part.key}))"
+              >
                 {part.text}
               </strong>{:else if part}{part.text}{/if}
           {/each}

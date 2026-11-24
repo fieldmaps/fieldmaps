@@ -3,7 +3,7 @@
   "id": "subnational",
   "stac_version": "1.1.0",
   "title": "Subnational build steps",
-  "description": "Intermediate layers from the FieldMaps subnational edge-extension build for Nicaragua (ADM2), Tanzania (ADM3) and Kenya (ADM2), shown in the Subnational story.",
+  "description": "Intermediate layers from the FieldMaps subnational edge-extension build for Nicaragua, Tanzania and Kenya at ADM2, shown in the Subnational story.",
   "links": [
     {
       "rel": "root",

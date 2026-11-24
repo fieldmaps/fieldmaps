@@ -1,6 +1,6 @@
 # Original input
 
-Subnational polygons as published for Nicaragua (ADM2), Tanzania (ADM3) and Kenya (ADM2). Shown in the Subnational story on fieldmaps.io.
+Subnational source polygons for Nicaragua, Tanzania and Kenya at ADM2. Tanzania's ADM3 source is dissolved to ADM2. Shown in the Subnational story on fieldmaps.io.
 
 ## Data access
 

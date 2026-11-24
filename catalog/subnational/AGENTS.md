@@ -1,10 +1,10 @@
 # Subnational build steps
 
-Intermediate layers from the FieldMaps subnational edge-extension build for Nicaragua (ADM2), Tanzania (ADM3) and Kenya (ADM2), shown in the Subnational story. Every collection has an `iso3` column. The finished boundaries are in `fieldmaps/subnational`.
+Intermediate layers from the FieldMaps subnational edge-extension build for Nicaragua, Tanzania and Kenya at ADM2, shown in the Subnational story. Every collection has an `iso3` column. The finished boundaries are in `fieldmaps/subnational`.
 
 ## Collections
 
-- `original/`: Subnational polygons as published for Nicaragua (ADM2), Tanzania (ADM3) and Kenya (ADM2).
+- `original/`: Subnational source polygons for Nicaragua, Tanzania and Kenya at ADM2. Tanzania's ADM3 source is dissolved to ADM2.
 - `outlines/`: Outer edges of the original polygons, each piece keeping the polygon it came from.
 - `points/`: Points placed along the outlines, each keeping its polygon.
 - `cells/`: Voronoi polygons around the outline points, each keeping its point's polygon.
