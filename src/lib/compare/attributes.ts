@@ -30,7 +30,7 @@ export function unionBox(boxes: number[][]): number[] {
 }
 
 export type ItemType = "island" | "land" | "no_land";
-// The Geometry pane's lists: differences split by kind.
+// The sidebar's lists: differences split by kind.
 export type GeometryList = "islands" | "land";
 
 // A geometry difference from items.json; title is its smallest entity's name, pairs the source pairs it

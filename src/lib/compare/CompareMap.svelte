@@ -26,7 +26,7 @@
     inset: number;
     insetLeft: number;
     insetBottom: number;
-    listItems: string[] | null;
+    listItems: string[];
     onpick: (iso3: string, source: string, name: string) => void;
     onitempick: (item: string | null) => void;
   } = $props();
@@ -276,8 +276,8 @@
     m.once("load", () => {
       map = m;
       m.on("click", (e) => {
-        // On a Geometry list, a Voronoi click picks the difference there, a patch before its area.
-        if (compare.mode === "voronoi" && listItems) {
+        // A Voronoi click picks the listed difference there, a patch before its area.
+        if (compare.mode === "voronoi") {
           const found = m
             .queryRenderedFeatures(around(e.point), { layers: [DIFF_PICK] })
             .sort(
@@ -424,8 +424,7 @@
     }
   });
 
-  // Each pick frames once, after the layout settles so a pane that just opened has its final size.
-  // Shows the pair's patches in Voronoi, limited to listItems; Voronoi areas stay pickable either way.
+  // Shows the pair's patches in Voronoi, limited to listItems; Voronoi areas stay pickable.
   $effect(() => {
     if (!map) return;
     const pair = compare.mode === "voronoi" ? compare.diffPair : null;
@@ -433,14 +432,14 @@
     const items = compare.item?.ids ?? null;
     const split = compare.view === "fade";
     const byPair: Expr = ["==", ["get", "pair"], pair ?? ""];
-    const inList: Expr[] = listItems ? [inItems(listItems)] : [];
+    const inList: Expr[] = [inItems(listItems)];
     map.setLayoutProperty(DIFF_PICK, "visibility", pair ? "visible" : "none");
     map.setFilter(DIFF_PICK, [
       "all",
       byPair,
       NOT_BORDER,
       ownIslands(swapped),
-      ["any", ["!", PATCH], ...(listItems ? inList : [true])],
+      ["any", ["!", PATCH], ...inList],
     ]);
     // Every island dot of the pair shows until a difference is picked, then only its own.
     map.setLayoutProperty(DIFF_DOTS, "visibility", pair ? "visible" : "none");
