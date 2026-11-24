@@ -201,6 +201,12 @@ export interface Hit {
 }
 
 const FADE_CYCLE_MS = 3000;
+const ease = (x: number) => {
+  const c = Math.min(1, Math.max(0, x));
+  return c * c * (3 - 2 * c);
+};
+// B's opacity at cycle phase t in [0, 1): each source holds alone, with short crossfades.
+const fadeB = (t: number) => (t < 0.5 ? ease((t - 0.4) / 0.1) : 1 - ease((t - 0.9) / 0.1));
 const KEY_STEP: Record<string, number> = { "[": -1, "]": 1 };
 
 export class CompareState {
@@ -211,7 +217,7 @@ export class CompareState {
   subLevel = $state<Level>(1);
   view = $state<View>(reduced ? "a" : "fade");
   basemap = $state<Basemap>("map");
-  sweep = $state(0);
+  phase = $state(0);
   hits = $state<Hit[]>([]);
   focus = $state.raw<Focus | null>(null);
   #frame = 0;
@@ -223,7 +229,7 @@ export class CompareState {
 
   opacities = $derived<Record<Slot, number>>(
     this.view === "fade"
-      ? { a: 1 - this.sweep, b: this.sweep }
+      ? { a: 1 - fadeB(this.phase), b: fadeB(this.phase) }
       : { a: Number(this.view === "a"), b: Number(this.view === "b") },
   );
 
@@ -232,7 +238,7 @@ export class CompareState {
     if (!on) return;
     const start = performance.now();
     const tick = (now: number) => {
-      this.sweep = (1 - Math.cos((2 * Math.PI * (now - start)) / FADE_CYCLE_MS)) / 2;
+      this.phase = ((now - start) % FADE_CYCLE_MS) / FADE_CYCLE_MS;
       this.#frame = requestAnimationFrame(tick);
     };
     this.#frame = requestAnimationFrame(tick);
