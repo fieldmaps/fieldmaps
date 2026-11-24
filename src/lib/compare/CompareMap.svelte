@@ -219,7 +219,10 @@
               source: `${s.id}-lines`,
               "source-layer": s.lines.layer,
               layout: { visibility: "none" },
-              paint: { "line-width": COUNTRY_WIDTH },
+              paint: {
+                "line-width": COUNTRY_WIDTH,
+                "line-dasharray": byType((t) => ["literal", t.dash]),
+              },
             })),
             // Every dim sits under every outline, so one source's dim never covers the other's outline.
             ...(["fill", "line"] as const).flatMap((type) =>
