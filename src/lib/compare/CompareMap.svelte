@@ -78,6 +78,9 @@
     Object.entries(SUBNATIONAL[s.id] ?? {}).map(([n, l]) => ({ level: Number(n) as Level, ...l! }));
   const CLICK_PAD = 3;
   const FOCUS_WIDTH = 5;
+  // Hairline units under a heavier country line, both in the slot colour.
+  const UNIT_WIDTH = 0.75;
+  const COUNTRY_WIDTH = 2.5;
   const DIM = {
     map: { color: "#ffffff", opacity: 0.7 },
     satellite: { color: "#000000", opacity: 0.55 },
@@ -190,7 +193,12 @@
                       type: "fill",
                       paint: { "fill-opacity": FILL_OPACITY },
                     },
-                    { ...sub, id: `${key}-line`, type: "line", paint: { "line-width": 1.5 } },
+                    {
+                      ...sub,
+                      id: `${key}-line`,
+                      type: "line",
+                      paint: { "line-width": UNIT_WIDTH },
+                    },
                     { ...sub, id: `${key}-pick`, type: "fill", paint: { "fill-opacity": 0 } },
                   ];
                 }),
@@ -204,6 +212,15 @@
                 })),
               ];
             }),
+            // Each source's own adm0 lines over its subnational units, above every source's fill.
+            ...SOURCES.map((s): maplibregl.LayerSpecification => ({
+              id: `${s.id}-country`,
+              type: "line",
+              source: `${s.id}-lines`,
+              "source-layer": s.lines.layer,
+              layout: { visibility: "none" },
+              paint: { "line-width": COUNTRY_WIDTH },
+            })),
             // Every dim sits under every outline, so one source's dim never covers the other's outline.
             ...(["fill", "line"] as const).flatMap((type) =>
               SOURCES.map((s): maplibregl.LayerSpecification => ({
@@ -290,6 +307,10 @@
     if (!map) return;
     for (const s of SOURCES) {
       const slot = SLOTS.find((k) => compare.pair[k] === s.id);
+      const country = !!slot && !!compare.level;
+      map.setLayoutProperty(`${s.id}-country`, "visibility", country ? "visible" : "none");
+      if (country)
+        map.setPaintProperty(`${s.id}-country`, "line-color", color(`--compare-${slot}`));
       for (const level of [0 as Level, ...subLevels(s).map((l) => l.level)]) {
         const key = layerKey(s.id, level);
         const on = !!slot && level === compare.level;
@@ -312,6 +333,7 @@
       map.setPaintProperty(`${id}-focus`, "line-opacity", o);
       map.setPaintProperty(`${id}-dim`, "fill-opacity", DIM[compare.basemap].opacity * o);
       map.setPaintProperty(`${id}-entity`, "line-opacity", o);
+      map.setPaintProperty(`${id}-country`, "line-opacity", o);
       map.setPaintProperty(`${id}-entity-fill`, "fill-opacity", ENTITY_FILL_OPACITY * o);
       const key = layerKey(id, compare.level);
       for (const [layer, type] of compare.level ? SUB_LAYERS : LAYERS)
