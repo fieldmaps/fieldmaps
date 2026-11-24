@@ -6,10 +6,14 @@ from zipfile import ZipFile
 
 import compare
 import duckdb
+from tenacity import retry, stop_after_attempt, wait_exponential
 
 ROOT = compare.ROOT
 CATALOG = ROOT / "catalog" / "explore"
-DOWNLOAD = compare.DOWNLOAD
+# Kept apart from compare's downloads, which compare treats as its inputs.
+DOWNLOAD = ROOT / "tmp" / "explore" / "download"
+GADM = compare.DOWNLOAD / "gadm" / "gadm_410-levels.gpkg"
+GAUL_L1 = compare.DOWNLOAD / "gaul" / "gaul_2025_l1.shp"
 THREADS = os.cpu_count() or 1
 WB = (
     "https://datacatalogfiles.worldbank.org/ddh-published/0038272/3/DR0096331/"
@@ -42,12 +46,22 @@ def overture(subtype: str) -> Path:
 def fetch() -> None:
     """Download each missing input, extracting zips next to them."""
     for dest, url in FILES.items():
-        if dest.exists():
-            continue
-        compare.download(url, dest)
+        if not dest.exists():
+            compare.download(url, dest)
         if dest.suffix == ".zip":
             with ZipFile(dest) as z:
-                z.extractall(dest.parent)
+                if not all((dest.parent / n).exists() for n in z.namelist()):
+                    z.extractall(dest.parent)
+    # GADM levels and GAUL L1 are compare's own inputs.
+    for source, path in (("gadm", GADM), ("gaul", GAUL_L1)):
+        if not path.exists():
+            compare.fetch_file(source)
+    fetch_overture()
+
+
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(min=2, max=30), reraise=True)
+def fetch_overture() -> None:
+    """Copy each missing Overture subtype from S3."""
     missing = [s for s in OVERTURE_SUBTYPES if not overture(s).exists()]
     if not missing:
         return
@@ -85,14 +99,12 @@ def overture_level(subtype: str) -> str:
     """
 
 
-GADM = DOWNLOAD / "gadm" / "gadm_410-levels.gpkg"
 # Each layer keyed {source}-adm{level}: the file it reads, and its query.
 LEVELS: dict[str, tuple[Path, str]] = {
     **{f"gadm-adm{n}": (GADM, read(GADM, f"ADM_{n}")) for n in range(1, 5)},
     **{
         f"gaul-adm{n}": (p, read(p))
-        for n in (1, 2)
-        for p in [DOWNLOAD / "gaul" / f"gaul_2025_l{n}.shp"]
+        for n, p in ((1, GAUL_L1), (2, DOWNLOAD / "gaul" / "gaul_2025_l2.shp"))
     },
     **{
         f"cgaz-adm{n}": (p, read(p))
