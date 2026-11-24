@@ -51,21 +51,6 @@ export const SOURCES = [
       '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="https://overturemaps.org">Overture Maps Foundation</a>',
   },
   {
-    id: "wb",
-    code: "ISO_A3",
-    name: "NAM_0",
-    label: "World Bank",
-    path: "site/compare/wb-polygons/wb_polygons.pmtiles",
-    layer: "wb_polygons",
-    lines: { path: "site/compare/wb-lines/wb_lines.pmtiles", layer: "wb_lines" },
-    voronoi: {
-      path: "site/compare/wb-voronoi/wb_voronoi.pmtiles",
-      layer: "wb_voronoi",
-    },
-    attribution:
-      '<a href="https://datacatalog.worldbank.org/search/dataset/0038272">World Bank</a>',
-  },
-  {
     id: "gaul",
     code: "ISO3_CODE",
     name: "GAUL0_NAME",
@@ -81,18 +66,19 @@ export const SOURCES = [
       '<a href="https://data.apps.fao.org/catalog/dataset/global-administrative-unit-layers-gaul">FAO GAUL 2025</a>',
   },
   {
-    id: "gadm",
-    code: "iso3",
-    name: "COUNTRY",
-    label: "GADM",
-    path: "site/compare/gadm-polygons/gadm_polygons.pmtiles",
-    layer: "gadm_polygons",
-    lines: { path: "site/compare/gadm-lines/gadm_lines.pmtiles", layer: "gadm_lines" },
+    id: "wb",
+    code: "ISO_A3",
+    name: "NAM_0",
+    label: "World Bank",
+    path: "site/compare/wb-polygons/wb_polygons.pmtiles",
+    layer: "wb_polygons",
+    lines: { path: "site/compare/wb-lines/wb_lines.pmtiles", layer: "wb_lines" },
     voronoi: {
-      path: "site/compare/gadm-voronoi/gadm_voronoi.pmtiles",
-      layer: "gadm_voronoi",
+      path: "site/compare/wb-voronoi/wb_voronoi.pmtiles",
+      layer: "wb_voronoi",
     },
-    attribution: '<a href="https://gadm.org">GADM</a>',
+    attribution:
+      '<a href="https://datacatalog.worldbank.org/search/dataset/0038272">World Bank</a>',
   },
   {
     id: "cgaz",
@@ -107,6 +93,20 @@ export const SOURCES = [
       layer: "cgaz_voronoi",
     },
     attribution: '<a href="https://www.geoboundaries.org">geoBoundaries</a>',
+  },
+  {
+    id: "gadm",
+    code: "iso3",
+    name: "COUNTRY",
+    label: "GADM",
+    path: "site/compare/gadm-polygons/gadm_polygons.pmtiles",
+    layer: "gadm_polygons",
+    lines: { path: "site/compare/gadm-lines/gadm_lines.pmtiles", layer: "gadm_lines" },
+    voronoi: {
+      path: "site/compare/gadm-voronoi/gadm_voronoi.pmtiles",
+      layer: "gadm_voronoi",
+    },
+    attribution: '<a href="https://gadm.org">GADM</a>',
   },
   {
     id: "ne",
