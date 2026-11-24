@@ -51,6 +51,12 @@ FILES = {
     "ne": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_0_countries.zip",
 }
 SAVE_AS = {"wb": "wb_admin0_all_layers.parquet"}
+# Overture's columns, name and code first; topo-clean and edge-extend move geometry.
+OVERTURE_COLUMNS = (
+    "name, iso3, country, region, subtype, class, admin_level, is_land, "
+    "is_territorial, id, division_id, version, theme, type, geometry"
+)
+COLUMNS = {"overture": OVERTURE_COLUMNS}
 # Country code and name column of each prepared polygon layer.
 FIELDS = {
     "wp": ("GENC_3", "WP_Name"),
@@ -177,11 +183,12 @@ def wp_query(conn: duckdb.DuckDBPyConnection) -> str:
 def overture_query(_: duckdb.DuckDBPyConnection) -> str:
     """Overture land country and dependency areas, ISO3 from the ISO2 `country`."""
     return f"""
-        SELECT a.* EXCLUDE (geometry, names, sources, bbox),
+        SELECT coalesce(a.names.common['en'], a.names.primary) AS name,
             CASE a.country WHEN 'TW' THEN 'TWN' WHEN 'XK' THEN 'XKX'
                 WHEN 'CP' THEN 'CPT' WHEN 'XE' THEN 'BES' WHEN 'XS' THEN 'BES'
                 WHEN 'XJ' THEN 'SJM' ELSE r.iso3 END AS iso3,
-            coalesce(a.names.common['en'], a.names.primary) AS name,
+            a.country, a.region, a.subtype, a.class, a.admin_level, a.is_land,
+            a.is_territorial, a.id, a.division_id, a.version, a.theme, a.type,
             a.geometry
         FROM read_parquet([
             '{DOWNLOAD}/overture/division_area_country_{OVERTURE}.parquet',
@@ -298,7 +305,8 @@ def prepare(source: str) -> None:
     cleaned = WORK / f"{source}_polygons_cleaned.parquet"
     issues = WORK / f"{source}_polygons_issues.parquet"
     topo_tools("topo-clean", clipped, cleaned, "--issues-file", issues)
-    publish(conn, f"SELECT * FROM '{cleaned}'", output(source, "polygons"))
+    order = COLUMNS.get(source, "*")
+    publish(conn, f"SELECT {order} FROM '{cleaned}'", output(source, "polygons"))
 
 
 def lines(source: str) -> None:
@@ -325,10 +333,11 @@ def lines(source: str) -> None:
         publish(
             conn,
             f"""
-            SELECT * EXCLUDE geometry,
+            SELECT
                 CASE WHEN is_disputed THEN 'armistice' ELSE 'international' END
                     AS line_type,
-                geometry
+                is_disputed, country, region, subtype, class, admin_level, is_land,
+                is_territorial, id, version, theme, type, geometry
             FROM '{DOWNLOAD}/overture/division_boundary_country_{OVERTURE}.parquet'
             WHERE class = 'land'
             """,
@@ -370,7 +379,8 @@ def voronoi(source: str) -> None:
     """Extend the polygons over water and gaps with topo-tools edge-extend."""
     extended = WORK / f"{source}_voronoi.parquet"
     topo_tools("edge-extend", output(source, "polygons"), extended)
-    publish(connect(), f"SELECT * FROM '{extended}'", output(source, "voronoi"))
+    order = COLUMNS.get(source, "*")
+    publish(connect(), f"SELECT {order} FROM '{extended}'", output(source, "voronoi"))
 
 
 def inputs(stage: str, source: str) -> list[Path]:

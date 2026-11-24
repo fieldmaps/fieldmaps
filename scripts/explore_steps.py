@@ -91,10 +91,11 @@ def read(path: Path, layer: str | None = None) -> str:
 
 
 def overture_level(subtype: str) -> str:
-    """One Overture subtype, its nested columns swapped for a single ``name``."""
+    """One Overture subtype, name first, its nested columns dropped."""
     return f"""
-        SELECT * EXCLUDE (geometry, names, sources, bbox),
-            coalesce(names.common['en'], names.primary) AS name, geometry
+        SELECT coalesce(names.common['en'], names.primary) AS name,
+            country, region, subtype, class, admin_level, is_land, is_territorial,
+            id, division_id, version, theme, type, geometry
         FROM '{overture(subtype)}'
     """
 
