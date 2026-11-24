@@ -1,5 +1,5 @@
 title: "Original input"
-description: "Subnational polygons as published for Nicaragua (ADM2), Tanzania (ADM3) and Kenya (ADM2)."
+description: "Subnational source polygons for Nicaragua, Tanzania and Kenya at ADM2. Tanzania's ADM3 source is dissolved to ADM2."
 license: "CC-BY-3.0-IGO"
 providers:
   - name: "FieldMaps"

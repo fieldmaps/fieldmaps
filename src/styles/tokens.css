@@ -15,7 +15,8 @@
   --compare-a: #cf3f0b;
   --compare-b: #009edb;
 
-  --gap: #cf3f0b;
-  --gap-soft: #f0c2b1;
-  --spill: #e8a33a;
+  --gap: #e66101;
+  --gap-soft: #f9cfb0;
+  --gap-text: #b34a00;
+  --spill: #00796b;
 }

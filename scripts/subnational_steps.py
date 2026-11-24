@@ -15,7 +15,7 @@ ADM0 = (
     / "adm0_polygons.parquet"
 )
 # Admin level of each country's source, which names its published polygons.
-COUNTRIES = {"NIC": 2, "TZA": 3, "KEN": 2}
+COUNTRIES = {"NIC": 2, "TZA": 2, "KEN": 2}
 OPTS = "COMPRESSION ZSTD, COMPRESSION_LEVEL 15, GEOPARQUET_VERSION V2"
 WORLD = "ST_MakeEnvelope(-180, -90, 180, 90)"
 CLIP = f"ST_SetCRS(ST_Intersection(geom, {WORLD}), 'OGC:CRS84')"
@@ -37,10 +37,40 @@ def output(collection: str) -> Path:
     return CATALOG / collection / f"{collection}.parquet"
 
 
-def source(iso3: str) -> Path:
+def original(iso3: str) -> Path:
     """Return the country's original polygons from fieldmaps/subnational."""
     iso = iso3.lower()
     return SOURCE / "source" / iso / f"{iso}_original.parquet"
+
+
+def finer(iso3: str) -> list[str]:
+    """Return the original's columns for levels finer than the country's level."""
+    names = duckdb.sql(f"DESCRIBE FROM '{original(iso3)}'").fetchall()
+    level = COUNTRIES[iso3]
+    return [n for n, *_ in names if n[:3] == "adm" and int(n[3]) > level]
+
+
+def source(iso3: str) -> Path:
+    """Return the edge-extend input, dissolved to the country's level when needed."""
+    if not finer(iso3):
+        return original(iso3)
+    return WORK / iso3.lower() / f"{iso3.lower()}_adm{COUNTRIES[iso3]}.parquet"
+
+
+def dissolve(iso3: str) -> None:
+    """Dissolve the original to the country's level unless the result is fresh."""
+    out = source(iso3)
+    if out == original(iso3) or compare.fresh(out, [original(iso3)]):
+        return
+    out.parent.mkdir(parents=True, exist_ok=True)
+    drop = ", ".join([*finer(iso3), "geometry"])
+    conn = duckdb.connect()
+    conn.execute("LOAD spatial; SET geometry_always_xy = true;")
+    conn.execute(
+        f"COPY (SELECT * EXCLUDE ({drop}), ST_CoverageUnion_Agg(geometry) AS geometry "
+        f"FROM '{original(iso3)}' GROUP BY ALL) TO '{out}' ({OPTS})"
+    )
+    conn.close()
 
 
 def published(iso3: str, level: int) -> Path:
@@ -51,11 +81,12 @@ def published(iso3: str, level: int) -> Path:
 def step(iso3: str, name: str) -> Path:
     """Return one topo-tools intermediate for a country."""
     iso = iso3.lower()
-    return WORK / iso / "work" / f"{iso}_original_parquet_{name}.parquet"
+    return WORK / iso / "work" / f"{source(iso3).stem}_parquet_{name}.parquet"
 
 
 def extend(iso3: str) -> None:
     """Run edge-extend --debug for a country unless its intermediates are fresh."""
+    dissolve(iso3)
     if compare.fresh(step(iso3, "05"), [source(iso3)]):
         return
     work = WORK / iso3.lower()

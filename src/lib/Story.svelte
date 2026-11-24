@@ -36,6 +36,13 @@
   } = $props();
 
   const FADE = { duration: FADE_MS, delay: 0 };
+  // `{gap:holes}` in step text renders "holes" bold in the --gap colour.
+  const parts = (text: string) =>
+    text
+      .split(/\{(\w+):([^}]+)\}/)
+      .map((part, i, all) =>
+        i % 3 === 0 ? { text: part } : i % 3 === 1 ? undefined : { text: part, key: all[i - 1] },
+      );
   const OPACITY: Record<string, string[]> = {
     fill: ["fill-opacity"],
     line: ["line-opacity"],
@@ -194,7 +201,16 @@
     {#each steps as step, i (step.title)}
       <article class="step" class:active={i === active} bind:this={articles[i]}>
         <h2>{step.title}</h2>
-        <p>{step.text}</p>
+        <p>
+          {#each parts(step.text) as part, j (j)}
+            {#if part?.key}<strong
+                class="key"
+                style:color="var(--{part.key}-text, var(--{part.key}))"
+              >
+                {part.text}
+              </strong>{:else if part}{part.text}{/if}
+          {/each}
+        </p>
         {#if step.caption}
           <p class="caption">{step.caption}</p>
         {/if}
