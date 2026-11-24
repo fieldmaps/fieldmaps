@@ -33,6 +33,12 @@ TOPO_TOOLS = Path(sys.executable).parent / "topo-tools"
 WP_URL = "https://data.geodata.state.gov/WorldPolygons.zip"
 OVERTURE = "2026-11-18.0"
 S3 = f"s3://overturemaps-us-west-2/release/{OVERTURE}"
+# Overture files territories such as Greenland or Réunion as dependencies.
+OVERTURE_FILES = (
+    ("division_area", "country"),
+    ("division_area", "dependency"),
+    ("division_boundary", "country"),
+)
 FILES = {
     "lsib": "https://data.geodata.state.gov/LSIB.gpkg",
     "wb": "https://datacatalogfiles.worldbank.org/ddh-published/0038272/3/DR0096331/"
@@ -124,14 +130,14 @@ def fetch_wp() -> None:
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(min=2, max=30), reraise=True)
 def fetch_overture() -> None:
-    """Copy the pinned Overture release's country areas and boundaries from S3."""
+    """Copy each of the pinned Overture release's OVERTURE_FILES from S3."""
     conn = duckdb.connect()
     conn.execute(f"""
         INSTALL httpfs; LOAD httpfs; SET threads = {THREADS};
         CREATE SECRET (TYPE s3, PROVIDER config, REGION 'us-west-2');
     """)
-    for kind in ("division_area", "division_boundary"):
-        dest = DOWNLOAD / "overture" / f"{kind}_country_{OVERTURE}.parquet"
+    for kind, subtype in OVERTURE_FILES:
+        dest = DOWNLOAD / "overture" / f"{kind}_{subtype}_{OVERTURE}.parquet"
         if dest.exists():
             continue
         dest.parent.mkdir(parents=True, exist_ok=True)
@@ -139,7 +145,7 @@ def fetch_overture() -> None:
         conn.execute(f"""
             COPY (
                 SELECT * FROM read_parquet('{S3}/theme=divisions/type={kind}/*.parquet')
-                WHERE subtype = 'country'
+                WHERE subtype = '{subtype}'
             ) TO '{part}' (FORMAT PARQUET, COMPRESSION ZSTD, COMPRESSION_LEVEL 15)
         """)
         part.replace(dest)
@@ -169,14 +175,18 @@ def wp_query(conn: duckdb.DuckDBPyConnection) -> str:
 
 
 def overture_query(_: duckdb.DuckDBPyConnection) -> str:
-    """Overture land country areas, with ISO3 from the ISO2 `country` code."""
+    """Overture land country and dependency areas, ISO3 from the ISO2 `country`."""
     return f"""
         SELECT a.* EXCLUDE geometry,
             CASE a.country WHEN 'TW' THEN 'TWN' WHEN 'XK' THEN 'XKX'
-                ELSE r.iso3 END AS iso3,
+                WHEN 'CP' THEN 'CPT' WHEN 'XE' THEN 'BES' WHEN 'XS' THEN 'BES'
+                WHEN 'XJ' THEN 'SJM' ELSE r.iso3 END AS iso3,
             coalesce(a.names.common['en'], a.names.primary) AS name,
             a.geometry
-        FROM '{DOWNLOAD}/overture/division_area_country_{OVERTURE}.parquet' AS a
+        FROM read_parquet([
+            '{DOWNLOAD}/overture/division_area_country_{OVERTURE}.parquet',
+            '{DOWNLOAD}/overture/division_area_dependency_{OVERTURE}.parquet'
+        ]) AS a
         LEFT JOIN read_csv('{ROOT}/scripts/iso2_iso3.csv') AS r
             ON r.iso2 = a.country
         WHERE a.class = 'land'
