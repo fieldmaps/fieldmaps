@@ -16,15 +16,17 @@
   let {
     compare,
     inset,
-    mapTab,
+    insetLeft,
+    insetBottom,
     listItems,
     onpick,
     onitempick,
   }: {
     compare: CompareState;
     inset: number;
-    mapTab: boolean;
-    listItems: string[] | null;
+    insetLeft: number;
+    insetBottom: number;
+    listItems: string[];
     onpick: (iso3: string, source: string, name: string) => void;
     onitempick: (item: string | null) => void;
   } = $props();
@@ -274,8 +276,8 @@
     m.once("load", () => {
       map = m;
       m.on("click", (e) => {
-        // On a Geometry list, a Voronoi click picks the difference there, a patch before its area.
-        if (!mapTab && compare.mode === "voronoi" && listItems) {
+        // A Voronoi click picks the listed difference there, a patch before its area.
+        if (compare.mode === "voronoi") {
           const found = m
             .queryRenderedFeatures(around(e.point), { layers: [DIFF_PICK] })
             .sort(
@@ -287,8 +289,6 @@
           return;
         }
         compare.hits = query(m, e.point);
-        // Voronoi clicks on the Map tab only report each source's cell, so the patches stay unobscured.
-        if (mapTab && compare.mode === "voronoi") return;
         // Rendered order puts later sources first; A's feature should win.
         const ids = SLOTS.map((slot) => `${compare.pair[slot]}-pick`);
         const hit = m
@@ -424,8 +424,7 @@
     }
   });
 
-  // Each pick frames once, after the layout settles so a pane that just opened has its final size.
-  // Shows the pair's patches in Voronoi, limited to listItems; Voronoi areas stay pickable either way.
+  // Shows the pair's patches in Voronoi, limited to listItems; Voronoi areas stay pickable.
   $effect(() => {
     if (!map) return;
     const pair = compare.mode === "voronoi" ? compare.diffPair : null;
@@ -433,14 +432,14 @@
     const items = compare.item?.ids ?? null;
     const split = compare.view === "fade";
     const byPair: Expr = ["==", ["get", "pair"], pair ?? ""];
-    const inList: Expr[] = listItems ? [inItems(listItems)] : [];
+    const inList: Expr[] = [inItems(listItems)];
     map.setLayoutProperty(DIFF_PICK, "visibility", pair ? "visible" : "none");
     map.setFilter(DIFF_PICK, [
       "all",
       byPair,
       NOT_BORDER,
       ownIslands(swapped),
-      ["any", ["!", PATCH], ...(listItems ? inList : [true])],
+      ["any", ["!", PATCH], ...inList],
     ]);
     // Every island dot of the pair shows until a difference is picked, then only its own.
     map.setLayoutProperty(DIFF_DOTS, "visibility", pair ? "visible" : "none");
@@ -547,19 +546,20 @@
     if (!map || !target?.fly || !target.bbox) return;
     const [m, bbox] = [map, target.bbox as [number, number, number, number]];
     // fitBounds adds this to the pane's padding, and does nothing when the sum is wider than the canvas.
-    const free = m.getContainer().clientWidth - inset - FOCUS_PAD.left - FOCUS_PAD.right;
+    const left = Math.max(FOCUS_PAD.right, FOCUS_PAD.left - insetLeft);
+    const free = m.getContainer().clientWidth - inset - insetLeft - left - FOCUS_PAD.right;
     const roomy = free >= MIN_FIT_PX;
-    const padding = roomy ? FOCUS_PAD : { ...FOCUS_PAD, left: FOCUS_PAD.right };
+    const padding = { ...FOCUS_PAD, left: roomy ? left : FOCUS_PAD.right };
     requestAnimationFrame(() => m.fitBounds(bbox, { padding, maxZoom: FOCUS_MAX_ZOOM }));
   }
   $effect(() => frame(compare.focus));
   $effect(() => frame(compare.item));
 
-  // A pane over the map's right edge pads the camera instead of resizing the canvas.
+  // Panels over the map pad the camera instead of resizing the canvas.
   $effect(() => {
     if (!map) return;
     map.easeTo({
-      padding: { top: 0, bottom: 0, left: 0, right: inset },
+      padding: { top: 0, bottom: insetBottom, left: insetLeft, right: inset },
       duration: reduced ? 0 : SLIDE_MS,
     });
   });
@@ -592,6 +592,7 @@
   }
   .map :global(.maplibregl-ctrl-bottom-right) {
     right: var(--inset);
+    bottom: var(--inset-bottom);
     transition: right 300ms cubic-bezier(0.2, 0, 0, 1);
   }
 </style>

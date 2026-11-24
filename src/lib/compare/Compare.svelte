@@ -9,44 +9,41 @@
     type GeometryList,
     type ItemRow,
   } from "./attributes";
-  import AttributesTable from "./AttributesTable.svelte";
   import CompareMap from "./CompareMap.svelte";
   import ComparePanel from "./ComparePanel.svelte";
   import GeometryTable from "./GeometryTable.svelte";
   import HitsPanel from "./HitsPanel.svelte";
   import { CompareState, SOURCES, type View } from "./state.svelte";
 
-  type Tab = "map" | "geometry" | "attributes";
-  const TABS: { id: Tab; label: string }[] = [
-    { id: "map", label: "Map" },
-    { id: "geometry", label: "Geometry" },
-    { id: "attributes", label: "Attributes" },
-  ];
   const IDS = SOURCES.map((s) => s.id);
-  // The table pane's width beside the map, which the map pads its camera by.
-  const PANE_REM = 36;
+  // The sidebar's width, its gap to the edge, the controls panel's right edge, and the side-by-side breakpoint.
+  const PANE_REM = 24;
+  const GAP_REM = 0.75;
+  const PANEL_REM = 16.75;
+  const SIDE_MIN_REM = 72;
 
   const compare = new CompareState();
-  let tab = $state<Tab>("map");
   let rows = $state.raw<AttributeRow[]>([]);
-  let failed = $state(false);
   let items = $state.raw<ItemRow[]>([]);
   const merged = $derived(mergeItems(items, compare.pair.a, compare.pair.b));
-  // The map draws only the differences the Geometry pane lists, and both kinds otherwise.
+  // The map draws only the differences the sidebar lists.
   let list = $state<GeometryList>("land");
-  const listItems = $derived(
-    tab === "geometry" ? merged.filter((r) => r.list === list).flatMap((r) => r.items ?? []) : null,
-  );
+  const listItems = $derived(merged.filter((r) => r.list === list).flatMap((r) => r.items ?? []));
   let rem = $state(16);
   let width = $state(0);
-  const inset = $derived(tab === "map" ? 0 : Math.min(PANE_REM * rem, width));
+  // Below this width the sidebar covers the map's lower half, so the camera pads the bottom instead.
+  const side = $derived(width >= SIDE_MIN_REM * rem);
+  let paneHeight = $state(0);
+  const inset = $derived(side ? (PANE_REM + GAP_REM) * rem : 0);
+  const insetLeft = $derived(side ? PANEL_REM * rem : 0);
+  const insetBottom = $derived(side ? 0 : paneHeight + GAP_REM * rem);
 
   $effect(() => {
     rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
     fetch(tileUrl("site/compare/attributes/attributes.json"))
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
       .then((data: AttributeRow[]) => (rows = data))
-      .catch(() => (failed = true));
+      .catch(() => (rows = []));
     fetch(tileUrl("site/compare/differences/items.json"))
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
       .then((data: ItemRow[]) => (items = data))
@@ -96,11 +93,6 @@
     });
   });
 
-  function focusRow(row: AttributeRow) {
-    if (compare.mode === "voronoi") borrowView("fade");
-    compare.focusOn(row.iso3, shownBox(row), [], true);
-  }
-
   function focusItem(row: ItemRow, label: string) {
     borrowView("fade");
     compare.hits = [];
@@ -121,15 +113,19 @@
 <div
   class="compare"
   bind:clientWidth={width}
+  class:side
   style:--inset="{inset}px"
+  style:--inset-left="{insetLeft}px"
+  style:--inset-bottom="{insetBottom}px"
   style:--pane="{PANE_REM}rem"
-  style:--shift={tab === "map" ? "100%" : `max(0px, 100% - ${PANE_REM}rem)`}
+  style:--gap="{GAP_REM}rem"
 >
   <div class="map">
     <CompareMap
       {compare}
       {inset}
-      mapTab={tab === "map"}
+      {insetLeft}
+      {insetBottom}
       {listItems}
       onpick={pick}
       onitempick={pickItem}
@@ -156,38 +152,15 @@
       </button>
     {/if}
   </div>
-  <div class="pane" class:open={tab !== "map"} inert={tab === "map"}>
-    <div class="slide">
-      {#if tab === "geometry"}
-        <GeometryTable
-          items={merged}
-          item={compare.item}
-          pair={compare.pair}
-          bind:list
-          onitem={focusItem}
-        />
-      {:else}
-        <AttributesTable
-          {rows}
-          {failed}
-          focus={compare.focus}
-          pair={compare.pair}
-          onfocus={focusRow}
-        />
-      {/if}
-    </div>
-  </div>
-  <nav class="tabs" aria-label="Views">
-    {#each TABS as t (t.id)}
-      <button
-        type="button"
-        aria-current={tab === t.id ? "page" : undefined}
-        onclick={() => (tab = t.id)}
-      >
-        {t.label}
-      </button>
-    {/each}
-  </nav>
+  <aside class="pane" aria-label="Differences" bind:offsetHeight={paneHeight}>
+    <GeometryTable
+      items={merged}
+      item={compare.item}
+      pair={compare.pair}
+      bind:list
+      onitem={focusItem}
+    />
+  </aside>
 </div>
 
 <style>
@@ -195,70 +168,48 @@
     position: relative;
     height: calc(100dvh - var(--header-h));
     overflow: hidden;
+    --float-shadow: 0 1px 2px rgb(0 0 0 / 0.12), 0 4px 16px rgb(0 0 0 / 0.14);
   }
   .map {
     position: absolute;
     inset: 0;
     isolation: isolate;
   }
-  /* The pane slides over the full-width map with a transform, so nothing re-lays out mid-slide. */
   .pane {
     position: absolute;
-    inset: 0;
-    background: var(--white);
-    transform: translateX(var(--shift));
-    transition: transform 300ms cubic-bezier(0.2, 0, 0, 1);
-  }
-  .pane.open {
-    border-left: 1px solid var(--paper);
-  }
-  .slide {
+    z-index: 4;
+    right: var(--gap);
+    bottom: var(--gap);
+    left: var(--gap);
+    height: 50%;
     display: flex;
-    width: min(var(--pane), 100%);
-    height: 100%;
+    flex-direction: column;
+    background: var(--white);
+    border: 1px solid var(--paper);
+    box-shadow: var(--float-shadow);
   }
-  .slide > :global(*) {
-    flex: 1;
-    min-width: 0;
+  .side .pane {
+    top: var(--gap);
+    bottom: auto;
+    left: auto;
+    width: var(--pane);
+    height: auto;
+    max-height: calc(100% - 2 * var(--gap));
   }
-  .tabs,
+  .pane > :global(*) {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
   .chip {
     position: absolute;
-    left: calc((100% - var(--inset)) / 2);
+    left: calc(var(--inset-left) + (100% - var(--inset) - var(--inset-left)) / 2);
     transform: translateX(-50%);
-    transition: left 300ms cubic-bezier(0.2, 0, 0, 1);
     z-index: 3;
-  }
-  .tabs {
     top: 0.75rem;
-    display: flex;
-    border: 1px solid var(--ink);
-    background: var(--white);
-  }
-  .tabs button {
-    padding: 0.3rem 0.9rem;
-    border: 0;
-    background: none;
-    color: var(--ink);
-    font: inherit;
-    font-size: 0.85rem;
-    cursor: pointer;
-  }
-  .tabs button + button {
-    border-left: 1px solid var(--ink);
-  }
-  .tabs button:hover:not([aria-current]) {
-    background: var(--paper-light);
-  }
-  .tabs button[aria-current="page"] {
-    background: var(--ink);
-    color: var(--white);
-  }
-  .chip {
-    top: 3rem;
     padding: 0.25rem 0.75rem;
     border: 1px solid var(--paper);
     background: var(--white);
+    box-shadow: var(--float-shadow);
     color: var(--ink);
     font: inherit;
     font-size: 0.85rem;
@@ -269,18 +220,5 @@
   .chip span {
     margin-left: 0.25rem;
     color: var(--ink-soft);
-  }
-  /* The pane covers the whole map here, so the tabs sit above it and the table makes room. */
-  @media (max-width: 36rem) {
-    .tabs {
-      left: 50%;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .pane,
-    .tabs,
-    .chip {
-      transition: none;
-    }
   }
 </style>

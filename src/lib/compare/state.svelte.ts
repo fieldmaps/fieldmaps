@@ -143,7 +143,7 @@ export const BASEMAPS: { id: Basemap; label: string }[] = [
   { id: "satellite", label: "Satellite" },
 ];
 
-// A code picked in the table or on the map, optionally narrowed to some features; fly frames it.
+// A code picked on the map, optionally narrowed to some features; fly frames it.
 export interface Focus {
   iso3: string;
   bbox: number[] | null;
