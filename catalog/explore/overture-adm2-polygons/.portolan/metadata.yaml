@@ -1,0 +1,10 @@
+title: "Overture Maps Divisions, admin 2"
+description: "Overture Maps Foundation divisions theme, release 2026-11-18.0, county land areas."
+license: "ODbL-1.0"
+license_url: "https://opendatacommons.org/licenses/odbl/1-0/"
+providers:
+  - name: "Overture Maps Foundation"
+    roles: ["producer", "licensor"]
+    url: "https://overturemaps.org"
+attribution: "© OpenStreetMap contributors, Overture Maps Foundation"
+source_url: "https://overturemaps.org"

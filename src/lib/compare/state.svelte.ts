@@ -1,5 +1,5 @@
 import { reduced } from "../map/map";
-import { unionBox, type ItemRow, type Part } from "./attributes";
+import { unionBox, type Part } from "./attributes";
 
 export type Slot = "a" | "b";
 export type View = "fade" | Slot;
@@ -51,21 +51,6 @@ export const SOURCES = [
       '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="https://overturemaps.org">Overture Maps Foundation</a>',
   },
   {
-    id: "wb",
-    code: "ISO_A3",
-    name: "NAM_0",
-    label: "World Bank",
-    path: "site/compare/wb-polygons/wb_polygons.pmtiles",
-    layer: "wb_polygons",
-    lines: { path: "site/compare/wb-lines/wb_lines.pmtiles", layer: "wb_lines" },
-    voronoi: {
-      path: "site/compare/wb-voronoi/wb_voronoi.pmtiles",
-      layer: "wb_voronoi",
-    },
-    attribution:
-      '<a href="https://datacatalog.worldbank.org/search/dataset/0038272">World Bank</a>',
-  },
-  {
     id: "gaul",
     code: "ISO3_CODE",
     name: "GAUL0_NAME",
@@ -81,18 +66,19 @@ export const SOURCES = [
       '<a href="https://data.apps.fao.org/catalog/dataset/global-administrative-unit-layers-gaul">FAO GAUL 2025</a>',
   },
   {
-    id: "gadm",
-    code: "iso3",
-    name: "COUNTRY",
-    label: "GADM",
-    path: "site/compare/gadm-polygons/gadm_polygons.pmtiles",
-    layer: "gadm_polygons",
-    lines: { path: "site/compare/gadm-lines/gadm_lines.pmtiles", layer: "gadm_lines" },
+    id: "wb",
+    code: "ISO_A3",
+    name: "NAM_0",
+    label: "World Bank",
+    path: "site/compare/wb-polygons/wb_polygons.pmtiles",
+    layer: "wb_polygons",
+    lines: { path: "site/compare/wb-lines/wb_lines.pmtiles", layer: "wb_lines" },
     voronoi: {
-      path: "site/compare/gadm-voronoi/gadm_voronoi.pmtiles",
-      layer: "gadm_voronoi",
+      path: "site/compare/wb-voronoi/wb_voronoi.pmtiles",
+      layer: "wb_voronoi",
     },
-    attribution: '<a href="https://gadm.org">GADM</a>',
+    attribution:
+      '<a href="https://datacatalog.worldbank.org/search/dataset/0038272">World Bank</a>',
   },
   {
     id: "cgaz",
@@ -107,6 +93,20 @@ export const SOURCES = [
       layer: "cgaz_voronoi",
     },
     attribution: '<a href="https://www.geoboundaries.org">geoBoundaries</a>',
+  },
+  {
+    id: "gadm",
+    code: "iso3",
+    name: "COUNTRY",
+    label: "GADM",
+    path: "site/compare/gadm-polygons/gadm_polygons.pmtiles",
+    layer: "gadm_polygons",
+    lines: { path: "site/compare/gadm-lines/gadm_lines.pmtiles", layer: "gadm_lines" },
+    voronoi: {
+      path: "site/compare/gadm-voronoi/gadm_voronoi.pmtiles",
+      layer: "gadm_voronoi",
+    },
+    attribution: '<a href="https://gadm.org">GADM</a>',
   },
   {
     id: "ne",
@@ -124,6 +124,49 @@ export const SOURCES = [
   },
 ] as const;
 export type SourceId = (typeof SOURCES)[number]["id"];
+
+export type Level = 0 | 1 | 2 | 3 | 4;
+export type Scope = "international" | "subnational";
+export const SCOPES: { id: Scope; label: string }[] = [
+  { id: "international", label: "International" },
+  { id: "subnational", label: "Subnational" },
+];
+export const LEVELS: { id: Level; label: string }[] = [1, 2, 3, 4].map((n) => ({
+  id: n as Level,
+  label: `Adm${n}`,
+}));
+export interface LevelLayer {
+  path: string;
+  layer: string;
+}
+const fieldmapsLevel = (n: number): LevelLayer => ({
+  path: `subnational/global/adm${n}-polygons/adm${n}_polygons.pmtiles`,
+  layer: `adm${n}_polygons`,
+});
+// Layers from catalog/explore, one per source and level.
+const explore = (id: string, levels: number[]) =>
+  Object.fromEntries(
+    levels.map((n): [number, LevelLayer] => [
+      n,
+      {
+        path: `site/explore/${id}-adm${n}-polygons/${id}_adm${n}_polygons.pmtiles`,
+        layer: `${id}_adm${n}_polygons`,
+      },
+    ]),
+  );
+// Each source's polygons per admin level above 0.
+export const SUBNATIONAL: Partial<Record<SourceId, Partial<Record<Level, LevelLayer>>>> = {
+  fieldmaps: Object.fromEntries([1, 2, 3, 4].map((n) => [n, fieldmapsLevel(n)])),
+  overture: explore("overture", [1, 2, 3]),
+  wb: explore("wb", [1, 2]),
+  gaul: explore("gaul", [1, 2]),
+  gadm: explore("gadm", [1, 2, 3, 4]),
+  cgaz: explore("cgaz", [1, 2]),
+  ne: explore("ne", [1]),
+};
+export const hasLevel = (id: SourceId, level: Level) => level === 0 || !!SUBNATIONAL[id]?.[level];
+// Map layer ids of a source at a level: the source id at adm0, "{id}-adm{n}" above.
+export const layerKey = (id: SourceId, level: Level) => (level ? `${id}-adm${level}` : id);
 
 export const VIEWS: { id: View; label: string }[] = [
   { id: "fade", label: "Fade" },
@@ -151,44 +194,42 @@ export interface Focus {
   fly: boolean;
 }
 
-// A Geometry row's merged differences by id; the map tints each source's cells for their territories,
-// keyed by source as [code, name] lists, and frames their bbox.
-export interface ItemFocus {
-  ids: string[];
-  label: string;
-  bbox: number[] | null;
-  entities: Record<string, [unknown, unknown][]>;
-  fly: boolean;
-}
-
-// A hit with no slot is a geometry difference.
 export interface Hit {
-  slot: Slot | null;
+  slot: Slot;
   label: string;
-  color?: string;
   properties: Record<string, unknown>;
 }
 
 const FADE_CYCLE_MS = 3000;
+const ease = (x: number) => {
+  const c = Math.min(1, Math.max(0, x));
+  return c * c * (3 - 2 * c);
+};
+// B's opacity at cycle phase t in [0, 1): each source holds alone, with short crossfades.
+const fadeB = (t: number) => (t < 0.5 ? ease((t - 0.4) / 0.1) : 1 - ease((t - 0.9) / 0.1));
 const KEY_STEP: Record<string, number> = { "[": -1, "]": 1 };
 
 export class CompareState {
   pair = $state<Record<Slot, SourceId>>({ a: "fieldmaps", b: "wp" });
   mode = $state<Mode>("lines");
+  level = $state<Level>(0);
+  // The subnational level to return to from International.
+  subLevel = $state<Level>(1);
   view = $state<View>(reduced ? "a" : "fade");
   basemap = $state<Basemap>("map");
-  sweep = $state(0);
+  phase = $state(0);
   hits = $state<Hit[]>([]);
   focus = $state.raw<Focus | null>(null);
-  item = $state.raw<ItemFocus | null>(null);
   #frame = 0;
+  #swapped: Partial<Record<Slot, SourceId>> = {};
 
-  // Difference tiles key each source pair as its sorted ids.
-  diffPair = $derived([this.pair.a, this.pair.b].sort().join("|"));
+  available = $derived(SOURCES.filter((s) => hasLevel(s.id, this.level)));
+  // Subnational levels draw polygons only; the adm0 pick returns with adm0.
+  shownMode = $derived<Mode>(this.level ? "polygons" : this.mode);
 
   opacities = $derived<Record<Slot, number>>(
     this.view === "fade"
-      ? { a: 1 - this.sweep, b: this.sweep }
+      ? { a: 1 - fadeB(this.phase), b: fadeB(this.phase) }
       : { a: Number(this.view === "a"), b: Number(this.view === "b") },
   );
 
@@ -197,7 +238,7 @@ export class CompareState {
     if (!on) return;
     const start = performance.now();
     const tick = (now: number) => {
-      this.sweep = (1 - Math.cos((2 * Math.PI * (now - start)) / FADE_CYCLE_MS)) / 2;
+      this.phase = ((now - start) % FADE_CYCLE_MS) / FADE_CYCLE_MS;
       this.#frame = requestAnimationFrame(tick);
     };
     this.#frame = requestAnimationFrame(tick);
@@ -210,36 +251,40 @@ export class CompareState {
       parts,
       fly,
     };
-    this.item = null;
   }
 
-  // Shows the item in Voronoi, moving to a pair it differs in when the current pair has no patches for it.
-  focusItem(row: ItemRow, label: string, fly = true) {
-    this.mode = "voronoi";
-    const pairs = row.pairs ?? [];
-    const drawn = row.type === "island" ? (row.drawn as SourceId) : null;
-    if (pairs.length && !(pairs.includes(this.diffPair) && (!drawn || this.pair.a === drawn))) {
-      const [a, b] = (pairs.find((p) => !drawn || p.split("|").includes(drawn)) ?? pairs[0]).split(
-        "|",
-      ) as SourceId[];
-      // Island items show only with their drawing source in slot A.
-      this.pair = drawn ? { a: drawn, b: a === drawn ? b : a } : { a, b };
-    }
+  // A slot whose source lacks the level takes the first one that has it and differs from the other slot.
+  // The swapped-out source returns at the next level that has it.
+  setLevel(level: Level) {
+    this.level = level;
+    if (level) this.subLevel = level;
+    this.hits = [];
     this.focus = null;
-    const entities = Object.fromEntries(
-      SOURCES.map((s) => [
-        s.id,
-        row.entities?.[s.id] ?? [[row[`code_${s.id}`], row[`name_${s.id}`]] as [unknown, unknown]],
-      ]),
-    );
-    this.item = { ids: row.items ?? [row.item], label, bbox: row.bbox, entities, fly };
+    for (const slot of SLOTS) {
+      const other = this.pair[slot === "a" ? "b" : "a"];
+      const back = this.#swapped[slot];
+      if (back && back !== other && hasLevel(back, level)) {
+        this.pair[slot] = back;
+        delete this.#swapped[slot];
+        continue;
+      }
+      if (hasLevel(this.pair[slot], level)) continue;
+      const next = SOURCES.find((s) => s.id !== other && hasLevel(s.id, level));
+      if (!next) continue;
+      this.#swapped[slot] ??= this.pair[slot];
+      this.pair[slot] = next.id;
+    }
   }
 
   // Picking the other slot's source swaps the two, so A and B always differ.
   pick(slot: Slot, id: SourceId) {
     const other = slot === "a" ? "b" : "a";
-    if (this.pair[other] === id) this.pair[other] = this.pair[slot];
+    if (this.pair[other] === id) {
+      this.pair[other] = this.pair[slot];
+      delete this.#swapped[other];
+    }
     this.pair[slot] = id;
+    delete this.#swapped[slot];
   }
 
   keydown(e: KeyboardEvent) {
@@ -248,7 +293,6 @@ export class CompareState {
     if (e.key === "Escape") {
       this.hits = [];
       this.focus = null;
-      this.item = null;
     }
     if ((e.target as Element).closest?.("input:not([type=radio]), select, textarea")) return;
     const by = KEY_STEP[e.key];

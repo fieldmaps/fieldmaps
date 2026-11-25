@@ -1,0 +1,10 @@
+title: "GADM 4.1, admin 4"
+description: "GADM 4.1, level 4."
+license: "other"
+license_url: "https://gadm.org/license.html"
+providers:
+  - name: "GADM"
+    roles: ["producer", "licensor"]
+    url: "https://gadm.org"
+attribution: "GADM"
+source_url: "https://gadm.org"

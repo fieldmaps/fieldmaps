@@ -1,0 +1,8 @@
+title: "Subnational boundary comparison"
+description: "Global admin 1 to 4 boundary datasets, with every source column kept, shown side by side on the boundary comparison page. Licenses are set per collection."
+license: "other"
+providers:
+  - name: "FieldMaps"
+    roles: ["processor", "host"]
+    url: "https://fieldmaps.io"
+attribution: "See each collection"
