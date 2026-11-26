@@ -39,6 +39,8 @@ OVERTURE_FILES = (
     ("division_area", "dependency"),
     ("division_boundary", "country"),
 )
+# geoBoundaries' alias for its current release; the server sends no Last-Modified.
+CGAZ = "https://www.geoboundaries.org/data/current/CGAZ/geoBoundariesCGAZ_ADM{n}.gpkg"
 FILES = {
     "lsib": "https://data.geodata.state.gov/LSIB.gpkg",
     "wb": "https://datacatalogfiles.worldbank.org/ddh-published/0038272/3/DR0096331/"
@@ -46,8 +48,7 @@ FILES = {
     "World%20Bank%20Official%20Boundaries%20-%20Admin%200_all_layers.parquet",
     "gaul": "https://storage.googleapis.com/fao-maps-catalog-data/boundaries/GAUL_2025_L1.zip",
     "gadm": "https://geodata.ucdavis.edu/gadm/gadm4.1/gadm_410-levels.zip",
-    "cgaz": "https://media.githubusercontent.com/media/wmgeolab/geoBoundaries/main/"
-    "releaseData/CGAZ/geoBoundariesCGAZ_ADM0.gpkg",
+    "cgaz": CGAZ.format(n=0),
     "ne": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_0_countries.zip",
 }
 SAVE_AS = {"wb": "wb_admin0_all_layers.parquet"}
@@ -73,8 +74,11 @@ FIELDS = {
 def download(url: str, dest: Path) -> bool:
     """Download ``url`` to ``dest`` if the server copy is newer; return if it did."""
     headers = {"User-Agent": "Mozilla/5.0"}
+    etag = dest.with_suffix(dest.suffix + ".etag")
     if dest.exists():
         headers["If-Modified-Since"] = formatdate(dest.stat().st_mtime, usegmt=True)
+        if etag.exists():
+            headers["If-None-Match"] = etag.read_text()
     dest.parent.mkdir(parents=True, exist_ok=True)
     part = dest.with_suffix(dest.suffix + ".part")
     request = urllib.request.Request(url, headers=headers)  # noqa: S310
@@ -82,11 +86,14 @@ def download(url: str, dest: Path) -> bool:
         with urllib.request.urlopen(request, timeout=60) as r, part.open("wb") as f:  # noqa: S310
             shutil.copyfileobj(r, f, 1 << 20)
             modified = r.headers.get("Last-Modified")
+            tag = r.headers.get("ETag")
     except urllib.error.HTTPError as e:
         if e.code == HTTPStatus.NOT_MODIFIED:
             return False
         raise
     part.replace(dest)
+    if tag:
+        etag.write_text(tag)
     # If-Modified-Since then compares against the server's clock, not our download time.
     if modified:
         t = parsedate_to_datetime(modified).timestamp()
