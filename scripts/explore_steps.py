@@ -20,17 +20,13 @@ WB = (
     "World%20Bank%20Official%20Boundaries%20%28Parquet%29/"
     "World%20Bank%20Official%20Boundaries%20-%20Admin%20{n}.parquet"
 )
-CGAZ = (
-    "https://media.githubusercontent.com/media/wmgeolab/geoBoundaries/main/"
-    "releaseData/CGAZ/geoBoundariesCGAZ_ADM{n}.gpkg"
-)
 FILES = {
     DOWNLOAD / "gaul" / "GAUL_2025_L2.zip": "https://storage.googleapis.com/"
     "fao-maps-catalog-data/boundaries/GAUL_2025_L2.zip",
     DOWNLOAD / "ne" / "ne_10m_admin_1_states_provinces.zip": "https://naciscdn.org/"
     "naturalearth/10m/cultural/ne_10m_admin_1_states_provinces.zip",
     **{
-        DOWNLOAD / "cgaz" / f"geoBoundariesCGAZ_ADM{n}.gpkg": CGAZ.format(n=n)
+        DOWNLOAD / "cgaz" / f"geoBoundariesCGAZ_ADM{n}.gpkg": compare.CGAZ.format(n=n)
         for n in (1, 2)
     },
     **{DOWNLOAD / "wb" / f"wb_admin{n}.parquet": WB.format(n=n) for n in (1, 2)},
@@ -46,7 +42,10 @@ def overture(subtype: str) -> Path:
 def fetch() -> None:
     """Download each missing input, extracting zips next to them."""
     for dest, url in FILES.items():
-        if not dest.exists():
+        # CGAZ follows a moving alias, so it is checked on every run.
+        if dest.parent.name == "cgaz":
+            compare.refresh(url, dest, dest if dest.exists() else None)
+        elif not dest.exists():
             compare.download(url, dest)
         if dest.suffix == ".zip":
             with ZipFile(dest) as z:
