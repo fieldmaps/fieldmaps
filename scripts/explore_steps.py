@@ -32,6 +32,7 @@ FILES = {
     **{DOWNLOAD / "wb" / f"wb_admin{n}.parquet": WB.format(n=n) for n in (1, 2)},
 }
 OVERTURE_SUBTYPES = ("region", "county", "localadmin")
+OVERTURE_LEVELS = DOWNLOAD / "overture" / f"division_levels_{compare.OVERTURE}.parquet"
 
 
 def overture(subtype: str) -> Path:
@@ -60,9 +61,9 @@ def fetch() -> None:
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(min=2, max=30), reraise=True)
 def fetch_overture() -> None:
-    """Copy each missing Overture subtype from S3."""
+    """Copy each missing Overture subtype from S3, then each unit's level."""
     missing = [s for s in OVERTURE_SUBTYPES if not overture(s).exists()]
-    if not missing:
+    if not missing and OVERTURE_LEVELS.exists():
         return
     conn = duckdb.connect()
     conn.execute(f"""
@@ -81,6 +82,27 @@ def fetch_overture() -> None:
             ) TO '{part}' (FORMAT PARQUET, COMPRESSION ZSTD, COMPRESSION_LEVEL 15)
         """)
         part.replace(dest)
+    # Levels count parents up to a country or dependency, since a subtype
+    # can sit at different depths, e.g. counties directly under Angola.
+    part = OVERTURE_LEVELS.with_suffix(".part")
+    conn.execute(f"""
+        COPY (
+            WITH RECURSIVE d AS MATERIALIZED (
+                SELECT id, subtype, parent_division_id FROM read_parquet(
+                    '{compare.S3}/theme=divisions/type=division/*.parquet')
+                WHERE subtype IN {("country", "dependency", *OVERTURE_SUBTYPES)}
+            ),
+            chain(division_id, level) AS (
+                SELECT id, 0 FROM d WHERE subtype IN ('country', 'dependency')
+                UNION ALL
+                SELECT d.id, chain.level + 1 FROM d
+                JOIN chain ON d.parent_division_id = chain.division_id
+                WHERE d.subtype NOT IN ('country', 'dependency')
+            )
+            SELECT * FROM chain WHERE level > 0
+        ) TO '{part}' (FORMAT PARQUET, COMPRESSION ZSTD, COMPRESSION_LEVEL 15)
+    """)
+    part.replace(OVERTURE_LEVELS)
 
 
 def read(path: Path, layer: str | None = None) -> str:
@@ -89,13 +111,16 @@ def read(path: Path, layer: str | None = None) -> str:
     return f"SELECT * EXCLUDE geom, geom AS geometry FROM ST_Read('{path}'{opt})"
 
 
-def overture_level(subtype: str) -> str:
-    """One Overture subtype, name first, its nested columns dropped."""
+def overture_level(level: int) -> str:
+    """Overture units at one parent-chain depth, name first, nested columns dropped."""
+    files = ", ".join(f"'{overture(s)}'" for s in OVERTURE_SUBTYPES)
     return f"""
         SELECT coalesce(names.common['en'], names.primary) AS name,
             country, region, subtype, class, admin_level, is_land, is_territorial,
             id, division_id, version, theme, type, geometry
-        FROM '{overture(subtype)}'
+        FROM read_parquet([{files}])
+        JOIN '{OVERTURE_LEVELS}' USING (division_id)
+        WHERE level = {level}
     """
 
 
@@ -117,8 +142,8 @@ LEVELS: dict[str, tuple[Path, str]] = {
         for p in [DOWNLOAD / "wb" / f"wb_admin{n}.parquet"]
     },
     **{
-        f"overture-adm{n}": (overture(s), overture_level(s))
-        for n, s in enumerate(OVERTURE_SUBTYPES, 1)
+        f"overture-adm{n}": (OVERTURE_LEVELS, overture_level(n))
+        for n in range(1, len(OVERTURE_SUBTYPES) + 1)
     },
     "ne-adm1": (
         p := DOWNLOAD / "ne" / "ne_10m_admin_1_states_provinces.shp",
