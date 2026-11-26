@@ -154,16 +154,17 @@ const explore = (id: string, levels: number[]) =>
       },
     ]),
   );
-// Each source's polygons per admin level above 0.
+// Each source's polygons per admin level above 0, in subnational list order.
 export const SUBNATIONAL: Partial<Record<SourceId, Partial<Record<Level, LevelLayer>>>> = {
   fieldmaps: Object.fromEntries([1, 2, 3, 4].map((n) => [n, fieldmapsLevel(n)])),
-  overture: explore("overture", [1, 2, 3]),
-  wb: explore("wb", [1, 2]),
   gaul: explore("gaul", [1, 2]),
-  gadm: explore("gadm", [1, 2, 3, 4]),
+  wb: explore("wb", [1, 2]),
   cgaz: explore("cgaz", [1, 2]),
+  overture: explore("overture", [1, 2, 3]),
+  gadm: explore("gadm", [1, 2, 3, 4]),
   ne: explore("ne", [1]),
 };
+const SUBNATIONAL_SOURCES = Object.keys(SUBNATIONAL).map((id) => SOURCES.find((s) => s.id === id)!);
 export const hasLevel = (id: SourceId, level: Level) => level === 0 || !!SUBNATIONAL[id]?.[level];
 // Map layer ids of a source at a level: the source id at adm0, "{id}-adm{n}" above.
 export const layerKey = (id: SourceId, level: Level) => (level ? `${id}-adm${level}` : id);
@@ -223,7 +224,9 @@ export class CompareState {
   #frame = 0;
   #swapped: Partial<Record<Slot, SourceId>> = {};
 
-  available = $derived(SOURCES.filter((s) => hasLevel(s.id, this.level)));
+  available = $derived(
+    (this.level ? SUBNATIONAL_SOURCES : SOURCES).filter((s) => hasLevel(s.id, this.level)),
+  );
   // Subnational levels draw polygons only; the adm0 pick returns with adm0.
   shownMode = $derived<Mode>(this.level ? "polygons" : this.mode);
 
@@ -269,7 +272,7 @@ export class CompareState {
         continue;
       }
       if (hasLevel(this.pair[slot], level)) continue;
-      const next = SOURCES.find((s) => s.id !== other && hasLevel(s.id, level));
+      const next = this.available.find((s) => s.id !== other);
       if (!next) continue;
       this.#swapped[slot] ??= this.pair[slot];
       this.pair[slot] = next.id;
