@@ -92,7 +92,7 @@ def download(url: str, dest: Path) -> bool:
             return False
         raise
     part.replace(dest)
-    if tag:
+    if tag and not modified:
         etag.write_text(tag)
     # If-Modified-Since then compares against the server's clock, not our download time.
     if modified:
